@@ -42,11 +42,23 @@ RUN chmod 700 /root/.ssh
 RUN chown root:root /root/.ssh
 
 ## Install useful utilities.
-RUN apt-get install -y build-essential git
+RUN apt-get install -y --no-install-recommends build-essential
+RUN apt-get install -y git
 
-## Install Ruby 1.9.3 and 2.0.0.
-RUN apt-get install -y ruby ruby1.9.3 ruby2.0 rake
-RUN gem install bundler --no-rdoc --no-ri
+## Install multiple Ruby versions.
+RUN apt-get install -y ruby ruby-dev
+RUN apt-get install -y ruby1.8 ruby1.8-dev
+RUN apt-get install -y ruby1.9.1 ruby1.9.1-dev
+RUN apt-get install -y ruby2.0 ruby2.0-dev
+RUN apt-get install -y rake
+RUN gem1.8 install rake bundler --no-rdoc --no-ri
+RUN gem1.9.1 install rake bundler --no-rdoc --no-ri
+RUN gem2.0 install rake bundler --no-rdoc --no-ri
+RUN update-alternatives --set ruby /usr/bin/ruby2.0
+RUN update-alternatives --set gem /usr/bin/gem2.0
+## Fix shebang lines in rake and bundler so that they're run with the currently
+## configured default Ruby instead of the Ruby they're installed with.
+RUN sed -i 's|/usr/bin/env ruby2.0|/usr/bin/env ruby|' /usr/local/bin/rake /usr/local/bin/bundle
 
 ## Install Node.js (also needed for Rails asset compilation)
 RUN apt-get install -y nodejs
