@@ -33,7 +33,7 @@ def main
 
   puts
   puts "--- Setting up system ---"
-  sh "cat /secure_key.pub >> /root/.ssh/authorized_keys"
+  sh "cat /secure_key.pub > /root/.ssh/authorized_keys"
   sh "rm -f /secure_key.pub"
   sh "rm -f /usr/sbin/setup-system"
 end

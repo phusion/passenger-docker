@@ -1,80 +1,21 @@
 FROM ubuntu:12.04
 MAINTAINER Phusion <info@phusion.nl>
 
-## Fix some issues with APT packages.
-## See https://github.com/dotcloud/docker/issues/1024
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -s /bin/true /sbin/initctl
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND noninteractive
+RUN mkdir /build
+ADD . /build
 
-## Enable the following repositories:
-## - Ubuntu Universe
-## - Brightbox Ruby 1.9.3
-## - Phusion Passenger
-## - Chris Lea's Node.js
-RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe > /etc/apt/sources.list
-RUN echo deb http://archive.ubuntu.com/ubuntu precise-updates main universe >> /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C3173AA6
-RUN echo deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu precise main > /etc/apt/sources.list.d/brightbox.list
-RUN apt-get update
-RUN apt-get install -y apt-transport-https python-software-properties
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-RUN echo deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main > /etc/apt/sources.list.d/passenger.list
-## Or, if you're using Phusion Passenger Enterprise:
-# RUN echo deb https://download:YOUR_DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt precise main > /etc/apt/sources.list.d/passenger.list
-RUN add-apt-repository ppa:chris-lea/node.js
-RUN apt-get update
+RUN /build/prepare.sh
+RUN /build/enable_repos.sh
+RUN /build/system_services.sh
+RUN /build/ruby.sh
+RUN /build/nodejs.sh
+RUN /build/passenger.sh
+RUN /build/finalize.sh
 
-## Install runit and configure it as the init service.
-RUN apt-get install -y runit
 CMD ["/usr/sbin/runsvdir-start"]
-
-## Install syslog-ng.
-RUN apt-get install -y syslog-ng
-RUN mkdir /etc/service/syslog-ng
-
-## Install the SSH server.
-RUN apt-get install -y openssh-server
-RUN mkdir /etc/service/sshd
-RUN mkdir /var/run/sshd
-## Install default SSH key for root.
-RUN mkdir /root/.ssh
-RUN chmod 700 /root/.ssh
-RUN chown root:root /root/.ssh
-
-## Install useful utilities.
-RUN apt-get install -y --no-install-recommends build-essential
-RUN apt-get install -y git
-
-## Install multiple Ruby versions.
-RUN apt-get install -y ruby ruby-dev
-RUN apt-get install -y ruby1.8 ruby1.8-dev
-RUN apt-get install -y ruby1.9.1 ruby1.9.1-dev
-RUN apt-get install -y ruby2.0 ruby2.0-dev
-RUN apt-get install -y rake
-RUN gem1.8 install rake bundler --no-rdoc --no-ri
-RUN gem1.9.1 install rake bundler --no-rdoc --no-ri
-RUN gem2.0 install rake bundler --no-rdoc --no-ri
-RUN update-alternatives --set ruby /usr/bin/ruby2.0
-RUN update-alternatives --set gem /usr/bin/gem2.0
-## Fix shebang lines in rake and bundler so that they're run with the currently
-## configured default Ruby instead of the Ruby they're installed with.
-RUN sed -i 's|/usr/bin/env ruby2.0|/usr/bin/env ruby|' /usr/local/bin/rake /usr/local/bin/bundle
-
-## Install Node.js (also needed for Rails asset compilation)
-RUN apt-get install -y nodejs
-
-## Install Phusion Passenger.
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-RUN echo deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main > /etc/apt/sources.list.d/passenger.list
-RUN apt-get update
-RUN apt-get install -y passenger
-## Or, if you're using Phusion Passenger Enterprise:
-# RUN apt-get install -y passenger-enterprise
-
-## Create a user for the web app.
-RUN addgroup --gid 1000 app
-RUN adduser --uid 1000 --gid 1000 --disabled-password --gecos "Application" app
-RUN usermod -L app
+EXPOSE 22 80 443
 
 ## Install system setup finalizer script.
 ADD setup-system /usr/sbin/setup-system

@@ -1,0 +1,7 @@
+#!/bin/bash
+set -ex
+
+## Many Ruby gems and NPM packages contain native extensions and require a compiler.
+apt-get install -y --no-install-recommends build-essential
+## Bundler has to be able to pull dependencies from git.
+apt-get install -y git
