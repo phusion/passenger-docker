@@ -16,21 +16,3 @@ RUN /build/finalize.sh
 
 CMD ["/usr/sbin/runsvdir-start"]
 EXPOSE 22 80 443
-
-## Install system setup finalizer script.
-ADD setup-system /usr/sbin/setup-system
-RUN chmod +x /usr/sbin/setup-system
-RUN echo "if [[ -f /usr/sbin/setup-system ]] && tty -s; then echo '*** Please run setup-system ***'; fi" >> /root/.bashrc
-
-## Create runit services and install default SSH key.
-ADD syslog-ng /etc/service/syslog-ng/run
-ADD sshd /etc/service/sshd/run
-ADD insecure_key.pub /root/.ssh/authorized_keys
-RUN chmod 755 /root/.ssh/authorized_keys
-RUN chown root:root /root/.ssh/authorized_keys
-
-## Expose ports.
-EXPOSE 22 80 443
-
-## Clean up.
-RUN apt-get clean
