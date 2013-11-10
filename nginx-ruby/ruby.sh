@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
 apt-get install -y ruby ruby-dev
 apt-get install -y ruby1.8 ruby1.8-dev

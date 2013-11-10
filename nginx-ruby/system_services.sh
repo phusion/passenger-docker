@@ -1,7 +1,12 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
-## Install runit, it will be configured later as the init process.
+## Install init process.
+cp /build/my_init /sbin/
+
+## Install runit.
 apt-get install -y runit
 
 ## Install a syslog daemon.

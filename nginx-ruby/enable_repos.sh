@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
 apt-get update
 apt-get install -y apt-transport-https

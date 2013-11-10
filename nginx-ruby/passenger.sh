@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
 ## Install Phusion Passenger.
 if [[ "$PASSENGER_ENTERPRISE" ]]; then

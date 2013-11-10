@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
 ## Fix some issues with APT packages.
 ## See https://github.com/dotcloud/docker/issues/1024

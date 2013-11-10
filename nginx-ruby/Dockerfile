@@ -1,8 +1,7 @@
 FROM ubuntu:12.04
 MAINTAINER Phusion <info@phusion.nl>
 
-ENV LC_ALL C
-ENV DEBIAN_FRONTEND noninteractive
+ENV HOME /root
 RUN mkdir /build
 ADD . /build
 
@@ -14,5 +13,5 @@ RUN /build/nodejs.sh
 RUN /build/passenger.sh
 RUN /build/finalize.sh
 
-CMD ["/usr/sbin/runsvdir-start"]
+CMD ["/sbin/my_init"]
 EXPOSE 22 80 443

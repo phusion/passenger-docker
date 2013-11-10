@@ -1,5 +1,7 @@
 #!/bin/bash
-set -ex
+set -e
+source /build/configuration
+set -x
 
 ## Many Ruby gems and NPM packages contain native extensions and require a compiler.
 apt-get install -y --no-install-recommends build-essential
