@@ -8,4 +8,4 @@ build:
 	docker build -t phusion/passenger:$(VERSION) -rm nginx-ruby
 
 tag_latest:
-	sh -c 'ID=`docker run -d phusion/passenger:$(VERSION) true` && docker wait $$ID && docker commit $$ID phusion/passenger:latest'
+	docker tag phusion/passenger:$(VERSION) phusion/passenger:latest
