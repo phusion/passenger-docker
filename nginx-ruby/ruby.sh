@@ -35,6 +35,8 @@ apt-get install -y libpq-dev
 apt-get install -y libqt4-webkit libqt4-dev
 ## For curb.
 apt-get install -y libcurl4-openssl-dev
+## For all kinds of stuff.
+apt-get install -y zlib1g-dev
 
 
 ## The Rails asset compiler requires a Javascript runtime.
