@@ -8,6 +8,7 @@ ADD . /build
 RUN /build/prepare.sh
 RUN /build/enable_repos.sh
 RUN /build/system_services.sh
+RUN /build/utilities.sh
 RUN /build/ruby.sh
 RUN /build/nodejs.sh
 RUN /build/passenger.sh

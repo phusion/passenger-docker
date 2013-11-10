@@ -7,3 +7,5 @@ set -x
 apt-get install -y --no-install-recommends build-essential
 ## Bundler has to be able to pull dependencies from git.
 apt-get install -y git
+## Other often used tools.
+apt-get install -y curl
