@@ -1,3 +1,4 @@
 #!/bin/sh
 set -e
-exec chpst -u memcache /usr/bin/memcached -l 127.0.0.1 >>/var/log/memcached.log 2>&1
+. /etc/memcached.conf
+exec chpst -u memcache /usr/bin/memcached $MEMCACHED_OPTS >>/var/log/memcached.log 2>&1

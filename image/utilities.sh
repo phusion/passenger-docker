@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/configuration
+source /build/buildconfig
 set -x
 
 ## Many Ruby gems and NPM packages contain native extensions and require a compiler.
@@ -23,7 +23,7 @@ touch /etc/service/memcached/down
 apt-get install -y redis-server libhiredis-dev
 mkdir /etc/service/redis
 cp /build/runit/redis /etc/service/redis/run
-cp /build/redis.conf /etc/redis/redis.conf
+cp /build/config/redis.conf /etc/redis/redis.conf
 touch /etc/service/redis/down
 
 ## Simple image bootstrapper.

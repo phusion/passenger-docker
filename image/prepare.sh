@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/configuration
+source /build/buildconfig
 set -x
 
 ## Fix some issues with APT packages.

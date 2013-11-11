@@ -1,0 +1,234 @@
+# A Docker base image for Ruby, Python and Node.js web apps
+
+*(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
+
+Passenger-docker is an [Docker](http://www.docker.io) image meant to serve as a good base for Ruby and Node.js web app images. Its goal is to make image building for Ruby and Node.js web apps much easier and faster.
+
+By using passenger-docker as base image...
+
+ * ...you won't have to write such a large Dockerfile.
+ * ...you won't have to figure out how to setup major parts of your stack.
+ * ...you will drastically reduce your `docker build` times.
+ * Container building will go wrong less often.
+
+Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you.
+
+ * Github: https://github.com/phusion/passenger-docker
+ * Discussion forum: https://groups.google.com/d/forum/passenger-docker
+ * Twitter: https://twitter.com/phusion_nl
+ * Blog: http://blog.phusion.nl/
+
+## Contents
+
+Basics:
+
+ * An Ubuntu 12.04 LTS base system.
+ * Syslog-ng, configured to listen only locally.
+ * The SSH server, so that you can easily login to your container to inspect or administer things.
+   * Password and challenge-response authentication are disabled by default. Only key authentication is allowed.
+   * It allows an predefined key by default to make debugging easy. You should replace this ASAP. See instructions.
+ * [Runit](http://smarden.org/runit/) for service supervision and management.
+
+Language support:
+
+ * Ruby 1.8.7, 1.9.3 and 2.0.0.
+   * 2.0.0 is configured as the default.
+   * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
+ * Python 2.7 and Python 3.0.
+ * Node.js 0.10, through [Chris Lea's Node.js PPA](https://launchpad.net/~chris-lea/+archive/node.js/).
+ * A build system, git, and development headers for many popular libraries, so that Ruby, Python and Node.js native extensions can be compiled without problems.
+
+Web server and application server:
+
+ * Nginx 1.4. Disabled by default.
+ * [Phusion Passenger 4](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
+   * This is a fast and lightweight tool for simplifying web application integration into Nginx.
+   * It adds many production-grade features, such as process monitoring, administration and status inspection.
+
+Auxiliary services and tools:
+
+ * Redis 2.6, through [Rowan's Redis PPA](https://launchpad.net/~rwky/+archive/redis). Disabed by default.
+ * Memcached. Disabled by default.
+ * [Pups](https://github.com/SamSaffron/pups), a lightweight tool for bootstrapping images.
+
+### Memory efficiency
+
+Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, sshd, syslog-ng, etc).
+
+### Disk space efficiency
+
+The passenger-docker image is large. But luckily the images that you build on top of passenger-docker won't be large!
+
+One of the great innovations of Docker is that images are layered. When you build an image on top of passenger-docker, Docker will know that, so that the size of your image is only as large as the changes. When you upload your image to a repository, passenger-docker will not be uploaded if the repository already knows about passenger-docker!
+
+## Inspecting the image
+
+To look around in the image, run:
+
+    docker run -rm -t -i phusion/passenger bash -l
+
+You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry. *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
+
+## Using the image as base
+
+*(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
+
+The image is called `phusion/passenger`. By default, it allows SSH access for the key in `image/insecure_key`. This makes it easy for you to login to the container, but you should replace this key as soon as possible.
+
+So put the following in your Dockerfile:
+
+    # Use phusion/passenger as base image. To make your builds reproducible, make sure you
+    # lock down to a specific version, not to `latest`!
+    FROM phusion/passenger:<VERSION>
+    
+    # Remove authentication rights for insecure_key.
+    RUN rm -f /root/.ssh/authorized_keys /home/*/.ssh/authorized_keys
+    
+    # Use passenger-docker's init process.
+    CMD ["/sbin/my_init"]
+    
+    # Expose SSH and the web server.
+    EXPOSE 22 80 443
+    
+    # ...put other build instructions here...
+
+### The `app` user
+
+The image has an `app` user with UID 9999 and home directory `/home/app`. Your application is supposed to run as this user. Even though Docker itself provides some isolation from the host OS, running applications without root privileges is good security practice.
+
+Your application should be placed inside /home/app.
+
+### Using Nginx and Passenger
+
+Enable Nginx and Passenger:
+
+    RUN rm -f /etc/service/nginx/down
+
+You can add a virtual host entry (`server` block) by placing a file in the directory `/etc/nginx/sites-enabled`. You can modify Nginx `http` block settings by placing a file in the directory `/etc/nginx/conf.d`.
+
+For example:
+
+    # webapp.conf:
+    server {
+        listen 80;
+        server_name www.webapp.com;
+        root /home/app/webapp/public;
+        
+        # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
+
+        # Not familiar with Passenger, and used (G)Unicorn/Puma/pure Node before?
+        # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
+        # socket setup, process management, etc are all taken care automatically for
+        # you! Learn more at https://www.phusionpassenger.com/.
+        passenger_enabled on;
+        passenger_user app;
+    }
+
+    # Dockerfile:
+    ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
+    RUN mkdir /home/app/webapp
+    RUN ...commands to place your web app in /home/app/webapp...
+
+### Using Redis
+
+Enable Redis:
+
+    RUN rm -f /etc/service/redis/down
+
+The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, but make sure `daemonize no` is set.
+
+### Using memcached
+
+Enable memcached:
+
+    RUN rm -f /etc/service/memcached/down
+
+The configuration file is in /etc/memcached.conf. Note that it does not follow the Debian/Ubuntu format, but our own, in order to make it work well with runit. The default contents are:
+
+    # These arguments are passed to the memcached daemon.
+    MEMCACHED_OPTS="-l 127.0.0.1"
+
+## Additional daemons
+
+You can add additional daemons to the image by creating runit entries. You only have to write a small shell script which runs your daemon, and runit will keep it up and running for you, restarting it when it crashes, etc.
+
+The shell script must be called `run`, must be executable, and is to be placed in the directory `/etc/services/<NAME>`.
+
+Here's an example showing you how to a memached server runit entry can be made.
+
+    ### In redis.sh (make sure this file is chmod +x):
+    #!/bin/sh
+    # `chpst` is part of running. `chpst -u memcache` runs the given command
+    # as the user `memcache`. If you omit this, the command will be run as root.
+    exec chpst -u memcache /usr/bin/memcached >>/var/log/memcached.log 2>&1
+
+    ### In Dockerfile:
+    RUN mkdir /etc/services/memcached
+    ADD redis.sh /etc/services/memcached/run
+
+Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
+
+**Tip**: If you're thinking about running your web app, consider deploying it on Passenger instead of on runit. Passenger relieves you from even having to write a shell script, and adds all sorts of useful production features like process scaling, introspection, etc. These are not available when you're only using runit.
+
+## Administering the image's system
+
+You can use SSH to administer any container that is based on passenger-docker.
+
+Start a container based on passenger-docker (or a container based on an image based on passenger-docker):
+
+    docker run [options] phusion/passenger [more options]
+
+Find out the ID of the container that you just ran:
+
+    docker ps
+
+Once you have the ID, look for its IP address with:
+
+    docker inspect <ID> | grep IPAddress
+
+Now SSH into the container. In this example we're using [the default insecure key](https://github.com/phusion/passenger-docker/blob/master/image/insecure_key), but if you're followed the instructions well then you've already replaced that with your own key. You did replace the key, didn't you?
+
+    ssh -i insecure_key root@<IP address>
+
+### Inspecting the status of your web app
+
+If you use Passenger to deploy your web app, run:
+
+    passenger-status
+    passenger-memory-stats
+
+### Logs
+
+If anything goes wrong, consult the log files in /var/log. The following log files are especially important:
+
+ * /var/log/nginx/error.log
+ * /var/log/syslog
+ * Your app's log file in /home/app.
+
+## Building the image yourself
+
+If for whatever reason you want to build the image yourself instead of downloading it from the Docker registry, follow these instructions.
+
+Clone this repository:
+
+    git clone https://github.com/phusion/passenger-docker.git
+    cd passenger-docker
+
+Start a virtual machine with Docker in it. You can use the Vagrantfile that we've already provided.
+
+    vagrant up
+    vagrant ssh
+    cd /vagrant
+
+Build the image:
+
+    make build
+
+## Conclusion
+
+ * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
+ * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
+
+[<img src="http://www.phusion.nl/assets/logo.png">](http://www.phusion.nl/)
+
+Please enjoy passenger-docker, a product by [Phusion](http://www.phusion.nl/). :-)

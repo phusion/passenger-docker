@@ -5,13 +5,9 @@ ENV HOME /root
 RUN mkdir /build
 ADD . /build
 
-RUN /build/enable_repos.sh
-RUN /build/prepare.sh
-RUN /build/system_services.sh
-RUN /build/utilities.sh
-RUN /build/ruby.sh
-RUN /build/nodejs.sh
-RUN /build/passenger.sh
+RUN /build/enable_repos.sh && /build/prepare.sh
+RUN /build/system_services.sh && /build/utilities.sh
+RUN /build/ruby.sh && /build/python.sh && /build/nodejs.sh && /build/passenger.sh
 RUN /build/finalize.sh
 
 CMD ["/sbin/my_init"]

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/configuration
+source /build/buildconfig
 set -x
 
 ## Install Phusion Passenger.
@@ -9,7 +9,7 @@ if [[ "$PASSENGER_ENTERPRISE" ]]; then
 else
 	apt-get install -y nginx-extras passenger
 fi
-cp /build/nginx.conf /etc/nginx/nginx.conf
+cp /build/config/nginx.conf /etc/nginx/nginx.conf
 
 ## Install Nginx runit service.
 mkdir /etc/service/nginx

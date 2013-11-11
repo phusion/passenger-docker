@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/configuration
+source /build/buildconfig
 set -x
 
 ## Install init process.
@@ -19,6 +19,7 @@ apt-get install -y openssh-server
 mkdir /var/run/sshd
 mkdir /etc/service/sshd
 cp /build/runit/sshd /etc/service/sshd/run
+cp /build/config/sshd_config /etc/ssh/sshd_config
 
 ## Install default SSH key for root and app.
 mkdir -p /root/.ssh /home/app/.ssh

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/configuration
+source /build/buildconfig
 set -x
 
 apt-get install -y ruby ruby-dev
