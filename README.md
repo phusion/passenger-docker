@@ -2,7 +2,7 @@
 
 *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
 
-Passenger-docker is an [Docker](http://www.docker.io) image meant to serve as a good base for Ruby and Node.js web app images. Its goal is to make image building for Ruby and Node.js web apps much easier and faster.
+Passenger-docker is an [Docker](http://www.docker.io) image meant to serve as a good base for Ruby and Node.js web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for Ruby, Python and Node.js web apps much easier and faster. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
 By using passenger-docker as base image...
 
@@ -44,6 +44,7 @@ Web server and application server:
  * [Phusion Passenger 4](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
+   * It replaces (G)Unicorn, Thin, Puma, uWSGI.
 
 Auxiliary services and tools:
 
@@ -116,7 +117,7 @@ For example:
         
         # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
 
-        # Not familiar with Passenger, and used (G)Unicorn/Puma/pure Node before?
+        # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
         # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
         # socket setup, process management, etc are all taken care automatically for
         # you! Learn more at https://www.phusionpassenger.com/.
