@@ -36,7 +36,7 @@ Language support:
    * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
  * Python 2.7 and Python 3.0.
  * Node.js 0.10, through [Chris Lea's Node.js PPA](https://launchpad.net/~chris-lea/+archive/node.js/).
- * A build system, git, and development headers for many popular libraries, so that Ruby, Python and Node.js native extensions can be compiled without problems.
+ * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
 
