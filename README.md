@@ -123,6 +123,13 @@ For example:
         # you! Learn more at https://www.phusionpassenger.com/.
         passenger_enabled on;
         passenger_user app;
+
+        # If this is a Ruby app, specify a Ruby version:
+        passenger_ruby /usr/bin/ruby2.0;
+        # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
+        #passenger_ruby /usr/bin/ruby1.9.1;
+        # For Ruby 1.8.7
+        #passenger_ruby /usr/bin/ruby1.8;
     }
 
     # Dockerfile:
@@ -170,6 +177,17 @@ Here's an example showing you how to a memached server runit entry can be made.
 Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
 
 **Tip**: If you're thinking about running your web app, consider deploying it on Passenger instead of on runit. Passenger relieves you from even having to write a shell script, and adds all sorts of useful production features like process scaling, introspection, etc. These are not available when you're only using runit.
+
+### Selecting a default Ruby version
+
+Ruby 2.0.0 is the default Ruby on this image. You can use `ruby-switch` to select a different version as default.
+
+    # Ruby 1.8.7
+    RUN ruby-switch --set 1.8
+    # Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
+    RUN ruby-switch --set 1.9.1
+    # Ruby 2.0.0
+    RUN ruby-switch --set 2.0
 
 ## Administering the image's system
 
