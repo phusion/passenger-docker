@@ -2,7 +2,7 @@
 set -e
 
 RUNDIR=/var/run/redis
-PIDFILE=$RUNDIR/redis-server.pid
+PIDFILE=$RUNDIR/redis.pid
 
 mkdir -p $RUNDIR
 touch $PIDFILE
