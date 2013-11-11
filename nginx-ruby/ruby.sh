@@ -9,6 +9,8 @@ apt-get install -y ruby1.9.1 ruby1.9.1-dev
 apt-get install -y ruby2.0 ruby2.0-dev
 apt-get install -y rake ruby-switch
 
+echo "gem: --no-ri --no-rdoc" > /etc/gemrc
+
 gem1.8 install rake bundler --no-rdoc --no-ri
 gem1.9.1 install rake bundler --no-rdoc --no-ri
 gem2.0 install rake bundler --no-rdoc --no-ri

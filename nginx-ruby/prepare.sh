@@ -7,9 +7,9 @@ set -x
 ## See https://github.com/dotcloud/docker/issues/1024
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
-echo "initscripts hold" | dpkg --set-selections
 
 ## Upgrade all packages.
+echo "initscripts hold" | dpkg --set-selections
 apt-get upgrade -y
 
 ## Fix locale.
