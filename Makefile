@@ -1,4 +1,4 @@
-VERSION = 0.9
+VERSION = 0.9.0
 
 .PHONY: all build tag_latest
 
