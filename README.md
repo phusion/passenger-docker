@@ -2,7 +2,7 @@
 
 *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
 
-<img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" height="196" alt="Docker">
+<center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
 Passenger-docker is an [Docker](http://www.docker.io) image meant to serve as a good base for Ruby and Node.js web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for Ruby, Python and Node.js web apps much easier and faster. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
