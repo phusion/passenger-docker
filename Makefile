@@ -5,7 +5,7 @@ VERSION = 1.0
 all: build
 
 build:
-	docker build -t phusion/passenger:$(VERSION) -rm nginx-ruby
+	docker build -t phusion/passenger:$(VERSION) -rm image
 
 tag_latest:
 	docker tag phusion/passenger:$(VERSION) phusion/passenger:latest
