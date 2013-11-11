@@ -10,6 +10,9 @@ apt-get install -y git
 ## Other often used tools.
 apt-get install -y curl less nano vim psmisc
 
+## This tool runs a command as another user and sets $HOME.
+cp /build/setuser /sbin/setuser
+
 ## Memcached.
 apt-get install -y memcached
 mkdir /etc/service/memcached
