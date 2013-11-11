@@ -1,3 +1,4 @@
+NAME = phusion/passenger
 VERSION = 0.9.0
 
 .PHONY: all build tag_latest
@@ -5,7 +6,7 @@ VERSION = 0.9.0
 all: build
 
 build:
-	docker build -t phusion/passenger:$(VERSION) -rm image
+	docker build -t $(NAME):$(VERSION) -rm image
 
 tag_latest:
-	docker tag phusion/passenger:$(VERSION) phusion/passenger:latest
+	docker tag $(NAME):$(VERSION) $(NAME):latest

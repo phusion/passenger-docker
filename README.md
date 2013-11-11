@@ -225,6 +225,10 @@ Build the image:
 
     make build
 
+If you want to call the resulting image something else, pass the NAME variable, like this:
+
+    make build NAME=joe/passenger
+
 ## Conclusion
 
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
