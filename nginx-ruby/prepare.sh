@@ -7,6 +7,14 @@ set -x
 ## See https://github.com/dotcloud/docker/issues/1024
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
+echo "initscripts hold" | dpkg --set-selections
+
+## Upgrade all packages.
+apt-get upgrade -y
+
+## Fix locale.
+apt-get install -y language-pack-en
+locale-gen en_US
 
 ## Create a user for the web app.
 addgroup --gid 9999 app

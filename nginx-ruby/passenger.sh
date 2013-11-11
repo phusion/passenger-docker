@@ -14,3 +14,4 @@ cp /build/nginx.conf /etc/nginx/nginx.conf
 ## Install Nginx runit service.
 mkdir /etc/service/nginx
 cp /build/runit/nginx /etc/service/nginx/run
+touch /etc/service/nginx/down

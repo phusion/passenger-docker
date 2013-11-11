@@ -5,8 +5,8 @@ ENV HOME /root
 RUN mkdir /build
 ADD . /build
 
-RUN /build/prepare.sh
 RUN /build/enable_repos.sh
+RUN /build/prepare.sh
 RUN /build/system_services.sh
 RUN /build/utilities.sh
 RUN /build/ruby.sh
