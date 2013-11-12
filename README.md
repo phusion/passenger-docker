@@ -7,6 +7,7 @@ Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a g
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
  * **Github**: https://github.com/phusion/passenger-docker
+ * **Docker registry**: https://index.docker.io/u/phusion/passenger-full/
  * **Discussion forum**: https://groups.google.com/d/forum/passenger-docker
  * **Twitter**: https://twitter.com/phusion_nl
  * **Blog**: http://blog.phusion.nl/
