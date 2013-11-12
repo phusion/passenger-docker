@@ -1,7 +1,5 @@
 # A Docker base image for Ruby, Python, Node.js and Meteor web apps
 
-*(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
-
 <center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
 Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
@@ -83,11 +81,9 @@ To look around in the image, run:
 
     docker run -rm -t -i phusion/passenger-full bash -l
 
-You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry. *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
+You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry.
 
 ## Using the image as base
-
-*(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
 
 There are two images, `phusion/passenger-full` and `phusion/passenger-minimal`. See "Full vs minimal image".
 
@@ -97,6 +93,8 @@ So put the following in your Dockerfile:
 
     # Use phusion/passenger-full as base image. To make your builds reproducible, make
     # sure you lock down to a specific version, not to `latest`!
+    # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
+    # a list of version numbers.
     FROM phusion/passenger-full:<VERSION>
     # Or use the 'minimal' variant:
     #FROM phusion/passenger-minimal:<VERSION>
