@@ -260,6 +260,7 @@ If you want to call the resulting image something else, pass the NAME variable, 
 
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
  * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
+ * Looking for a minimal image containing only a correct base system? Take a look at [baseimage-docker](https://github.com/phusion/baseimage-docker).
 
 [<img src="http://www.phusion.nl/assets/logo.png">](http://www.phusion.nl/)
 
