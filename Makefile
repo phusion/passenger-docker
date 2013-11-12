@@ -1,7 +1,7 @@
 NAME = phusion/passenger
 VERSION = 0.9.0
 
-.PHONY: all build minimal_image tag_latest clean
+.PHONY: all build minimal_image tag_latest release clean
 
 all: build
 
@@ -17,7 +17,15 @@ minimal_image:
 	echo minimal=1 >> minimal_image/buildconfig
 
 tag_latest:
-	docker tag $(NAME):$(VERSION) $(NAME):latest
+	docker tag $(NAME)-full:$(VERSION) $(NAME)-full:latest
+	docker tag $(NAME)-minimal:$(VERSION) $(NAME)-minimal:latest
+
+release: tag_latest
+	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-minimal | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-minimal version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	docker push $(NAME)-full
+	docker push $(NAME)-minimal
+	@echo "*** Don't forget to create a tag. git tag rel-$(VERSION) && git push origin rel-$(VERSION)"
 
 clean:
 	rm -rf minimal_image
