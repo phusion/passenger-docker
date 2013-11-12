@@ -91,16 +91,19 @@ So put the following in your Dockerfile:
     # lock down to a specific version, not to `latest`!
     FROM phusion/passenger:<VERSION>
     
+    # Set correct environment variables.
+    ENV HOME /root
+    
     # Remove authentication rights for insecure_key.
     RUN rm -f /root/.ssh/authorized_keys /home/*/.ssh/authorized_keys
     
-    # Use passenger-docker's init process.
+    # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
     
-    # Expose SSH and the web server.
-    EXPOSE 22 80 443
-    
     # ...put other build instructions here...
+    
+    # Clean up APT when done.
+    RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ### The `app` user
 
