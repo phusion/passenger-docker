@@ -18,6 +18,6 @@ $minimal_apt_get_install nodejs
 ## Set the latest available Ruby as the default.
 if [[ -e /usr/bin/ruby2.0 ]]; then
 	ruby-switch --set ruby2.0
-elsif [[ -e /usr/bin/ruby1.9.1 ]]; then
+elif [[ -e /usr/bin/ruby1.9.1 ]]; then
 	ruby-switch --set ruby1.9.1
 fi
