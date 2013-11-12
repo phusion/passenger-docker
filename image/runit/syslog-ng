@@ -1,3 +1,0 @@
-#!/bin/sh
-set -e
-exec syslog-ng -F -p /var/run/syslog-ng.pid

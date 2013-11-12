@@ -4,14 +4,7 @@
 
 <center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
-Passenger-docker is an [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
-
-By using passenger-docker as base image...
-
- * ...you won't have to write such a large Dockerfile.
- * ...you won't have to figure out how to setup major parts of your stack.
- * ...you will drastically reduce your `docker build` times.
- * Container building will go wrong less often.
+Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
@@ -20,12 +13,26 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
  * **Twitter**: https://twitter.com/phusion_nl
  * **Blog**: http://blog.phusion.nl/
 
+### Why use passenger-docker?
+
+Why use passenger-docker instead of doing everything yourself in Dockerfile?
+
+ * Your Dockerfile can be smaller.
+ * It reduces the time needed to write a correct Dockerfile. You won't have to worry about the base system and the stack, you can focus on just your app.
+ * It sets up the base system **correctly**. It's very easy to get the base system wrong, but this image does everything correctly. [Learn more.](https://github.com/phusion/baseimage-docker#contents)
+ * It drastically reduces the time needed to run `docker build`, allowing you to iterate your Dockerfile more quickly.
+
 ## Contents
 
-Basics:
+**Passenger-docker is built on top of a solid base: [baseimage-docker](https://github.com/phusion/baseimage-docker).**
 
- * An Ubuntu 12.04 LTS base system.
- * Syslog-ng, configured to listen only locally.
+Basics (learn more at [baseimage-docker](https://github.com/phusion/baseimage-docker#readme)):
+
+ * Ubuntu 12.04 LTS as base system.
+ * A **correct** init process ([learn more](https://github.com/phusion/baseimage-docker#contents)).
+ * Fixes APT incompatibilities with Docker.
+ * syslog-ng.
+ * The cron daemon.
  * The SSH server, so that you can easily login to your container to inspect or administer things.
    * Password and challenge-response authentication are disabled by default. Only key authentication is allowed.
    * It allows an predefined key by default to make debugging easy. You should replace this ASAP. See instructions.
@@ -166,7 +173,7 @@ The shell script must be called `run`, must be executable, and is to be placed i
 
 Here's an example showing you how to a memached server runit entry can be made.
 
-    ### In redis.sh (make sure this file is chmod +x):
+    ### In memcached.sh (make sure this file is chmod +x):
     #!/bin/sh
     # `chpst` is part of running. `chpst -u memcache` runs the given command
     # as the user `memcache`. If you omit this, the command will be run as root.
@@ -174,7 +181,7 @@ Here's an example showing you how to a memached server runit entry can be made.
 
     ### In Dockerfile:
     RUN mkdir /etc/services/memcached
-    ADD redis.sh /etc/services/memcached/run
+    ADD memcached.sh /etc/services/memcached/run
 
 Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
 

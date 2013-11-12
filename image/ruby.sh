@@ -3,11 +3,10 @@ set -e
 source /build/buildconfig
 set -x
 
-apt-get install -y ruby ruby-dev
-apt-get install -y ruby1.8 ruby1.8-dev
-apt-get install -y ruby1.9.1 ruby1.9.1-dev
-apt-get install -y ruby2.0 ruby2.0-dev
-apt-get install -y rake ruby-switch
+$minimal_apt_get_install ruby1.8 ruby1.8-dev
+$minimal_apt_get_install ruby1.9.1 ruby1.9.1-dev
+$minimal_apt_get_install ruby2.0 ruby2.0-dev
+$minimal_apt_get_install rake ruby-switch
 
 echo "gem: --no-ri --no-rdoc" > /etc/gemrc
 
@@ -24,21 +23,21 @@ sed -i 's|/usr/bin/env ruby2.0|/usr/bin/env ruby|' /usr/local/bin/rake /usr/loca
 
 ## Install development headers for native libraries that tend to be used often by gems.
 ## For nokogiri.
-apt-get install -y libxml2-dev libxslt1-dev
+$minimal_apt_get_install libxml2-dev libxslt1-dev
 ## For rmagick and minimagick.
-apt-get install -y imagemagick libmagickwand-dev
+$minimal_apt_get_install imagemagick libmagickwand-dev
 ## For mysql and mysql2.
-apt-get install -y libmysqlclient-dev
+$minimal_apt_get_install libmysqlclient-dev
 ## For sqlite3.
-apt-get install -y libsqlite3-dev
+$minimal_apt_get_install libsqlite3-dev
 ## For postgres and pg.
-apt-get install -y libpq-dev
+$minimal_apt_get_install libpq-dev
 ## For capybara-webkit.
-apt-get install -y libqt4-webkit libqt4-dev
+$minimal_apt_get_install libqt4-webkit libqt4-dev
 ## For curb.
-apt-get install -y libcurl4-openssl-dev
+$minimal_apt_get_install libcurl4-openssl-dev
 ## For all kinds of stuff.
-apt-get install -y zlib1g-dev
+$minimal_apt_get_install zlib1g-dev
 
 
 ## The Rails asset compiler requires a Javascript runtime.
