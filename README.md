@@ -21,6 +21,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
  * It reduces the time needed to write a correct Dockerfile. You won't have to worry about the base system and the stack, you can focus on just your app.
  * It sets up the base system **correctly**. It's very easy to get the base system wrong, but this image does everything correctly. [Learn more.](https://github.com/phusion/baseimage-docker#contents)
  * It drastically reduces the time needed to run `docker build`, allowing you to iterate your Dockerfile more quickly.
+ * It reduces download time during redeploys. Docker only needs to download the base image once: during the first deploy. On every subsequent deploys, only the changes you make on top of the base image are downloaded.
 
 ## Contents
 
@@ -65,17 +66,22 @@ Auxiliary services and tools:
 
 Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, sshd, syslog-ng, etc).
 
-### Disk space efficiency
+### Full vs minimal image
 
-The passenger-docker image is large. But luckily the images that you build on top of passenger-docker won't be large!
+Passenger-docker comes in two variants: `phusion/passenger-full` and `phusion/passenger-minimal`.
 
-One of the great innovations of Docker is that images are layered. When you build an image on top of passenger-docker, Docker will know that, so that the size of your image is only as large as the changes. When you upload your image to a repository, passenger-docker will not be uploaded if the repository already knows about passenger-docker!
+ * `phusion/passenger-full` contains everything that's listed in the "Contents" section, though not everything is enabled by default. This variant is ideal for those who want to set up a container quickly. Almost everything is taken care of automatically for you.
+ * `phusion/passenger-minimal` contains only the base system, Nginx + Passenger and Pups. You have to explicitly opt-in for everything else. This variant is ideal for those who prefer disk space savings over convenience.
+
+We believe that `phusion/passenger-full` should be the variant of choice for most people because disk space simply shouldn't be an issue. Docker only needs to download the base image once: during the first deploy. On every subsequent deploys, only the changes you make on top of the base image are downloaded. So on many deploys, the size of the base image is negligible.
+
+In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use `phusion/passenger-minimal`.
 
 ## Inspecting the image
 
 To look around in the image, run:
 
-    docker run -rm -t -i phusion/passenger bash -l
+    docker run -rm -t -i phusion/passenger-full bash -l
 
 You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry. *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
 
@@ -83,13 +89,17 @@ You don't have to download anything manually. The above command will automatical
 
 *(NOTE: since passenger-docker is in development, it hasn't been uploaded to the registry yet. For now you need to build the image yourself. Read on.)*
 
-The image is called `phusion/passenger`. By default, it allows SSH access for the key in `image/insecure_key`. This makes it easy for you to login to the container, but you should replace this key as soon as possible.
+There are two images, `phusion/passenger-full` and `phusion/passenger-minimal`. See "Full vs minimal image".
+
+By default, it allows SSH access for the key in `image/insecure_key`. This makes it easy for you to login to the container, but you should replace this key as soon as possible.
 
 So put the following in your Dockerfile:
 
-    # Use phusion/passenger as base image. To make your builds reproducible, make sure you
-    # lock down to a specific version, not to `latest`!
-    FROM phusion/passenger:<VERSION>
+    # Use phusion/passenger-full as base image. To make your builds reproducible, make
+    # sure you lock down to a specific version, not to `latest`!
+    FROM phusion/passenger-full:<VERSION>
+    # Or use the 'minimal' variant:
+    #FROM phusion/passenger-minimal:<VERSION>
     
     # Set correct environment variables.
     ENV HOME /root
@@ -99,6 +109,23 @@ So put the following in your Dockerfile:
     
     # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
+
+    # If you're using the 'minimal' variant, you need to explicitly opt-in
+    # for features. Uncomment the features you want:
+    #
+    #   Build system and git.
+    #/build/utilities.sh
+    #   Ruby support.
+    #/build/ruby1.8.sh
+    #/build/ruby1.9.sh
+    #/build/ruby2.0.sh
+    #   Common development headers necessary for many Ruby gems,
+    #   e.g. libxml for Nokogiri.
+    #/build/devheaders.sh
+    #   Python support.
+    #/build/python.sh
+    #   Node.js and Meteor support.
+    #/build/nodejs.sh
     
     # ...put other build instructions here...
     
@@ -151,16 +178,24 @@ For example:
 
 ### Using Redis
 
-Enable Redis:
+Install and enable Redis:
 
+    # Opt-in for Redis if you're using the 'minimal' image.
+    #RUN /build/redis.sh
+    
+    # Enable the Redis service.
     RUN rm -f /etc/service/redis/down
 
 The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, but make sure `daemonize no` is set.
 
 ### Using memcached
 
-Enable memcached:
+Install and enable memcached:
 
+    # Opt-in for Memcached if you're using the 'minimal' image.
+    #RUN /build/memcached.sh
+
+    # Enable the memcached service.
     RUN rm -f /etc/service/memcached/down
 
 The configuration file is in /etc/memcached.conf. Note that it does not follow the Debian/Ubuntu format, but our own, in order to make it work well with runit. The default contents are:
@@ -192,7 +227,7 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 
 ### Selecting a default Ruby version
 
-Ruby 2.0.0 is the default Ruby on this image. You can use `ruby-switch` to select a different version as default.
+The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
 
     # Ruby 1.8.7
     RUN ruby-switch --set 1.8
@@ -207,7 +242,7 @@ You can use SSH to administer any container that is based on passenger-docker.
 
 Start a container based on passenger-docker (or a container based on an image based on passenger-docker):
 
-    docker run [options] phusion/passenger [more options]
+    docker run [options] phusion/passenger-full [more options]
 
 Find out the ID of the container that you just ran:
 
