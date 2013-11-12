@@ -1,17 +1,21 @@
 NAME = phusion/passenger
 VERSION = 0.9.1
 
-.PHONY: all build minimal_image tag_latest release clean
+.PHONY: all build build_minimal build_full create_minimal_image_dir tag_latest release clean
 
 all: build
 
-build: minimal_image
+build: build_full build_minimal
+
+build_full: create_minimal_image_dir
 	docker build -t $(NAME)-full:$(VERSION) -rm image
+
+build_minimal: create_minimal_image_dir
 	docker build -t $(NAME)-minimal:$(VERSION) -rm minimal_image
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
 # So we copy things around.
-minimal_image:
+create_minimal_image_dir:
 	rm -rf minimal_image
 	cp -pR image minimal_image
 	echo minimal=1 >> minimal_image/buildconfig
