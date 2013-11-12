@@ -24,7 +24,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 ## Contents
 
-**Passenger-docker is built on top of a solid base: [baseimage-docker](https://github.com/phusion/baseimage-docker).**
+*Passenger-docker is built on top of a solid base: [baseimage-docker](https://github.com/phusion/baseimage-docker).*
 
 Basics (learn more at [baseimage-docker](https://github.com/phusion/baseimage-docker#readme)):
 
