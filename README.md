@@ -201,7 +201,7 @@ The configuration file is in /etc/memcached.conf. Note that it does not follow t
     # These arguments are passed to the memcached daemon.
     MEMCACHED_OPTS="-l 127.0.0.1"
 
-## Additional daemons
+### Additional daemons
 
 You can add additional daemons to the image by creating runit entries. You only have to write a small shell script which runs your daemon, and runit will keep it up and running for you, restarting it when it crashes, etc.
 
