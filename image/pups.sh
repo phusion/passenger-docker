@@ -13,7 +13,7 @@ cat >/usr/local/bin/pups <<EOF
 #!/bin/sh
 if [[ -e /usr/bin/ruby2.0 ]]; then
 	exec /usr/bin/ruby2.0 /usr/local/pups/bin/pups "\$@"
-elsif [[ -e /usr/bin/ruby ]]; then
+elif [[ -e /usr/bin/ruby ]]; then
 	# Maybe user removed Ruby 2.0. We'll want to use the
 	# default Ruby interpreter.
 	exec /usr/bin/ruby /usr/local/pups/bin/pups "\$@"
