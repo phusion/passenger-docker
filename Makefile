@@ -1,5 +1,5 @@
 NAME = phusion/passenger
-VERSION = 0.9.2
+VERSION = 0.9.3
 
 .PHONY: all build build_minimal build_full create_minimal_image_dir tag_latest release clean
 
