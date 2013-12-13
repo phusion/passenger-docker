@@ -1,3 +1,7 @@
 .DS_Store
 .vagrant
-minimal_image
+customizable_image
+ruby18_image
+ruby19_image
+ruby20_image
+nodejs_image
