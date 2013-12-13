@@ -46,9 +46,9 @@ build_nodejs:
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
-	docker tag $(NAME)-ruby18:$(VERSION) $(NAME)-ruby:latest
-	docker tag $(NAME)-ruby19:$(VERSION) $(NAME)-ruby:latest
-	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby:latest
+	docker tag $(NAME)-ruby18:$(VERSION) $(NAME)-ruby18:latest
+	docker tag $(NAME)-ruby19:$(VERSION) $(NAME)-ruby19:latest
+	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
 	docker tag $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
 
 release: tag_latest
