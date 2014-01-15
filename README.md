@@ -1,8 +1,8 @@
-# A Docker base image for Ruby, Python, Node.js and Meteor web apps
+# A Docker base image for Ruby, Python, Node.js, Meteor, and Golang web apps
 
 <center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
-Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
+Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js, Meteor, and Golang web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
@@ -45,6 +45,7 @@ Language support:
    * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
  * Python 2.7 and Python 3.0.
  * Node.js 0.10, through [Chris Lea's Node.js PPA](https://launchpad.net/~chris-lea/+archive/node.js/).
+ * Golang 1.2rc5, through [Josh Bussdieker's gvm](https://github.com/moovweb/gvm)
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -125,6 +126,8 @@ So put the following in your Dockerfile:
     #/build/python.sh
     #   Node.js and Meteor support.
     #/build/nodejs.sh
+    #  Golang support (requires build system and git).
+    #/build/golang.sh
     
     # ...put other build instructions here...
     

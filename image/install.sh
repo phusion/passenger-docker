@@ -18,6 +18,7 @@ if [[ -z "$minimal" ]]; then
 	/build/nodejs.sh
 	/build/memcached.sh
 	/build/redis.sh
+	/build/golang.sh
 fi
 
 /build/finalize.sh
