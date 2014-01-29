@@ -229,11 +229,11 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
 
     # Ruby 1.8.7
-    RUN ruby-switch --set 1.8
+    RUN ruby-switch --set ruby1.8
     # Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
-    RUN ruby-switch --set 1.9.1
+    RUN ruby-switch --set ruby1.9.1
     # Ruby 2.0.0
-    RUN ruby-switch --set 2.0
+    RUN ruby-switch --set ruby2.0
 
 ## Administering the image's system
 
