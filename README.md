@@ -6,13 +6,41 @@ Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a g
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
- * **Github**: https://github.com/phusion/passenger-docker
- * **Docker registry**: https://index.docker.io/u/phusion/passenger-full/
- * **Discussion forum**: https://groups.google.com/d/forum/passenger-docker
- * **Twitter**: https://twitter.com/phusion_nl
- * **Blog**: http://blog.phusion.nl/
+**Relevant links:**
+ [Github](https://github.com/phusion/passenger-docker) |
+ [Docker registry](https://index.docker.io/u/phusion/passenger-full/) |
+ [Discussion forum](https://groups.google.com/d/forum/passenger-docker) |
+ [Twitter](https://twitter.com/phusion_nl) |
+ [Blog](http://blog.phusion.nl/)
 
-### Why use passenger-docker?
+---------------------------------------
+
+**Table of contents**
+
+ * [Why use passenger-docker?](#why_use)
+ * [What's inside the image?](#whats_inside)
+   * [Memory efficiency](#memory_efficiency)
+   * [Full vs minimal image](#full_vs_minimal)
+ * [Inspecting the image](#inspecting_the_image)
+ * [Using the image as base](#using)
+   * [Getting started](#getting_started)
+   * [The `app` user](#app_user)
+   * [Using Nginx and Passenger](#nginx_passenger)
+   * [Using Redis](#redis)
+   * [Using memcached](#memcached)
+   * [Additional daemons](#additional_daemons)
+   * [Selecting a default Ruby version](#selecting_default_ruby)
+ * [Administering the image's system](#administering)
+   * [Logging into the container](#login)
+   * [Inspecting the status of your web app](#inspecting_web_app_status)
+   * [Logs](#logs)
+ * [Building the image yourself](#building)
+ * [Conclusion](#conclusion)
+
+---------------------------------------
+
+<a name="why_use"></a>
+## Why use passenger-docker?
 
 Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
@@ -22,7 +50,8 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
  * It drastically reduces the time needed to run `docker build`, allowing you to iterate your Dockerfile more quickly.
  * It reduces download time during redeploys. Docker only needs to download the base image once: during the first deploy. On every subsequent deploys, only the changes you make on top of the base image are downloaded.
 
-## Contents
+<a name="whats_inside"></a>
+## What's inside the image?
 
 *Passenger-docker is built on top of a solid base: [baseimage-docker](https://github.com/phusion/baseimage-docker).*
 
@@ -40,8 +69,8 @@ Basics (learn more at [baseimage-docker](https://github.com/phusion/baseimage-do
 
 Language support:
 
- * Ruby 1.8.7, 1.9.3 and 2.0.0.
-   * 2.0.0 is configured as the default.
+ * Ruby 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
+   * 2.1.0 is configured as the default.
    * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
  * Python 2.7 and Python 3.0.
  * Node.js 0.10, through [Chris Lea's Node.js PPA](https://launchpad.net/~chris-lea/+archive/node.js/).
@@ -61,10 +90,12 @@ Auxiliary services and tools:
  * Memcached. Disabled by default.
  * [Pups](https://github.com/SamSaffron/pups), a lightweight tool for bootstrapping images.
 
+<a name="memory_efficiency"></a>
 ### Memory efficiency
 
 Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, sshd, syslog-ng, etc).
 
+<a name="full_vs_minimal"></a>
 ### Full vs minimal image
 
 Passenger-docker comes in two variants: `phusion/passenger-full` and `phusion/passenger-minimal`.
@@ -76,6 +107,7 @@ We believe that `phusion/passenger-full` should be the variant of choice for mos
 
 In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use `phusion/passenger-minimal`.
 
+<a name="inspecting_the_image"></a>
 ## Inspecting the image
 
 To look around in the image, run:
@@ -84,7 +116,11 @@ To look around in the image, run:
 
 You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry.
 
+<a name="using"></a>
 ## Using the image as base
+
+<a name="getting_started"></a>
+### Getting started
 
 There are two images, `phusion/passenger-full` and `phusion/passenger-minimal`. See "Full vs minimal image".
 
@@ -131,12 +167,14 @@ So put the following in your Dockerfile:
     # Clean up APT when done.
     RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+<a name="app_user"></a>
 ### The `app` user
 
 The image has an `app` user with UID 9999 and home directory `/home/app`. Your application is supposed to run as this user. Even though Docker itself provides some isolation from the host OS, running applications without root privileges is good security practice.
 
 Your application should be placed inside /home/app.
 
+<a name="nginx_passenger"></a>
 ### Using Nginx and Passenger
 
 Enable Nginx and Passenger:
@@ -175,6 +213,7 @@ For example:
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
 
+<a name="redis"></a>
 ### Using Redis
 
 Install and enable Redis:
@@ -187,6 +226,7 @@ Install and enable Redis:
 
 The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, but make sure `daemonize no` is set.
 
+<a name="memcached"></a>
 ### Using memcached
 
 Install and enable memcached:
@@ -202,6 +242,7 @@ The configuration file is in /etc/memcached.conf. Note that it does not follow t
     # These arguments are passed to the memcached daemon.
     MEMCACHED_OPTS="-l 127.0.0.1"
 
+<a name="additional_daemons"></a>
 ### Additional daemons
 
 You can add additional daemons to the image by creating runit entries. You only have to write a small shell script which runs your daemon, and runit will keep it up and running for you, restarting it when it crashes, etc.
@@ -224,6 +265,7 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 
 **Tip**: If you're thinking about running your web app, consider deploying it on Passenger instead of on runit. Passenger relieves you from even having to write a shell script, and adds all sorts of useful production features like process scaling, introspection, etc. These are not available when you're only using runit.
 
+<a name="selecting_default_ruby"></a>
 ### Selecting a default Ruby version
 
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
@@ -235,7 +277,11 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     # Ruby 2.0.0
     RUN ruby-switch --set 2.0
 
+<a name="administering"></a>
 ## Administering the image's system
+
+<a name="login"></a>
+### Logging into the container
 
 You can use SSH to administer any container that is based on passenger-docker.
 
@@ -255,6 +301,7 @@ Now SSH into the container. In this example we're using [the default insecure ke
 
     ssh -i insecure_key root@<IP address>
 
+<a name="inspecting_web_app_status"></a>
 ### Inspecting the status of your web app
 
 If you use Passenger to deploy your web app, run:
@@ -262,6 +309,7 @@ If you use Passenger to deploy your web app, run:
     passenger-status
     passenger-memory-stats
 
+<a name="logs"></a>
 ### Logs
 
 If anything goes wrong, consult the log files in /var/log. The following log files are especially important:
@@ -270,6 +318,7 @@ If anything goes wrong, consult the log files in /var/log. The following log fil
  * /var/log/syslog
  * Your app's log file in /home/app.
 
+<a name="building"></a>
 ## Building the image yourself
 
 If for whatever reason you want to build the image yourself instead of downloading it from the Docker registry, follow these instructions.
@@ -293,6 +342,7 @@ If you want to call the resulting image something else, pass the NAME variable, 
 
     make build NAME=joe/passenger
 
+<a name="conclusion"></a>
 ## Conclusion
 
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
