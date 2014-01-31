@@ -1,3 +1,8 @@
+## 0.9.4 (release date pending)
+
+ * Upgraded to Phusion Passenger 4.0.37, which improves Node.js and Meteor support and fixes many bugs.
+ * Upgraded to baseimage-docker 0.9.3.
+
 ## 0.9.3 (release date 2013-12-12)
 
  * Upgraded to Phusion Passenger 4.0.28.
