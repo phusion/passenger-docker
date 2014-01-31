@@ -2,6 +2,8 @@
 
 <center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
+**Note**: this project is temporarily on hold because of [a Docker bug](https://github.com/dotcloud/docker/issues/3172).
+
 Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
