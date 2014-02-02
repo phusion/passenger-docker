@@ -4,7 +4,7 @@
 
 _**Note**: this project is temporarily on hold because of [a Docker bug](https://github.com/dotcloud/docker/issues/3172)._
 
-Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for Ruby, Python, Node.js and Meteor web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
+Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for **Ruby, Python, Node.js and Meteor** web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
@@ -20,9 +20,10 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
 **Table of contents**
 
  * [Why use passenger-docker?](#why_use)
- * [What's inside the image?](#whats_inside)
+ * [About passenger-docker](#about)
+   * [What's included?](#whats_included)
    * [Memory efficiency](#memory_efficiency)
-   * [Full vs minimal image](#full_vs_minimal)
+   * [Image variants](#image_variants)
  * [Inspecting the image](#inspecting_the_image)
  * [Using the image as base](#using)
    * [Getting started](#getting_started)
@@ -52,15 +53,18 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
  * It drastically reduces the time needed to run `docker build`, allowing you to iterate your Dockerfile more quickly.
  * It reduces download time during redeploys. Docker only needs to download the base image once: during the first deploy. On every subsequent deploys, only the changes you make on top of the base image are downloaded.
 
-<a name="whats_inside"></a>
-## What's inside the image?
+<a name="about"></a>
+## About the image
 
-*Passenger-docker is built on top of a solid base: [baseimage-docker](https://github.com/phusion/baseimage-docker).*
+<a name="whats_included"></a>
+### What's included?
 
-Basics (learn more at [baseimage-docker](https://github.com/phusion/baseimage-docker#readme)):
+*Passenger-docker is built on top of a solid base: [baseimage-docker](http://phusion.github.io/baseimage-docker/).*
+
+Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
  * Ubuntu 12.04 LTS as base system.
- * A **correct** init process ([learn more](https://github.com/phusion/baseimage-docker#contents)).
+ * A **correct** init process ([learn more](http://phusion.github.io/baseimage-docker/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
  * The cron daemon.
@@ -85,6 +89,7 @@ Web server and application server:
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
    * It replaces (G)Unicorn, Thin, Puma, uWSGI.
+   * Node.js users: [watch this 4 minute intro video](http://vimeo.com/phusionnl/review/84945384/73fe7432ee) to learn why it's cool and useful.
 
 Auxiliary services and tools:
 
@@ -97,17 +102,28 @@ Auxiliary services and tools:
 
 Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, sshd, syslog-ng, etc).
 
-<a name="full_vs_minimal"></a>
-### Full vs minimal image
+<a name="image_variants"></a>
+### Image variants
 
-Passenger-docker comes in two variants: `phusion/passenger-full` and `phusion/passenger-minimal`.
+Passenger-docker consists of several images, each one tailor made for a specific user group.
 
- * `phusion/passenger-full` contains everything that's listed in the "Contents" section, though not everything is enabled by default. This variant is ideal for those who want to set up a container quickly. Almost everything is taken care of automatically for you.
- * `phusion/passenger-minimal` contains only the base system, Nginx + Passenger and Pups. You have to explicitly opt-in for everything else. This variant is ideal for those who prefer disk space savings over convenience.
+**Ruby images**
 
-We believe that `phusion/passenger-full` should be the variant of choice for most people because disk space simply shouldn't be an issue. Docker only needs to download the base image once: during the first deploy. On every subsequent deploys, only the changes you make on top of the base image are downloaded. So on many deploys, the size of the base image is negligible.
+ * `phusion/passenger-ruby18` - Ruby 1.8.
+ * `phusion/passenger-ruby19` - Ruby 1.9.
+ * `phusion/passenger-ruby20` - Ruby 2.0.
+ * `phusion/passenger-ruby21` - Ruby 2.1.
 
-In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use `phusion/passenger-minimal`.
+**Node.js and Meteor images**
+
+ * `phusion/passenger-nodejs` - Node.js 0.11.
+
+**Other images**
+
+ * `phusion/passenger-full` - Contains everything in the above images. Ruby, Python, Node.js, all in a single image for your convenience.
+ * `phusion/passenger-customizable` - Contains only the base system, as described in "What's included?". Ruby, Python and Node.js are not preinstalled. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains only Ruby 2.0, Ruby 2.1 and Node.js.
+
+In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use another image.
 
 <a name="inspecting_the_image"></a>
 ## Inspecting the image
@@ -124,7 +140,7 @@ You don't have to download anything manually. The above command will automatical
 <a name="getting_started"></a>
 ### Getting started
 
-There are two images, `phusion/passenger-full` and `phusion/passenger-minimal`. See "Full vs minimal image".
+There are several images, e.g. `phusion/passenger-ruby21` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
 
 By default, it allows SSH access for the key in `image/insecure_key`. This makes it easy for you to login to the container, but you should replace this key as soon as possible.
 
@@ -135,8 +151,12 @@ So put the following in your Dockerfile:
     # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
     # a list of version numbers.
     FROM phusion/passenger-full:<VERSION>
-    # Or use the 'minimal' variant:
-    #FROM phusion/passenger-minimal:<VERSION>
+    # Or, instead of the 'full' variant, use one of these:
+    #FROM phusion/passenger-ruby18:<VERSION>
+    #FROM phusion/passenger-ruby19:<VERSION>
+    #FROM phusion/passenger-ruby20:<VERSION>
+    #FROM phusion/passenger-ruby21:<VERSION>
+    #FROM phusion/passenger-nodejs:<VERSION>
     
     # Set correct environment variables.
     ENV HOME /root
@@ -146,8 +166,8 @@ So put the following in your Dockerfile:
     
     # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
-
-    # If you're using the 'minimal' variant, you need to explicitly opt-in
+    
+    # If you're using the 'customizable' variant, you need to explicitly opt-in
     # for features. Uncomment the features you want:
     #
     #   Build system and git.
@@ -156,6 +176,7 @@ So put the following in your Dockerfile:
     #/build/ruby1.8.sh
     #/build/ruby1.9.sh
     #/build/ruby2.0.sh
+    #/build/ruby2.1.sh
     #   Common development headers necessary for many Ruby gems,
     #   e.g. libxml for Nokogiri.
     #/build/devheaders.sh
