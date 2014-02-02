@@ -157,6 +157,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
+    #FROM phusion/passenger-customizable:<VERSION>
     
     # Set correct environment variables.
     ENV HOME /root
