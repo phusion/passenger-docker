@@ -358,9 +358,15 @@ Start a virtual machine with Docker in it. You can use the Vagrantfile that we'v
     vagrant ssh
     cd /vagrant
 
-Build the image:
+Build one of the images:
 
-    make build
+    make build_ruby18
+    make build_ruby19
+    make build_ruby20
+    make build_ruby21
+    make build_nodejs
+    make build_customizable
+    make build_full
 
 If you want to call the resulting image something else, pass the NAME variable, like this:
 
