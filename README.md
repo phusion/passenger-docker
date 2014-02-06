@@ -69,9 +69,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
  * The cron daemon.
- * The SSH server, so that you can easily login to your container to inspect or administer things.
-   * Password and challenge-response authentication are disabled by default. Only key authentication is allowed.
-   * It allows an predefined key by default to make debugging easy. You should replace this ASAP. See instructions.
+ * The SSH server, so that you can easily login to your container to inspect or administer things. Password and challenge-response authentication are disabled by default. Only key authentication is allowed.
  * [Runit](http://smarden.org/runit/) for service supervision and management.
 
 Language support:
@@ -143,8 +141,6 @@ You don't have to download anything manually. The above command will automatical
 
 There are several images, e.g. `phusion/passenger-ruby21` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
 
-By default, it allows SSH access for the key in `image/insecure_key`. This makes it easy for you to login to the container, but you should replace this key as soon as possible.
-
 So put the following in your Dockerfile:
 
     # Use phusion/passenger-full as base image. To make your builds reproducible, make
@@ -162,9 +158,6 @@ So put the following in your Dockerfile:
     
     # Set correct environment variables.
     ENV HOME /root
-    
-    # Remove authentication rights for insecure_key.
-    RUN rm -f /root/.ssh/authorized_keys /home/*/.ssh/authorized_keys
     
     # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
