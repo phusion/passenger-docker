@@ -195,6 +195,8 @@ Your application should be placed inside /home/app.
 <a name="nginx_passenger"></a>
 ### Using Nginx and Passenger
 
+Before using Passenger, you should familiarise yourself with it by [reading their documentation](https://www.phusionpassenger.com).
+
 Enable Nginx and Passenger:
 
     RUN rm -f /etc/service/nginx/down
