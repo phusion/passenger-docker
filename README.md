@@ -33,6 +33,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Using memcached](#memcached)
    * [Additional daemons](#additional_daemons)
    * [Selecting a default Ruby version](#selecting_default_ruby)
+   * [Running scripts during container startup](#running_startup_scripts)
  * [Administering the image's system](#administering)
    * [Logging into the container](#login)
    * [Inspecting the status of your web app](#inspecting_web_app_status)
@@ -302,6 +303,26 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN ruby-switch --set 2.0
     # Ruby 2.1.0
     RUN ruby-switch --set 2.1
+
+<a name="running_startup_scripts"></a>
+### Running scripts during container startup
+
+passenger-docker uses the [baseimage-docker](http://phusion.github.io/baseimage-docker/) init system, `/sbin/my_init`. This init system runs the following scripts during startup, in the following order:
+
+ * All executable scripts in `/etc/my_init.d`, if this directory exists. The scripts are run during in lexicographic order.
+ * The script `/etc/rc.local`, if this file exists.
+
+All scripts must exit correctly, e.g. with exit code 0. If any script exits with a non-zero exit code, the booting will fail.
+
+The following example shows how you can add a startup script. This script simply logs the time of boot to the file /tmp/boottime.txt.
+
+    ### In logtime.sh (make sure this file is chmod +x):
+    #!/bin/sh
+    date > /tmp/boottime.txt
+
+    ### In Dockerfile:
+    RUN mkdir -p /etc/my_init.d
+    ADD logtime.sh /etc/my_init.d/logtime.sh
 
 <a name="administering"></a>
 ## Administering the image's system
