@@ -300,6 +300,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN ruby-switch --set 1.9.1
     # Ruby 2.0.0
     RUN ruby-switch --set 2.0
+    # Ruby 2.1.0
+    RUN ruby-switch --set 2.1
 
 <a name="administering"></a>
 ## Administering the image's system
