@@ -1,3 +1,7 @@
+## 0.9.6 (release date 2013-02-06)
+
+ * Upgraded to baseimage-docker 0.9.5.
+
 ## 0.9.5 (release date 2013-02-03)
 
  * Upgraded to baseimage-docker 0.9.4, which fixes a syslog-ng startup problem.

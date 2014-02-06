@@ -35,7 +35,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Selecting a default Ruby version](#selecting_default_ruby)
    * [Running scripts during container startup](#running_startup_scripts)
  * [Administering the image's system](#administering)
-   * [Logging into the container](#login)
+   * [Logging into the container with SSH](#login)
    * [Inspecting the status of your web app](#inspecting_web_app_status)
    * [Logs](#logs)
  * [Building the image yourself](#building)
@@ -328,13 +328,26 @@ The following example shows how you can add a startup script. This script simply
 ## Administering the image's system
 
 <a name="login"></a>
-### Logging into the container
+### Logging into the container with SSH
 
-You can use SSH to administer any container that is based on passenger-docker.
+You can use SSH to login to any container that is based on passenger-docker-docker.
 
-Start a container based on passenger-docker (or a container based on an image based on passenger-docker):
+The first thing that you need to do is to ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so you can't login. For convenience reasons, we provide [a pregenerated, insecure key](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key) that you easily enable. However, please be aware that using this key is for convenience only. It does not provide any insecurity because this key (both the public and the private side) are publicly available. In production environments, you should use your own keys.
 
-    docker run [options] phusion/passenger-full [more options]
+Edit your Dockerfile to install an SSH key:
+
+    ## Install an SSH of your choice.
+    ADD your_key /tmp/your_key
+    RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && rm -f /tmp/your_key
+
+    ## -OR-
+
+    ## Uncomment this to enable the insecure key.
+    # RUN /usr/sbin/enable_insecure_key
+
+Then rebuild your image. Once you have that, start a container based on that image:
+
+    docker run your-image-name
 
 Find out the ID of the container that you just ran:
 
@@ -344,8 +357,16 @@ Once you have the ID, look for its IP address with:
 
     docker inspect <ID> | grep IPAddress
 
-Now SSH into the container. In this example we're using [the default insecure key](https://github.com/phusion/passenger-docker/blob/master/image/insecure_key), but if you're followed the instructions well then you've already replaced that with your own key. You did replace the key, didn't you?
+Now SSH into the container as follows:
 
+    ssh -i /path-to/your_key root@<IP address>
+
+    # -OR-
+
+    # If you're using the insecure key, download it and SSH
+    # into the container using that key.
+    curl -o insecure_key -fSL https://github.com/phusion/baseimage-docker/raw/master/image/insecure_key
+    chmod 700 insecure_key
     ssh -i insecure_key root@<IP address>
 
 <a name="inspecting_web_app_status"></a>
