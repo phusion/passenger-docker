@@ -164,19 +164,19 @@ So put the following in your Dockerfile:
     # for features. Uncomment the features you want:
     #
     #   Build system and git.
-    #/build/utilities.sh
+    #RUN /build/utilities.sh
     #   Ruby support.
-    #/build/ruby1.8.sh
-    #/build/ruby1.9.sh
-    #/build/ruby2.0.sh
-    #/build/ruby2.1.sh
+    #RUN /build/ruby1.8.sh
+    #RUN /build/ruby1.9.sh
+    #RUN /build/ruby2.0.sh
+    #RUN /build/ruby2.1.sh
     #   Common development headers necessary for many Ruby gems,
     #   e.g. libxml for Nokogiri.
-    #/build/devheaders.sh
+    #RUN /build/devheaders.sh
     #   Python support.
-    #/build/python.sh
+    #RUN /build/python.sh
     #   Node.js and Meteor support.
-    #/build/nodejs.sh
+    #RUN /build/nodejs.sh
     
     # ...put your own build instructions here...
     
