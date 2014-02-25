@@ -1,3 +1,7 @@
+## 0.9.7 (release date: 2014-02-25)
+
+ * Upgraded to baseimage-docker 0.9.7.
+
 ## 0.9.6 (release date 2013-02-06)
 
  * Upgraded to baseimage-docker 0.9.5.

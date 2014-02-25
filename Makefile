@@ -1,5 +1,5 @@
 NAME = phusion/passenger
-VERSION = 0.9.6
+VERSION = 0.9.7
 
 .PHONY: all build_all \
 	build_customizable build_ruby18 build_ruby19 build_ruby20 build_ruby21 \
