@@ -219,6 +219,8 @@ For example:
         passenger_user app;
 
         # If this is a Ruby app, specify a Ruby version:
+        passenger_ruby /usr/bin/ruby2.1;
+        # For Ruby 2.0
         passenger_ruby /usr/bin/ruby2.0;
         # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
         #passenger_ruby /usr/bin/ruby1.9.1;
