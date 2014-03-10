@@ -154,6 +154,14 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
     
+    # Update installed packages
+    ENV DEBIAN_FRONTEND noninteractive
+    RUN apt-get update
+    # Force dpkg to use default answer in case something
+    # wants to replace a config file
+    RUN apt-get upgrade -y -o DPkg::Options::="--force-confold"
+
+    
     # Set correct environment variables.
     ENV HOME /root
     
