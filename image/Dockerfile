@@ -6,3 +6,4 @@ RUN mkdir /build
 ADD . /build
 RUN /build/install.sh
 CMD ["/sbin/my_init"]
+EXPOSE 22 80 443
