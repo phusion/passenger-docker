@@ -7,14 +7,14 @@ VAGRANTFILE_API_VERSION = '2'
 
 # Default env properties which can be overridden
 # Example overrides:
-#   echo "ENV['PASSENGER_PATH_URI' ] ||= '../../phusion/passenger-docker'   " >> ~/.vagrant.d/Vagrantfile
-#   echo "ENV['BASE_BOX_URL']        ||= 'd\:/dev/vm/vagrant/boxes/phusion/'" >> ~/.vagrant.d/Vagrantfile
-BASE_BOX_URL        = ENV['BASE_BOX_URL'       ] || 'https://oss-binaries.phusionpassenger.com/vagrant/boxes/'
-VAGRANT_BOX_URL     = ENV['VAGRANT_BOX_URL'    ] || BASE_BOX_URL + 'ubuntu-12.04.3-amd64-vbox.box'
-VMWARE_BOX_URL      = ENV['VMWARE_BOX_URL'     ] || BASE_BOX_URL + 'ubuntu-12.04.3-amd64-vmwarefusion.box'
-BASEIMAGE_PATH_URI  = ENV['BASEIMAGE_PATH_URI' ] || '../baseimage-docker'
-PASSENGER_PATH_URI  = ENV['PASSENGER_PATH_URI' ] || '../passenger-docker'
-DOCKERIZER_PATH_URI = ENV['DOCKERIZER_PATH_URI'] || '../dockerizer'
+#   echo "ENV['BASEIMAGE_PATH'] ||= '../../phusion/baseimage-docker'   " >> ~/.vagrant.d/Vagrantfile
+#   echo "ENV['BASE_BOX_URL']   ||= 'd\:/dev/vm/vagrant/boxes/phusion/'" >> ~/.vagrant.d/Vagrantfile
+BASE_BOX_URL          = ENV['BASE_BOX_URL']          || 'https://oss-binaries.phusionpassenger.com/vagrant/boxes/'
+VAGRANT_BOX_URL       = ENV['VAGRANT_BOX_URL']       || BASE_BOX_URL + 'ubuntu-12.04.3-amd64-vbox.box'
+VMWARE_BOX_URL        = ENV['VMWARE_BOX_URL']        || BASE_BOX_URL + 'ubuntu-12.04.3-amd64-vmwarefusion.box'
+PASSENGER_DOCKER_PATH = ENV['PASSENGER_DOCKER_PATH'] || '.'
+BASEIMAGE_PATH        = ENV['BASEIMAGE_PATH']        || '../baseimage-docker'
+DOCKERIZER_PATH       = ENV['DOCKERIZER_PATH']       || '../dockerizer'
 
 $script = <<SCRIPT
 wget -q -O - https://get.docker.io/gpg | apt-key add -
@@ -30,15 +30,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'phusion-open-ubuntu-12.04-amd64'
   config.vm.box_url = VAGRANT_BOX_URL
   config.ssh.forward_agent = true
-  passenger_path = "#{ROOT}/#{PASSENGER_PATH_URI}"
-  if File.directory?(passenger_path)
-    config.vm.synced_folder File.expand_path(passenger_path), '/vagrant/passenger-docker'
+  passenger_docker_path = File.absolute_path(PASSENGER_DOCKER_PATH, ROOT)
+  if File.directory?(passenger_docker_path)
+    config.vm.synced_folder passenger_docker_path, '/vagrant/passenger-docker'
   end
-  baseimage_path = "#{ROOT}/#{BASEIMAGE_PATH_URI}"
+  baseimage_path = File.absolute_path(BASEIMAGE_PATH, ROOT)
   if File.directory?(baseimage_path)
     config.vm.synced_folder File.expand_path(baseimage_path), '/vagrant/baseimage-docker'
   end
-  dockerizer_path = "#{ROOT}/#{DOCKERIZER_PATH_URI}"
+  dockerizer_path = File.absolute_path(DOCKERIZER_PATH, ROOT)
   if File.directory?(dockerizer_path)
     config.vm.synced_folder File.expand_path(dockerizer_path), '/vagrant/dockerizer'
   end
