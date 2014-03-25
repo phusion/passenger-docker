@@ -1,4 +1,4 @@
-## 0.9.9 (not yet released)
+## 0.9.9 (release date: 2014-03-25)
 
  * Upgraded to baseimage-docker 0.9.9.
  * Upgraded to Phusion Passenger 4.0.40.
