@@ -1,3 +1,12 @@
+## 0.9.9 (not yet released)
+
+ * Upgraded to baseimage-docker 0.9.9.
+ * Upgraded to Phusion Passenger 4.0.40.
+ * Upgraded to Nginx 1.4.7. This also fixes several Nginx vulnerabilities.
+ * Ports 80 and 443 are now by default made available for Docker linking.
+ * Redis and Memcached have been reintroduced, but only in the `passenger-customizable` and `passenger-full` images.
+ * Various minor improvements. (Amir Gur)
+
 ## 0.9.8 (release date: 2014-02-26)
 
  * Upgraded to baseimage-docker 0.9.8.
