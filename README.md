@@ -236,9 +236,11 @@ For example:
 <a name="redis"></a>
 ### Using Redis
 
+**Redis is only available in the passenger-customizable and passenger-full images!**
+
 Install and enable Redis:
 
-    # Opt-in for Redis if you're using the 'minimal' image.
+    # Opt-in for Redis if you're using the 'customizable' image.
     #RUN /build/redis.sh
     
     # Enable the Redis service.
@@ -249,9 +251,11 @@ The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, bu
 <a name="memcached"></a>
 ### Using memcached
 
+**Memcached is only available in the passenger-customizable and passenger-full images!**
+
 Install and enable memcached:
 
-    # Opt-in for Memcached if you're using the 'minimal' image.
+    # Opt-in for Memcached if you're using the 'customizable' image.
     #RUN /build/memcached.sh
 
     # Enable the memcached service.

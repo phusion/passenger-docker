@@ -60,6 +60,8 @@ build_full:
 	echo ruby20=1 >> full_image/buildconfig
 	echo ruby21=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
+	echo redis=1 >> full_image/buildconfig
+	echo memcached=1 >> full_image/buildconfig
 	echo final=1 >> full_image/buildconfig
 	docker build -t $(NAME)-full:$(VERSION) --rm full_image
 
