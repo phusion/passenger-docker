@@ -15,42 +15,42 @@ build_all: build_customizable build_ruby18 build_ruby19 build_ruby20 build_ruby2
 build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
-	docker build -t $(NAME)-customizable:$(VERSION) -rm customizable_image
+	docker build -t $(NAME)-customizable:$(VERSION) --rm customizable_image
 
 build_ruby18:
 	rm -rf ruby18_image
 	cp -pR image ruby18_image
 	echo ruby18=1 >> ruby18_image/buildconfig
 	echo final=1 >> ruby18_image/buildconfig
-	docker build -t $(NAME)-ruby18:$(VERSION) -rm ruby18_image
+	docker build -t $(NAME)-ruby18:$(VERSION) --rm ruby18_image
 
 build_ruby19:
 	rm -rf ruby19_image
 	cp -pR image ruby19_image
 	echo ruby19=1 >> ruby19_image/buildconfig
 	echo final=1 >> ruby19_image/buildconfig
-	docker build -t $(NAME)-ruby19:$(VERSION) -rm ruby19_image
+	docker build -t $(NAME)-ruby19:$(VERSION) --rm ruby19_image
 
 build_ruby20:
 	rm -rf ruby20_image
 	cp -pR image ruby20_image
 	echo ruby20=1 >> ruby20_image/buildconfig
 	echo final=1 >> ruby20_image/buildconfig
-	docker build -t $(NAME)-ruby20:$(VERSION) -rm ruby20_image
+	docker build -t $(NAME)-ruby20:$(VERSION) --rm ruby20_image
 
 build_ruby21:
 	rm -rf ruby21_image
 	cp -pR image ruby21_image
 	echo ruby21=1 >> ruby21_image/buildconfig
 	echo final=1 >> ruby21_image/buildconfig
-	docker build -t $(NAME)-ruby21:$(VERSION) -rm ruby21_image
+	docker build -t $(NAME)-ruby21:$(VERSION) --rm ruby21_image
 
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
 	echo nodejs=1 >> nodejs_image/buildconfig
 	echo final=1 >> nodejs_image/buildconfig
-	docker build -t $(NAME)-nodejs:$(VERSION) -rm nodejs_image
+	docker build -t $(NAME)-nodejs:$(VERSION) --rm nodejs_image
 
 build_full:
 	rm -rf full_image
@@ -61,7 +61,7 @@ build_full:
 	echo ruby21=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo final=1 >> full_image/buildconfig
-	docker build -t $(NAME)-full:$(VERSION) -rm full_image
+	docker build -t $(NAME)-full:$(VERSION) --rm full_image
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
