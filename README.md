@@ -153,13 +153,13 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby21:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
-    
+
     # Set correct environment variables.
     ENV HOME /root
-    
+
     # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
-    
+
     # If you're using the 'customizable' variant, you need to explicitly opt-in
     # for features. Uncomment the features you want:
     #
@@ -177,9 +177,9 @@ So put the following in your Dockerfile:
     #RUN /build/python.sh
     #   Node.js and Meteor support.
     #RUN /build/nodejs.sh
-    
+
     # ...put your own build instructions here...
-    
+
     # Clean up APT when done.
     RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -208,7 +208,7 @@ For example:
         listen 80;
         server_name www.webapp.com;
         root /home/app/webapp/public;
-        
+
         # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
 
         # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
@@ -233,6 +233,18 @@ For example:
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
 
+By default Nginx clears all environment variables (except `TZ`) for its child processes (Passenger being one of them). To preserve these variables, set for example when linking a Postgresql container or MongoDB container, place a file in the directory `/etc/nginx/env.d`.
+
+For example:
+
+    # postgres.env
+    env POSTGRES_PORT_5432_TCP_ADDR;
+    env POSTGRES_PORT_5432_TCP_PORT;
+
+Place the file in the correct directory in order to get it loaded.
+
+    ADD postgres.env /etc/nginx/env.d/postgres.env
+
 <a name="redis"></a>
 ### Using Redis
 
@@ -242,7 +254,7 @@ Install and enable Redis:
 
     # Opt-in for Redis if you're using the 'customizable' image.
     #RUN /build/redis.sh
-    
+
     # Enable the Redis service.
     RUN rm -f /etc/service/redis/down
 
