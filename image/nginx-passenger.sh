@@ -10,6 +10,8 @@ else
 	apt-get install -y nginx-extras passenger
 fi
 cp /build/config/nginx.conf /etc/nginx/nginx.conf
+mkdir -p /etc/nginx/main.d
+cp /build/config/nginx.default.env /etc/nginx/main.d/default.env
 
 ## Install Nginx runit service.
 mkdir /etc/service/nginx
