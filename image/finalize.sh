@@ -9,5 +9,5 @@ if [[ "$final" = 1 ]]; then
 	rm -rf /build
 else
 	rm -f /build/{install,enable_repos,prepare,pups,nginx-passenger,finalize}.sh
-	rm -f /build/{Dockerfile,insecure_key*}
+	rm -f /build/{Dockerfile,insecure_key*,ruby-switch}
 fi
