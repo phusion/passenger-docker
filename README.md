@@ -236,6 +236,18 @@ For example:
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
 
+By default Nginx clears all environment variables (except `TZ`) for its child processes (Passenger being one of them). To preserve these variables, set for example when linking a Postgresql container or MongoDB container, place a file in the directory `/etc/nginx/main.d`.
+
+For example:
+
+    # postgres.env
+    env POSTGRES_PORT_5432_TCP_ADDR;
+    env POSTGRES_PORT_5432_TCP_PORT;
+
+Place the file in the correct directory in order to get it loaded.
+
+    ADD postgres.env /etc/nginx/main.d/postgres.env
+
 <a name="redis"></a>
 ### Using Redis
 
