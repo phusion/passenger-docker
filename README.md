@@ -27,6 +27,9 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Getting started](#getting_started)
    * [The `app` user](#app_user)
    * [Using Nginx and Passenger](#nginx_passenger)
+     * [Adding your web app to the image](#adding_web_app)
+     * [Configuring Nginx](#configuring_nginx)
+     * [Setting environment variables in Nginx](#nginx_env_vars)
    * [Using Redis](#redis)
    * [Using memcached](#memcached)
    * [Additional daemons](#additional_daemons)
@@ -193,31 +196,34 @@ Your application should be placed inside /home/app.
 <a name="nginx_passenger"></a>
 ### Using Nginx and Passenger
 
-Before using Passenger, you should familiarise yourself with it by [reading their documentation](https://www.phusionpassenger.com).
+Before using Passenger, you should familiarise yourself with it by [reading its documentation](https://www.phusionpassenger.com).
 
-Enable Nginx and Passenger:
+Nginx and Passenger are disabled by default. Enable them like so:
 
     RUN rm -f /etc/service/nginx/down
 
-You can add a virtual host entry (`server` block) by placing a file in the directory `/etc/nginx/sites-enabled`. You can modify Nginx `http` block settings by placing a file in the directory `/etc/nginx/conf.d`.
+<a name="adding_web_app"></a>
+#### Adding your web app to the image
 
-For example:
+Passenger works like a `mod_ruby`, `mod_node`, etc. It changes Nginx into an application server and runs your app from Nginx. So to get your web app up and running, you just have to add a virtual host entry to Nginx which describes where you app is, and Passenger will take care of the rest.
 
-    # webapp.conf:
+You can add a virtual host entry (`server` block) by placing a .conf file in the directory `/etc/nginx/sites-enabled`. For example:
+
+    # /etc/nginx/sites-enabled/webapp.conf:
     server {
         listen 80;
         server_name www.webapp.com;
         root /home/app/webapp/public;
         
         # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
-
+        
         # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
         # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
         # socket setup, process management, etc are all taken care automatically for
         # you! Learn more at https://www.phusionpassenger.com/.
         passenger_enabled on;
         passenger_user app;
-
+        
         # If this is a Ruby app, specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.1;
         # For Ruby 2.0
@@ -225,11 +231,44 @@ For example:
         # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
         #passenger_ruby /usr/bin/ruby1.9.1;
     }
-
+    
     # Dockerfile:
     ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
+
+<a name="configuring_nginx"></a>
+#### Configuring Nginx
+
+The best way to configure Nginx is by adding .conf files to `/etc/nginx/main.d` and `/etc/nginx/conf.d`. Files in `main.d` are included into the Nginx configuration's main context, while files in `conf.d` are included in the Nginx configuration's http context.
+
+For example:
+
+    # /etc/nginx/main.d/secret_key.conf:
+    env SECRET_KEY 123456;
+    
+    # /etc/nginx/conf.d/gzip_max.conf:
+    gzip_comp_level 9;
+    
+    # Dockerfile:
+    ADD secret_key.conf /etc/nginx/main.d/secret_key.conf
+    ADD gzip_max.conf /etc/nginx/conf.d/gzip_max.conf
+
+<a name="nginx_env_vars"></a>
+#### Setting environment variables in Nginx
+
+By default Nginx [clears all environment variables](http://nginx.org/en/docs/ngx_core_module.html#env) (except `TZ`) for its child processes (Passenger being one of them). That's why any environment variables you set with `docker run -e`, Docker linking and `/etc/container_environment`, won't reach Nginx.
+
+To preserve these variables, place a file in the directory `/etc/nginx/main.d`. For example when linking a PostgreSQL container or MongoDB container:
+
+    # /etc/nginx/main.d/postgres.env:
+    env POSTGRES_PORT_5432_TCP_ADDR;
+    env POSTGRES_PORT_5432_TCP_PORT;
+    
+    # Dockerfile:
+    ADD postgres.env /etc/nginx/main.d/postgres.env
+
+By default, passenger-docker already contains a config file `/etc/nginx/main.d/default.conf` which preserves the `PATH` environment variable.
 
 <a name="redis"></a>
 ### Using Redis
