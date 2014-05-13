@@ -87,7 +87,7 @@ Language support:
 
 Web server and application server:
 
- * Nginx 1.4. Disabled by default.
+ * Nginx 1.6. Disabled by default.
  * [Phusion Passenger 4](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.

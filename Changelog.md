@@ -1,6 +1,8 @@
 ## 0.9.10
 
  * Upgraded to baseimage-docker 0.9.10 and Ubuntu 14.04.
+ * Upgraded to Nginx 1.6.0.
+ * Upgraded to Phusion Passenger 4.0.42.
  * Ruby 1.8 support has been removed because it is no longer available on Ubuntu 14.04.
  * It is now possible to put additional Nginx configuration in the directory /etc/nginx/main.d. This works like /etc/nginx/conf.d, but config files are included in the main context, not in the http context. It is ideal for adding things like `env` directives. Thanks to javereec for documentation contribution.
 
