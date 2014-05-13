@@ -10,4 +10,3 @@ usermod -L app
 mkdir -p /home/app/.ssh
 chmod 700 /home/app/.ssh
 chown app:app /home/app/.ssh
-cat /build/insecure_key.pub > /home/app/.ssh/authorized_keys

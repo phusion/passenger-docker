@@ -1,4 +1,8 @@
-## 0.9.10
+## 0.9.11
+
+ * The baseimage-docker insecure key was erroneously still installed by default for the 'app' user. It has now been removed.
+
+## 0.9.10 (release date: 2014-05-13)
 
  * Upgraded to baseimage-docker 0.9.10 and Ubuntu 14.04.
  * Upgraded to Nginx 1.6.0.
