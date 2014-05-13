@@ -17,6 +17,7 @@ BASEIMAGE_PATH        = ENV['BASEIMAGE_PATH']        || '../baseimage-docker'
 DOCKERIZER_PATH       = ENV['DOCKERIZER_PATH']       || '../dockerizer'
 
 $script = <<SCRIPT
+set -ex
 wget -q -O - https://get.docker.io/gpg | apt-key add -
 echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
 apt-get update -qq
@@ -48,7 +49,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     f.vmx['displayName'] = 'passenger-docker'
   end
 
-  if Dir.glob("#{File.dirname(__FILE__)}/.vagrant/machines/default/*/id").empty?
-    config.vm.provision :shell, :inline => $script
-  end
+  config.vm.provision :shell, :inline => $script
 end
