@@ -333,16 +333,48 @@ You can use SSH to login to any container that is based on passenger-docker-dock
 
 The first thing that you need to do is to ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so you can't login. For convenience reasons, we provide [a pregenerated, insecure key](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key) [(PuTTY format)](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key.ppk) that you can easily enable. However, please be aware that using this key is for convenience only. It does not provide any security because this key (both the public and the private side) is publicly available. **In production environments, you should use your own keys**.
 
+<a name="using_the_insecure_key_for_one_container_only"></a>
+#### Using the insecure key for one container only
+
+You can temporarily enable the insecure key for one container only. This means that the insecure key is installed at container boot. If you `docker stop` and `docker start` the container, the insecure key will still be there, but if you use `docker run` to start a new container then that container will not contain the insecure key.
+
+Start a container with `--enable-insecure-key`:
+
+    docker run YOUR_IMAGE /sbin/my_init --enable-insecure-key
+
+Find out the ID of the container that you just ran:
+
+    docker ps
+
+Once you have the ID, look for its IP address with:
+
+    docker inspect <ID> | grep IPAddress
+
+Now SSH into the container as follows:
+
+    curl -o insecure_key -fSL https://github.com/phusion/baseimage-docker/raw/master/image/insecure_key
+    chmod 600 insecure_key
+    ssh -i insecure_key root@<IP address>
+
+<a name="enabling_the_insecure_key_permanently"></a>
+#### Enabling the insecure key permanently
+
+It is also possible to enable the insecure key in the image permanently. This is not generally recommended, but it suitable for e.g. temporary development or demo environments where security does not matter.
+
+Edit your Dockerfile to install the insecure key permanently:
+
+    RUN /usr/sbin/enable_insecure_key
+
+Instructions for logging in the container is the same as in section [Using the insecure key for one container only](#using_the_insecure_key_for_one_container_only).
+
+<a name="using_your_own_key"></a>
+#### Using your own key
+
 Edit your Dockerfile to install an SSH key:
 
     ## Install an SSH of your choice.
     ADD your_key /tmp/your_key
     RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && rm -f /tmp/your_key
-
-    ## -OR-
-
-    ## Uncomment this to enable the insecure key.
-    # RUN /usr/sbin/enable_insecure_key
 
 Then rebuild your image. Once you have that, start a container based on that image:
 
@@ -359,14 +391,6 @@ Once you have the ID, look for its IP address with:
 Now SSH into the container as follows:
 
     ssh -i /path-to/your_key root@<IP address>
-
-    # -OR-
-
-    # If you're using the insecure key, download it and SSH
-    # into the container using that key.
-    curl -o insecure_key -fSL https://github.com/phusion/baseimage-docker/raw/master/image/insecure_key
-    chmod 700 insecure_key
-    ssh -i insecure_key root@<IP address>
 
 <a name="inspecting_web_app_status"></a>
 ### Inspecting the status of your web app
