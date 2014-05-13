@@ -5,7 +5,7 @@
  * Upgraded to Phusion Passenger 4.0.42.
  * Ruby 1.8 support has been removed because it is no longer available on Ubuntu 14.04.
  * It is now possible to put additional Nginx configuration in the directory /etc/nginx/main.d. This works like /etc/nginx/conf.d, but config files are included in the main context, not in the http context. It is ideal for adding things like `env` directives. Thanks to javereec for documentation contribution.
- * The Phusion Passenger native extension is now precopmiled for for all Ruby interpreters.
+ * The Phusion Passenger native extension is now precompiled for for all Ruby interpreters.
 
 ## 0.9.9 (release date: 2014-03-25)
 
