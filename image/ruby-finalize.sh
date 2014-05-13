@@ -3,9 +3,9 @@ set -e
 source /build/buildconfig
 set -x
 
-## This script is to be run after ruby1.8.sh, ruby1.9.sh, ruby2.0.sh and ruby2.1.sh.
+## This script is to be run after ruby1.9.sh, ruby2.0.sh and ruby2.1.sh.
 
-$minimal_apt_get_install ruby-switch
+cp /build/ruby-switch /usr/local/bin/ruby-switch
 echo "gem: --no-ri --no-rdoc" > /etc/gemrc
 
 ## Fix shebang lines in rake and bundler so that they're run with the currently

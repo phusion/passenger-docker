@@ -1,3 +1,8 @@
+## 0.9.10
+
+ * Upgraded to baseimage-docker 0.9.10 and Ubuntu 14.04.
+ * Ruby 1.8 support has been removed because it is no longer available on Ubuntu 14.04.
+
 ## 0.9.9 (release date: 2014-03-25)
 
  * Upgraded to baseimage-docker 0.9.9.

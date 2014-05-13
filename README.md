@@ -65,7 +65,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 12.04 LTS as base system.
+ * Ubuntu 14.04 LTS as base system.
  * A **correct** init process ([learn more](http://phusion.github.io/baseimage-docker/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -75,7 +75,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
+ * Ruby 1.9.3, 2.0.0 and 2.1.0.
    * 2.1.0 is configured as the default.
    * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
  * Python 2.7 and Python 3.0.
@@ -109,7 +109,6 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby18` - Ruby 1.8.
  * `phusion/passenger-ruby19` - Ruby 1.9.
  * `phusion/passenger-ruby20` - Ruby 2.0.
  * `phusion/passenger-ruby21` - Ruby 2.1.
@@ -150,7 +149,6 @@ So put the following in your Dockerfile:
     # a list of version numbers.
     FROM phusion/passenger-full:<VERSION>
     # Or, instead of the 'full' variant, use one of these:
-    #FROM phusion/passenger-ruby18:<VERSION>
     #FROM phusion/passenger-ruby19:<VERSION>
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
@@ -169,7 +167,6 @@ So put the following in your Dockerfile:
     #   Build system and git.
     #RUN /build/utilities.sh
     #   Ruby support.
-    #RUN /build/ruby1.8.sh
     #RUN /build/ruby1.9.sh
     #RUN /build/ruby2.0.sh
     #RUN /build/ruby2.1.sh
@@ -227,8 +224,6 @@ For example:
         passenger_ruby /usr/bin/ruby2.0;
         # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
         #passenger_ruby /usr/bin/ruby1.9.1;
-        # For Ruby 1.8.7
-        #passenger_ruby /usr/bin/ruby1.8;
     }
 
     # Dockerfile:
@@ -297,8 +292,6 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
 
-    # Ruby 1.8.7
-    RUN ruby-switch --set 1.8
     # Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
     RUN ruby-switch --set 1.9.1
     # Ruby 2.0.0
@@ -430,7 +423,6 @@ Start a virtual machine with Docker in it. You can use the Vagrantfile that we'v
 
 Build one of the images:
 
-    make build_ruby18
     make build_ruby19
     make build_ruby20
     make build_ruby21
