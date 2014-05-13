@@ -17,3 +17,17 @@ cp /build/config/nginx_main_d_default.conf /etc/nginx/main.d/default.conf
 mkdir /etc/service/nginx
 cp /build/runit/nginx /etc/service/nginx/run
 touch /etc/service/nginx/down
+
+## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby2.1 ]]; then
+	ruby2.1 -S passenger-config build-native-support
+	setuser app ruby2.1 -S passenger-config build-native-support
+fi
+if [[ -e /usr/bin/ruby2.0 ]]; then
+	ruby2.0 -S passenger-config build-native-support
+	setuser app ruby2.0 -S passenger-config build-native-support
+fi
+if [[ -e /usr/bin/ruby1.9.1 ]]; then
+	ruby1.9.1 -S passenger-config build-native-support
+	setuser app ruby1.9.1 -S passenger-config build-native-support
+fi
