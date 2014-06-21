@@ -132,7 +132,7 @@ In the rest of this document we're going to assume that the reader will be using
 
 To look around in the image, run:
 
-    docker run -rm -t -i phusion/passenger-full bash -l
+    docker run --rm -t -i phusion/passenger-full bash -l
 
 You don't have to download anything manually. The above command will automatically pull the passenger-docker image from the Docker registry.
 
