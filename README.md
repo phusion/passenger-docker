@@ -259,14 +259,14 @@ For example:
 
 By default Nginx [clears all environment variables](http://nginx.org/en/docs/ngx_core_module.html#env) (except `TZ`) for its child processes (Passenger being one of them). That's why any environment variables you set with `docker run -e`, Docker linking and `/etc/container_environment`, won't reach Nginx.
 
-To preserve these variables, place a file in the directory `/etc/nginx/main.d`. For example when linking a PostgreSQL container or MongoDB container:
+To preserve these variables, place a file ending in `*.conf` in the directory `/etc/nginx/main.d`. For example when linking a PostgreSQL container or MongoDB container:
 
-    # /etc/nginx/main.d/postgres.env:
+    # /etc/nginx/main.d/postgres-env.conf:
     env POSTGRES_PORT_5432_TCP_ADDR;
     env POSTGRES_PORT_5432_TCP_PORT;
     
     # Dockerfile:
-    ADD postgres.env /etc/nginx/main.d/postgres.env
+    ADD postgres-env.conf /etc/nginx/main.d/postgres-env.conf
 
 By default, passenger-docker already contains a config file `/etc/nginx/main.d/default.conf` which preserves the `PATH` environment variable.
 
