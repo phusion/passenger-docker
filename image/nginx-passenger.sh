@@ -18,6 +18,9 @@ mkdir /etc/service/nginx
 cp /build/runit/nginx /etc/service/nginx/run
 touch /etc/service/nginx/down
 
+mkdir /etc/service/nginx-log-forwarder
+cp /build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
+
 ## Precompile Ruby extensions.
 if [[ -e /usr/bin/ruby2.1 ]]; then
 	ruby2.1 -S passenger-config build-native-support

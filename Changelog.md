@@ -4,6 +4,7 @@
  * Upgraded to Phusion Passenger 4.0.45.
  * The baseimage-docker insecure key was erroneously still installed by default for the 'app' user. It has now been removed.
  * The 'full' image didn't properly include Python 2.7. This has been fixed.
+ * Nginx error logs are now forwarded to the Docker logs.
 
 ## 0.9.10 (release date: 2014-05-13)
 
