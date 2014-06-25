@@ -1,4 +1,4 @@
-## 0.9.11
+## 0.9.11 (not yet released)
 
  * The baseimage-docker insecure key was erroneously still installed by default for the 'app' user. It has now been removed.
 
