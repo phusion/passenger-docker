@@ -40,6 +40,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
      * [Using the insecure key for one container only](#using_the_insecure_key_for_one_container_only)
      * [Enabling the insecure key permanently](#enabling_the_insecure_key_permanently)
      * [Using your own key](#using_your_own_key)
+     * [The `docker-bash` tool](#docker_bash)
    * [Inspecting the status of your web app](#inspecting_web_app_status)
    * [Logs](#logs)
  * [Building the image yourself](#building)
@@ -426,6 +427,27 @@ Once you have the ID, look for its IP address with:
 Now SSH into the container as follows:
 
     ssh -i /path-to/your_key root@<IP address>
+
+<a name="docker_bash"></a>
+#### The `docker-bash` tool
+
+Looking up the IP of a container and running an SSH command quickly becomes tedious. Luckily, [baseimage-docker](https://github.com/phusion/baseimage-docker) provides the `docker-bash` tool which automates this process. This tool is to be run on the *Docker host*, not inside a Docker container.
+
+First, install the tool on the Docker host:
+
+    curl --fail -L -O https://github.com/phusion/baseimage-docker/archive/master.tar.gz && \
+    tar xzf master.tar.gz && \
+    sudo ./baseimage-docker-master/install-tools.sh
+
+Then run the tool as follows to login to a container using SSH:
+
+    docker-bash YOUR-CONTAINER-ID
+
+You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
+
+By default, `docker-bash` will open a Bash session. You can also tell it to run a command, and then exit:
+
+    docker-bash YOUR-CONTAINER-ID echo hello world
 
 <a name="inspecting_web_app_status"></a>
 ### Inspecting the status of your web app
