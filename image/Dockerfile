@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.10
+FROM phusion/baseimage:0.9.11
 MAINTAINER Phusion <info@phusion.nl>
 
 ENV HOME /root
