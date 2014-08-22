@@ -4,6 +4,7 @@
  * Upgraded to Phusion Passenger 4.0.49.
  * Fixed some bugs in ruby-switch. Thanks to John C Banks. Closes GH-47.
  * Code cleanups thanks to Aris Pikeas. Closes GH-43.
+ * Fixed passenger-customizable build scripts from failing due to absence of `ruby_switch`. Closes GH-34.
  * The build scripts in passenger-customizable now automatically run `apt-get update` when necessary.
  * Development headers are now included by default in all Ruby images. Closes GH-44.
 
