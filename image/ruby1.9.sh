@@ -3,7 +3,7 @@ set -e
 source /build/buildconfig
 set -x
 
-$minimal_apt_get_install ruby1.9.1 ruby1.9.1-dev
+minimal_apt_get_install ruby1.9.1 ruby1.9.1-dev
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.9.1 161
 update-alternatives \
 	--install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 31 \

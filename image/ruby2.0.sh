@@ -3,7 +3,7 @@ set -e
 source /build/buildconfig
 set -x
 
-$minimal_apt_get_install ruby2.0 ruby2.0-dev
+minimal_apt_get_install ruby2.0 ruby2.0-dev
 update-alternatives --install /usr/bin/gem gem /usr/bin/gem2.0 171
 update-alternatives \
 	--install /usr/bin/ruby ruby /usr/bin/ruby2.0 41 \

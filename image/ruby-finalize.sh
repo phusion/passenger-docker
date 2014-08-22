@@ -14,7 +14,7 @@ sed -i 's|/usr/bin/env ruby.*$|/usr/bin/env ruby|; s|/usr/bin/ruby.*$|/usr/bin/e
 	/usr/local/bin/rake /usr/local/bin/bundle /usr/local/bin/bundler
 
 ## The Rails asset compiler requires a Javascript runtime.
-$minimal_apt_get_install nodejs
+minimal_apt_get_install nodejs
 
 ## Set the latest available Ruby as the default.
 if [[ -e /usr/bin/ruby2.1 ]]; then
