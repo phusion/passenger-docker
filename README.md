@@ -174,9 +174,6 @@ So put the following in your Dockerfile:
     #RUN /build/ruby1.9.sh
     #RUN /build/ruby2.0.sh
     #RUN /build/ruby2.1.sh
-    #   Common development headers necessary for many Ruby gems,
-    #   e.g. libxml for Nokogiri.
-    #RUN /build/devheaders.sh
     #   Python support.
     #RUN /build/python.sh
     #   Node.js and Meteor support.
