@@ -1,7 +1,7 @@
-## 0.9.12 (not yet released)
+## 0.9.12 (release date: 2014-08-22)
 
  * Upgraded to baseimage-docker 0.9.13.
- * Upgraded to Phusion Passenger 4.0.49.
+ * Upgraded to Phusion Passenger 4.0.49 and Nginx 1.6.1.
  * Fixed some bugs in ruby-switch. Thanks to John C Banks. Closes GH-47.
  * Code cleanups thanks to Aris Pikeas. Closes GH-43.
  * Fixed passenger-customizable build scripts from failing due to absence of `ruby_switch`. Closes GH-34.
