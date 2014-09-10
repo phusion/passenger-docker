@@ -97,7 +97,7 @@ Web server and application server:
 
 Auxiliary services and tools:
 
- * Redis 2.6, through [Rowan's Redis PPA](https://launchpad.net/~rwky/+archive/redis). Disabed by default.
+ * Redis 2.6, through [Rowan's Redis PPA](https://launchpad.net/~rwky/+archive/redis). Disabled by default.
  * Memcached. Disabled by default.
  * [Pups](https://github.com/SamSaffron/pups), a lightweight tool for bootstrapping images.
 
