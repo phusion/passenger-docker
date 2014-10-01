@@ -1,3 +1,9 @@
+## 0.9.13 (release date: 2014-10-22)
+
+ * Upgraded to baseimage-docker 0.9.14. This applies all the latest Ubuntu security updates, and patches Shellshock among other things.
+ * Upgraded to Phusion Passenger 4.0.52 and Nginx 1.6.2.
+ * Some documentation updates by Martijn Heemels.
+
 ## 0.9.12 (release date: 2014-08-22)
 
  * Upgraded to baseimage-docker 0.9.13.
