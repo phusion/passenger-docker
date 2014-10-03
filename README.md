@@ -43,6 +43,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
      * [The `docker-bash` tool](#docker_bash)
    * [Inspecting the status of your web app](#inspecting_web_app_status)
    * [Logs](#logs)
+ * [Switching to Phusion Passenger Enterprise](#enterprise)
  * [Building the image yourself](#building)
  * [Conclusion](#conclusion)
 
@@ -462,6 +463,21 @@ If anything goes wrong, consult the log files in /var/log. The following log fil
  * /var/log/nginx/error.log
  * /var/log/syslog
  * Your app's log file in /home/app.
+
+<a name="enterprise"></a>
+### Switching to Phusion Passenger Enterprise
+
+If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/enterprise) customer, then you can switch to the Enterprise variant as follows.
+
+ 1. Login to the [Customer Area](https://www.phusionpassenger.com/orders).
+ 2. Download the license key and store it in the same directory as your Dockerfile.
+ 3. Insert into your Dockerfile:
+
+          ADD passenger-enterprise-license /etc/passenger-enterprise-license
+          RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt trusty main > /etc/apt/sources.list.d/passenger.list
+          RUN apt-get update && apt-get install -y passenger-enterprise
+
+    Replace `$DOWNLOAD_TOKEN` with your actual download token, as found in the Customer Area.
 
 <a name="building"></a>
 ## Building the image yourself
