@@ -1,4 +1,8 @@
-## 0.9.13 (release date: 2014-10-22)
+## 0.9.14 (release date: 2014-10-03)
+
+ * Upgraded to baseimage-docker 0.9.15, which fixes the setuid bit on /usr/bin/sudo. This problem was caused by Docker bug #6828.
+
+## 0.9.13 (release date: 2014-10-01)
 
  * Upgraded to baseimage-docker 0.9.14. This applies all the latest Ubuntu security updates, and patches Shellshock among other things.
  * Upgraded to Phusion Passenger 4.0.53 and Nginx 1.6.2.
