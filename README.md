@@ -244,7 +244,7 @@ The best way to configure Nginx is by adding .conf files to `/etc/nginx/main.d` 
 For example:
 
     # /etc/nginx/main.d/secret_key.conf:
-    env SECRET_KEY 123456;
+    env SECRET_KEY=123456;
     
     # /etc/nginx/conf.d/gzip_max.conf:
     gzip_comp_level 9;
