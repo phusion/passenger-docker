@@ -475,7 +475,7 @@ If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/ent
 
         ADD passenger-enterprise-license /etc/passenger-enterprise-license
         RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt trusty main > /etc/apt/sources.list.d/passenger.list
-        RUN apt-get update && apt-get install -y passenger-enterprise
+        RUN apt-get update && apt-get install -y passenger-enterprise nginx-extras
 
     Replace `$DOWNLOAD_TOKEN` with your actual download token, as found in the Customer Area.
 
