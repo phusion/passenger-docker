@@ -159,13 +159,13 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby21:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
-    
+
     # Set correct environment variables.
     ENV HOME /root
-    
+
     # Use baseimage-docker's init process.
     CMD ["/sbin/my_init"]
-    
+
     # If you're using the 'customizable' variant, you need to explicitly opt-in
     # for features. Uncomment the features you want:
     #
@@ -179,9 +179,9 @@ So put the following in your Dockerfile:
     #RUN /build/python.sh
     #   Node.js and Meteor support.
     #RUN /build/nodejs.sh
-    
+
     # ...put your own build instructions here...
-    
+
     # Clean up APT when done.
     RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -213,16 +213,16 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
         listen 80;
         server_name www.webapp.com;
         root /home/app/webapp/public;
-        
+
         # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
-        
+
         # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
         # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
         # socket setup, process management, etc are all taken care automatically for
         # you! Learn more at https://www.phusionpassenger.com/.
         passenger_enabled on;
         passenger_user app;
-        
+
         # If this is a Ruby app, specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.1;
         # For Ruby 2.0
@@ -230,7 +230,7 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
         # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
         #passenger_ruby /usr/bin/ruby1.9.1;
     }
-    
+
     # Dockerfile:
     ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
     RUN mkdir /home/app/webapp
@@ -245,10 +245,10 @@ For example:
 
     # /etc/nginx/main.d/secret_key.conf:
     env SECRET_KEY 123456;
-    
+
     # /etc/nginx/conf.d/gzip_max.conf:
     gzip_comp_level 9;
-    
+
     # Dockerfile:
     ADD secret_key.conf /etc/nginx/main.d/secret_key.conf
     ADD gzip_max.conf /etc/nginx/conf.d/gzip_max.conf
@@ -263,7 +263,7 @@ To preserve these variables, place a file ending in `*.conf` in the directory `/
     # /etc/nginx/main.d/postgres-env.conf:
     env POSTGRES_PORT_5432_TCP_ADDR;
     env POSTGRES_PORT_5432_TCP_PORT;
-    
+
     # Dockerfile:
     ADD postgres-env.conf /etc/nginx/main.d/postgres-env.conf
 
@@ -278,7 +278,7 @@ Install and enable Redis:
 
     # Opt-in for Redis if you're using the 'customizable' image.
     #RUN /build/redis.sh
-    
+
     # Enable the Redis service.
     RUN rm -f /etc/service/redis/down
 
@@ -336,7 +336,7 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN ruby-switch --set ruby2.0
     # Ruby 2.1.0
     RUN ruby-switch --set ruby2.1
-    
+
 <a name="running_startup_scripts"></a>
 ### Running scripts during container startup
 
@@ -500,6 +500,7 @@ Build one of the images:
     make build_ruby19
     make build_ruby20
     make build_ruby21
+    make build_jruby17
     make build_nodejs
     make build_customizable
     make build_full
