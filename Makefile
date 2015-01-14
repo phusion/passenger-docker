@@ -2,13 +2,21 @@ NAME = phusion/passenger
 VERSION = 0.9.14
 
 .PHONY: all build_all \
-	build_customizable build_ruby19 build_ruby20 build_ruby21 \
+	build_customizable \
+	build_ruby19 build_ruby20 build_ruby21 build_jruby17 \
 	build_nodejs build_full \
 	tag_latest release clean
 
 all: build_all
 
-build_all: build_customizable build_ruby19 build_ruby20 build_ruby21 build_nodejs build_full
+build_all: \
+	build_customizable \
+	build_ruby19 \
+	build_ruby20 \
+	build_ruby21 \
+	build_jruby17 \
+	build_nodejs \
+	build_full
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
 # So we copy things around.
@@ -38,6 +46,13 @@ build_ruby21:
 	echo final=1 >> ruby21_image/buildconfig
 	docker build -t $(NAME)-ruby21:$(VERSION) --rm ruby21_image
 
+build_jruby17:
+	rm -rf jruby17_image
+	cp -pR image jruby17_image
+	echo jruby17=1 >> jruby17_image/buildconfig
+	echo final=1 >> jruby17_image/buildconfig
+	docker build -t $(NAME)-jruby17:$(VERSION) --rm jruby17_image
+
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
@@ -51,6 +66,7 @@ build_full:
 	echo ruby19=1 >> full_image/buildconfig
 	echo ruby20=1 >> full_image/buildconfig
 	echo ruby21=1 >> full_image/buildconfig
+	echo jruby17=1 >> full_image
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo redis=1 >> full_image/buildconfig
