@@ -23,4 +23,12 @@ echo deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu trusty main > /etc/ap
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5862E31D
 echo deb http://ppa.launchpad.net/rwky/redis/ubuntu trusty main > /etc/apt/sources.list.d/redis.list
 
+## Debian's sid repo, needed for OpenJDK 8.
+apt-key adv --keyserver pgpkeys.mit.edu --recv-keys 8B48AD6246925553
+echo deb http://http.us.debian.org/debian unstable main non-free contrib > /etc/apt/sources.list.d/sid.list
+echo -e "\
+Package: *\n\
+Pin: release o=Debian\n\
+Pin-Priority: -10\n" > /etc/apt/preferences.d/sid
+
 apt-get update
