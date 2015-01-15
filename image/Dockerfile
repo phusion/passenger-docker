@@ -7,6 +7,3 @@ ADD . /build
 RUN /build/install.sh
 CMD ["/sbin/my_init"]
 EXPOSE 80 443
-
-#RUN /bin/bash
-#CMD ["/bin/bash"]
