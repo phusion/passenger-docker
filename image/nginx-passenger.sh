@@ -34,3 +34,7 @@ if [[ -e /usr/bin/ruby1.9.1 ]]; then
 	ruby1.9.1 -S passenger-config build-native-support
 	setuser app ruby1.9.1 -S passenger-config build-native-support
 fi
+if [[ -e /usr/local/jruby-1.7.18/bin/jruby ]]; then
+  jruby -S passenger-config build-native-support
+  setuser app jruby -S passenger-config build-native-support
+fi
