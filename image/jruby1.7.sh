@@ -10,8 +10,8 @@ cd /usr/local
 tar xzf /tmp/jruby-bin-1.7.18.tar.gz
 
 # For convenience.
-cd jruby-1.7.18/bin
-ln -sf jruby ruby
+cd /usr/local/jruby-1.7.18/bin
+ln -sf /usr/local/jruby-1.7.18/bin/jruby /usr/bin/ruby
 
 # To keep the image smaller; these are only needed on Windows anyway.
 rm -rf *.bat *.dll *.exe
