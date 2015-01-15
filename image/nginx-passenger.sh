@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 source /build/buildconfig
+source /env/environment
 set -x
 
 ## Install Phusion Passenger.
