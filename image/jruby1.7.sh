@@ -20,7 +20,7 @@ rm -rf *.bat *.dll *.exe
 echo "PATH=\"\$PATH:/usr/local/jruby-1.7.18/bin\"" >> /etc/environment
 source /etc/environment
 
-gem install rake bundler --no-rdoc --no-ri
+gem install rake bundler rack --no-rdoc --no-ri
 
 echo "gem: --no-ri --no-rdoc" > /etc/gemrc
 
