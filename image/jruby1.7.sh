@@ -3,21 +3,23 @@ set -e
 source /build/buildconfig
 set -x
 
+JRUBY_VERSION=1.7.18
+
 apt-get install -y -t sid openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
 
-curl https://s3.amazonaws.com/jruby.org/downloads/1.7.18/jruby-bin-1.7.18.tar.gz -o /tmp/jruby-bin-1.7.18.tar.gz
+curl https://s3.amazonaws.com/jruby.org/downloads/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz -o /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
 cd /usr/local
-tar xzf /tmp/jruby-bin-1.7.18.tar.gz
+tar xzf /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
 
 # For convenience.
-cd /usr/local/jruby-1.7.18/bin
-ln -sf /usr/local/jruby-1.7.18/bin/jruby /usr/bin/ruby
+cd /usr/local/jruby-$JRUBY_VERSION/bin
+ln -sf /usr/local/jruby-$JRUBY_VERSION/bin/jruby /usr/bin/ruby
 
 # To keep the image smaller; these are only needed on Windows anyway.
 rm -rf *.bat *.dll *.exe
 
-echo "PATH=\"\$PATH:/usr/local/jruby-1.7.18/bin\"" >> /etc/environment
+echo "PATH=\"\$PATH:/usr/local/jruby-$JRUBY_VERSION/bin\"" >> /etc/environment
 source /etc/environment
 
 gem install rake bundler rack --no-rdoc --no-ri
@@ -42,7 +44,7 @@ Build-Depends: debhelper (>= 9~), openjdk-7-jdk (>= 7u71-2.5.3), ant-optional,
 Standards-Version: 3.9.6
 Homepage: http://jruby.org
 Package: jruby-fake
-Version: 1.7.18
+Version: $JRUBY_VERSION
 Architecture: all
 Replaces: jruby1.0, jruby1.1, jruby1.2
 Provides: ruby-interpreter, rubygems1.9
@@ -63,4 +65,4 @@ Description: 100% pure-Java implementation of Ruby (fake package)
 EOF
 
 dpkg-deb -b jruby-fake .
-dpkg -i jruby-fake_1.7.18_all.deb
+dpkg -i jruby-fake_$JRUBY_VERSION_all.deb

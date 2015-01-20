@@ -1,3 +1,7 @@
+## 0.9.15 (next version; not yet released)
+
+ * Support for JRuby 1.7.18. Thanks to Per Lundberg. Closes GH-65.
+
 ## 0.9.14 (release date: 2014-10-03)
 
  * Upgraded to baseimage-docker 0.9.15, which fixes the setuid bit on /usr/bin/sudo. This problem was caused by Docker bug #6828.

@@ -2,7 +2,7 @@
 
 <center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
 
-Passenger-docker is a [Docker](http://www.docker.io) image meant to serve as a good base for **Ruby, Python, Node.js and Meteor** web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
+Passenger-docker is a [Docker](https://www.docker.com) image meant to serve as a good base for **Ruby, Python, Node.js and Meteor** web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
 Why is this image called "passenger"? It's to represent the ease: you just have to sit back and watch most of the heavy lifting being done for you. Passenger-docker is part of a larger and more ambitious project: to make web app deployment ridiculously simple, to heights never achieved before.
 
@@ -80,9 +80,11 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 1.9.3, 2.0.0 and 2.1.0.
+ * Ruby 1.9.3, 2.0.0 and 2.1.0; JRuby 1.7.18.
    * 2.1.0 is configured as the default.
-   * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
+   * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
+   * JRuby is installed from source, but we register an APT entry for it.
+   * JRuby uses OpenJDK 8 from [the openjdk-r PPA](https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa).
  * Python 2.7 and Python 3.0.
  * Node.js 0.10, through [Chris Lea's Node.js PPA](https://launchpad.net/~chris-lea/+archive/node.js/).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
@@ -117,6 +119,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby19` - Ruby 1.9.
  * `phusion/passenger-ruby20` - Ruby 2.0.
  * `phusion/passenger-ruby21` - Ruby 2.1.
+ * `phusion/passenger-jruby17` - JRuby 1.7.
 
 **Node.js and Meteor images**
 
@@ -157,6 +160,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby19:<VERSION>
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
+    #FROM phusion/passenger-jruby17:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
 
@@ -175,6 +179,7 @@ So put the following in your Dockerfile:
     #RUN /build/ruby1.9.sh
     #RUN /build/ruby2.0.sh
     #RUN /build/ruby2.1.sh
+    #RUN /build/jruby1.7.sh
     #   Python support.
     #RUN /build/python.sh
     #   Node.js and Meteor support.
