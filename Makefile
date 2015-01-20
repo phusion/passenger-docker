@@ -2,13 +2,21 @@ NAME = phusion/passenger
 VERSION = 0.9.14
 
 .PHONY: all build_all \
-	build_customizable build_ruby19 build_ruby20 build_ruby21 \
+	build_customizable \
+	build_ruby19 build_ruby20 build_ruby21 build_jruby17 \
 	build_nodejs build_full \
 	tag_latest release clean
 
 all: build_all
 
-build_all: build_customizable build_ruby19 build_ruby20 build_ruby21 build_nodejs build_full
+build_all: \
+	build_customizable \
+	build_ruby19 \
+	build_ruby20 \
+	build_ruby21 \
+	build_jruby17 \
+	build_nodejs \
+	build_full
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
 # So we copy things around.
@@ -38,6 +46,13 @@ build_ruby21:
 	echo final=1 >> ruby21_image/buildconfig
 	docker build -t $(NAME)-ruby21:$(VERSION) --rm ruby21_image
 
+build_jruby17:
+	rm -rf jruby17_image
+	cp -pR image jruby17_image
+	echo jruby17=1 >> jruby17_image/buildconfig
+	echo final=1 >> jruby17_image/buildconfig
+	docker build -t $(NAME)-jruby17:$(VERSION) --rm jruby17_image
+
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
@@ -51,6 +66,7 @@ build_full:
 	echo ruby19=1 >> full_image/buildconfig
 	echo ruby20=1 >> full_image/buildconfig
 	echo ruby21=1 >> full_image/buildconfig
+	echo jruby17=1 >> full_image
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo redis=1 >> full_image/buildconfig
@@ -63,6 +79,7 @@ tag_latest:
 	docker tag $(NAME)-ruby19:$(VERSION) $(NAME)-ruby19:latest
 	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
 	docker tag $(NAME)-ruby21:$(VERSION) $(NAME)-ruby21:latest
+	docker tag $(NAME)-jruby17:$(VERSION) $(NAME)-jruby17:latest
 	docker tag $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
 	docker tag $(NAME)-full:$(VERSION) $(NAME)-full:latest
 
@@ -71,12 +88,14 @@ release: tag_latest
 	@if ! docker images $(NAME)-ruby19 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby19 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby20 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby20 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby21 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby21 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-jruby17 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-jruby17 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-nodejs version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	docker push $(NAME)-customizable
 	docker push $(NAME)-ruby19
 	docker push $(NAME)-ruby20
 	docker push $(NAME)-ruby21
+	docker push $(NAME)-jruby17
 	docker push $(NAME)-nodejs
 	docker push $(NAME)-full
 	@echo "*** Don't forget to create a tag. git tag rel-$(VERSION) && git push origin rel-$(VERSION)"
@@ -86,5 +105,6 @@ clean:
 	rm -rf ruby19_image
 	rm -rf ruby20_image
 	rm -rf ruby21_image
+	rm -rf jruby17_image
 	rm -rf nodejs_image
 	rm -rf full_image
