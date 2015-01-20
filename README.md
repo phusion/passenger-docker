@@ -80,7 +80,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 1.9.3, 2.0.0 and 2.1.0.
+ * Ruby 1.9.3, 2.0.0 and 2.1.0, JRuby 1.7.18.
    * 2.1.0 is configured as the default.
    * Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
  * Python 2.7 and Python 3.0.
@@ -157,6 +157,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby19:<VERSION>
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
+    #FROM phusion/passenger-jruby17:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
 
@@ -175,6 +176,7 @@ So put the following in your Dockerfile:
     #RUN /build/ruby1.9.sh
     #RUN /build/ruby2.0.sh
     #RUN /build/ruby2.1.sh
+    #RUN /build/jruby1.7.sh
     #   Python support.
     #RUN /build/python.sh
     #   Node.js and Meteor support.
@@ -227,7 +229,7 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
         passenger_ruby /usr/bin/ruby2.1;
         # For Ruby 2.0
         passenger_ruby /usr/bin/ruby2.0;
-        # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
+        # For Ruby 1.9.3 and for JRuby 1.7 (you can ignore the "1.9.1" suffix)
         #passenger_ruby /usr/bin/ruby1.9.1;
     }
 
