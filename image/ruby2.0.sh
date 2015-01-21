@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 minimal_apt_get_install ruby2.0 ruby2.0-dev
@@ -19,4 +19,4 @@ update-alternatives \
 	--slave /usr/share/man/man1/rake.1.gz rake.1.gz /usr/share/man/man1/rake2.0.1.gz \
 	--slave /usr/share/man/man1/ri.1.gz ri.1.gz /usr/share/man/man1/ri2.0.1.gz
 gem2.0 install rake bundler --no-rdoc --no-ri
-/build/ruby-finalize.sh
+/pd_build/ruby-finalize.sh

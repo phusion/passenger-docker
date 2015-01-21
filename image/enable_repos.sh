@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 ## Brightbox Ruby 1.9.3, 2.0 and 2.1

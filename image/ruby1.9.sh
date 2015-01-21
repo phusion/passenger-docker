@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 minimal_apt_get_install ruby1.9.1 ruby1.9.1-dev
@@ -19,4 +19,4 @@ update-alternatives \
 	--slave /usr/share/man/man1/rake.1.gz rake.1.gz /usr/share/man/man1/rake1.9.1.1.gz \
 	--slave /usr/share/man/man1/ri.1.gz ri.1.gz /usr/share/man/man1/ri1.9.1.1.gz
 gem1.9.1 install rake bundler --no-rdoc --no-ri
-/build/ruby-finalize.sh
+/pd_build/ruby-finalize.sh

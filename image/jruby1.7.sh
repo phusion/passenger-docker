@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 JRUBY_VERSION=1.7.18
@@ -86,4 +86,4 @@ update-alternatives \
 	--slave /usr/bin/rdoc rdoc /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/rdoc \
 	--slave /usr/bin/ri ri /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/ri
 jgem$JRUBY_MAJOR_MINOR install rake bundler --no-rdoc --no-ri --bindir /usr/local/bin
-/build/ruby-finalize.sh
+/pd_build/ruby-finalize.sh

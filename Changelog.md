@@ -3,6 +3,7 @@
  * Upgraded to baseimage-docker 0.9.16.
  * Upgraded to Phusion Passenger 4.0.57.
  * Support for JRuby 1.7.18. Thanks to Per Lundberg. Closes GH-65.
+ * In order to work around [an AUFS bug](https://github.com/docker/docker/issues/783), the `/build` directory has been renamed to `/pd_build`.
 
 ## 0.9.14 (release date: 2014-10-03)
 

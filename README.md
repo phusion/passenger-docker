@@ -174,16 +174,16 @@ So put the following in your Dockerfile:
     # for features. Uncomment the features you want:
     #
     #   Build system and git.
-    #RUN /build/utilities.sh
+    #RUN /pd_build/utilities.sh
     #   Ruby support.
-    #RUN /build/ruby1.9.sh
-    #RUN /build/ruby2.0.sh
-    #RUN /build/ruby2.1.sh
-    #RUN /build/jruby1.7.sh
+    #RUN /pd_build/ruby1.9.sh
+    #RUN /pd_build/ruby2.0.sh
+    #RUN /pd_build//ruby2.1.sh
+    #RUN /pd_build//jruby1.7.sh
     #   Python support.
-    #RUN /build/python.sh
+    #RUN /pd_build//python.sh
     #   Node.js and Meteor support.
-    #RUN /build/nodejs.sh
+    #RUN /pd_build//nodejs.sh
 
     # ...put your own build instructions here...
 
@@ -282,7 +282,7 @@ By default, passenger-docker already contains a config file `/etc/nginx/main.d/d
 Install and enable Redis:
 
     # Opt-in for Redis if you're using the 'customizable' image.
-    #RUN /build/redis.sh
+    #RUN /pd_build//redis.sh
 
     # Enable the Redis service.
     RUN rm -f /etc/service/redis/down
@@ -297,7 +297,7 @@ The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, bu
 Install and enable memcached:
 
     # Opt-in for Memcached if you're using the 'customizable' image.
-    #RUN /build/memcached.sh
+    #RUN /pd_build//memcached.sh
 
     # Enable the memcached service.
     RUN rm -f /etc/service/memcached/down

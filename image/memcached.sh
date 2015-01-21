@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 apt-get install -y memcached
 mkdir /etc/service/memcached
-cp /build/runit/memcached /etc/service/memcached/run
+cp /pd_build/runit/memcached /etc/service/memcached/run
 touch /etc/service/memcached/down
-cp /build/config/memcached.conf /etc/memcached.conf
+cp /pd_build/config/memcached.conf /etc/memcached.conf

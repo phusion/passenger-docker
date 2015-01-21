@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 ## Simple image bootstrapper.
