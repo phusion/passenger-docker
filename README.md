@@ -80,8 +80,8 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 1.9.3, 2.0.0 and 2.1.0; JRuby 1.7.18.
-   * 2.1.0 is configured as the default.
+ * Ruby 1.9.3, 2.0.0,0 2.1.5, and 2.2.0; JRuby 1.7.18.
+   * 2.2.0 is configured as the default.
    * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8 from [the openjdk-r PPA](https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa).
@@ -118,6 +118,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby19` - Ruby 1.9.
  * `phusion/passenger-ruby20` - Ruby 2.0.
  * `phusion/passenger-ruby21` - Ruby 2.1.
+ * `phusion/passenger-ruby22` - Ruby 2.2.
  * `phusion/passenger-jruby17` - JRuby 1.7.
 
 **Node.js and Meteor images**
@@ -177,12 +178,13 @@ So put the following in your Dockerfile:
     #   Ruby support.
     #RUN /pd_build/ruby1.9.sh
     #RUN /pd_build/ruby2.0.sh
-    #RUN /pd_build//ruby2.1.sh
-    #RUN /pd_build//jruby1.7.sh
+    #RUN /pd_build/ruby2.1.sh
+    #RUN /pd_build/ruby2.2.sh
+    #RUN /pd_build/jruby1.7.sh
     #   Python support.
-    #RUN /pd_build//python.sh
+    #RUN /pd_build/python.sh
     #   Node.js and Meteor support.
-    #RUN /pd_build//nodejs.sh
+    #RUN /pd_build/nodejs.sh
 
     # ...put your own build instructions here...
 
@@ -281,7 +283,7 @@ By default, passenger-docker already contains a config file `/etc/nginx/main.d/d
 Install and enable Redis:
 
     # Opt-in for Redis if you're using the 'customizable' image.
-    #RUN /pd_build//redis.sh
+    #RUN /pd_build/redis.sh
 
     # Enable the Redis service.
     RUN rm -f /etc/service/redis/down
@@ -296,7 +298,7 @@ The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, bu
 Install and enable memcached:
 
     # Opt-in for Memcached if you're using the 'customizable' image.
-    #RUN /pd_build//memcached.sh
+    #RUN /pd_build/memcached.sh
 
     # Enable the memcached service.
     RUN rm -f /etc/service/memcached/down
@@ -336,10 +338,12 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 
     # Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
     RUN ruby-switch --set ruby1.9.1
-    # Ruby 2.0.0
+    # Ruby 2.0
     RUN ruby-switch --set ruby2.0
-    # Ruby 2.1.0
+    # Ruby 2.1
     RUN ruby-switch --set ruby2.1
+    # Ruby 2.2
+    RUN ruby-switch --set ruby2.2
     # JRuby
     RUN ruby-switch --set jruby
 
