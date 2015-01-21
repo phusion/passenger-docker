@@ -1,5 +1,7 @@
 ## 0.9.15 (next version; not yet released)
 
+ * Upgraded to baseimage-docker 0.9.16.
+ * Upgraded to Phusion Passenger 4.0.57.
  * Support for JRuby 1.7.18. Thanks to Per Lundberg. Closes GH-65.
 
 ## 0.9.14 (release date: 2014-10-03)
