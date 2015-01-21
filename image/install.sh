@@ -5,7 +5,6 @@ set -x
 
 /pd_build/enable_repos.sh
 /pd_build/prepare.sh
-/pd_build/pups.sh
 /pd_build/utilities.sh
 
 if [[ "$ruby19" = 1 ]]; then /pd_build/ruby1.9.sh; fi
