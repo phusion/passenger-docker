@@ -3,10 +3,11 @@ set -e
 source /build/buildconfig
 set -x
 
-## This script is to be run after ruby1.9.sh, ruby2.0.sh and ruby2.1.sh.
+## This script is to be run after ruby1.9.sh, ruby2.0.sh, ruby2.1.sh and jruby1.7.sh.
 
 cp /build/ruby-switch /usr/local/bin/ruby-switch
-echo "gem: --no-ri --no-rdoc" > /etc/gemrc
+# The --bindir is necessary for JRuby. We don't want jgem to install to /usr/local/jruby-xxx/bin.
+echo "gem: --no-ri --no-rdoc --bindir /usr/local/bin" > /etc/gemrc
 
 ## Fix shebang lines in rake and bundler so that they're run with the currently
 ## configured default Ruby instead of the Ruby they're installed with.
@@ -42,4 +43,6 @@ elif [[ -e /usr/bin/ruby2.0 ]]; then
 	ruby-switch --set ruby2.0
 elif [[ -e /usr/bin/ruby1.9.1 ]]; then
 	ruby-switch --set ruby1.9.1
+elif [[ -e /usr/bin/jruby ]]; then
+	ruby-switch --set jruby
 fi

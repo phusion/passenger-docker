@@ -5,7 +5,7 @@ VERSION = 0.9.15
 	build_customizable \
 	build_ruby19 build_ruby20 build_ruby21 build_jruby17 \
 	build_nodejs build_full \
-	tag_latest release clean
+	tag_latest release clean clean_images
 
 all: build_all
 
@@ -66,7 +66,7 @@ build_full:
 	echo ruby19=1 >> full_image/buildconfig
 	echo ruby20=1 >> full_image/buildconfig
 	echo ruby21=1 >> full_image/buildconfig
-	echo jruby17=1 >> full_image
+	echo jruby17=1 >> full_image/buildconfig
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo redis=1 >> full_image/buildconfig
@@ -108,3 +108,13 @@ clean:
 	rm -rf jruby17_image
 	rm -rf nodejs_image
 	rm -rf full_image
+
+clean_images:
+	docker rmi phusion/passenger-customizable:latest phusion/passenger-customizable:$(VERSION) || true
+	docker rmi phusion/passenger-ruby19:latest phusion/passenger-ruby19:$(VERSION) || true
+	docker rmi phusion/passenger-ruby20:latest phusion/passenger-ruby20:$(VERSION) || true
+	docker rmi phusion/passenger-ruby21:latest phusion/passenger-ruby21:$(VERSION) || true
+	docker rmi phusion/passenger-jruby17:latest phusion/passenger-jruby17:$(VERSION) || true
+	docker rmi phusion/passenger-nodejs:latest phusion/passenger-nodejs:$(VERSION) || true
+	docker rmi phusion/passenger-full:latest phusion/passenger-full:$(VERSION) || true
+

@@ -4,27 +4,29 @@ source /build/buildconfig
 set -x
 
 JRUBY_VERSION=1.7.18
+JRUBY_MAJOR_MINOR=1.7
 
-apt-get install -y -t sid openjdk-8-jre-headless
+minimal_apt_get_install openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
 
-curl https://s3.amazonaws.com/jruby.org/downloads/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz -o /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
+# Original URL:
+# https://s3.amazonaws.com/jruby.org/downloads/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz
+# We use a mirror at oss-binaries.phusionpassenger.com because it's faster from the Netherlands.
+curl --fail -L \
+	https://oss-binaries.phusionpassenger.com/jruby/jruby-bin-$JRUBY_VERSION.tar.gz \
+	-o /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
 cd /usr/local
 tar xzf /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
+mv jruby-$JRUBY_VERSION jruby-$JRUBY_MAJOR_MINOR
 
-# For convenience.
-cd /usr/local/jruby-$JRUBY_VERSION/bin
-ln -sf /usr/local/jruby-$JRUBY_VERSION/bin/jruby /usr/bin/ruby
-
+cd /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin
 # To keep the image smaller; these are only needed on Windows anyway.
-rm -rf *.bat *.dll *.exe
+rm -f *.bat *.dll *.exe
+# Remove other redundant files
+rm -f jruby.bash jruby.sh
 
-echo "PATH=\"\$PATH:/usr/local/jruby-$JRUBY_VERSION/bin\"" >> /etc/environment
-source /etc/environment
-
-gem install rake bundler rack --no-rdoc --no-ri
-
-echo "gem: --no-ri --no-rdoc" > /etc/gemrc
+cd /
+sed -i "s|/usr/bin/env jruby|/usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jruby|" /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/*
 
 # This part is needed to get Debian dependencies working correctly, so that the nginx-passenger.sh script does not
 # install Ruby 1.9 and/or other YARV Ruby versions (if all we want is JRuby).
@@ -65,4 +67,23 @@ Description: 100% pure-Java implementation of Ruby (fake package)
 EOF
 
 dpkg-deb -b jruby-fake .
-dpkg -i jruby-fake_$JRUBY_VERSION_all.deb
+dpkg -i jruby-fake_${JRUBY_VERSION}_all.deb
+
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jruby /usr/bin/jruby
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jruby /usr/bin/jruby$JRUBY_MAJOR_MINOR
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jgem /usr/bin/jgem
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jgem /usr/bin/jgem$JRUBY_MAJOR_MINOR
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jirb /usr/bin/jirb
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jirb /usr/bin/jirb$JRUBY_MAJOR_MINOR
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jrake /usr/bin/jrake
+ln -s /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jrake /usr/bin/jrake$JRUBY_MAJOR_MINOR
+update-alternatives --install /usr/bin/gem gem /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jgem 151
+update-alternatives \
+	--install /usr/bin/ruby ruby /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jruby 21 \
+	--slave /usr/bin/testrb testrb /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/testrb \
+	--slave /usr/bin/rake rake /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/rake \
+	--slave /usr/bin/irb irb /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jirb \
+	--slave /usr/bin/rdoc rdoc /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/rdoc \
+	--slave /usr/bin/ri ri /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/ri
+jgem$JRUBY_MAJOR_MINOR install rake bundler --no-rdoc --no-ri --bindir /usr/local/bin
+/build/ruby-finalize.sh

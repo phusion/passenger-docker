@@ -3,9 +3,12 @@
 # See manpage text on the bottom of this file for copyright information
 
 ALTERNATIVES = `update-alternatives --list ruby`.split.inject({}) do |alternatives,ruby|
+  ruby_dir  = File.dirname(ruby)
+  ruby_name = File.basename(ruby)
+  gem_filename = File.join(ruby_dir, ruby_name.gsub('ruby', 'gem'))
   alternatives[File.basename(ruby)] = {
     'ruby' => ruby,
-    'gem' => ruby.gsub('ruby', 'gem') # FIXME a very strong assumption!
+    'gem'  => gem_filename
   }
   alternatives
 end

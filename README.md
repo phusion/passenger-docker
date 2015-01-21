@@ -341,6 +341,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN ruby-switch --set ruby2.0
     # Ruby 2.1.0
     RUN ruby-switch --set ruby2.1
+    # JRuby
+    RUN ruby-switch --set jruby
 
 <a name="running_startup_scripts"></a>
 ### Running scripts during container startup
