@@ -8,7 +8,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
 
 **Relevant links:**
  [Github](https://github.com/phusion/passenger-docker) |
- [Docker registry](https://index.docker.io/u/phusion/passenger-full/) |
+ [Docker registry](https://registry.hub.docker.com/u/phusion/passenger-full/) |
  [Discussion forum](https://groups.google.com/d/forum/passenger-docker) |
  [Twitter](https://twitter.com/phusion_nl) |
  [Blog](http://blog.phusion.nl/)
@@ -35,12 +35,18 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Additional daemons](#additional_daemons)
    * [Selecting a default Ruby version](#selecting_default_ruby)
    * [Running scripts during container startup](#running_startup_scripts)
- * [Administering the image's system](#administering)
-   * [Logging into the container with SSH](#login)
+ * [Container administration](#container_administration)
+   * [Running a one-shot command in a new container](#oneshot)
+   * [Running a command in an existing, running container](#run_inside_existing_container)
+   * [Login to the container via `docker exec`](#login_docker_exec)
+     * [Usage](#docker_exec)
+   * [Login to the container via SSH](#login_ssh)
+     * [Enabling SSH](#enabling_ssh)
+     * [About SSH keys](#ssh_keys)
      * [Using the insecure key for one container only](#using_the_insecure_key_for_one_container_only)
      * [Enabling the insecure key permanently](#enabling_the_insecure_key_permanently)
      * [Using your own key](#using_your_own_key)
-     * [The `docker-bash` tool](#docker_bash)
+     * [The `docker-ssh` tool](#docker_ssh)
    * [Inspecting the status of your web app](#inspecting_web_app_status)
    * [Logs](#logs)
  * [Switching to Phusion Passenger Enterprise](#enterprise)
@@ -71,7 +77,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
  * Ubuntu 14.04 LTS as base system.
- * A **correct** init process ([learn more](http://phusion.github.io/baseimage-docker/)).
+ * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
  * The cron daemon.
@@ -367,15 +373,129 @@ The following example shows how you can add a startup script. This script simply
     RUN mkdir -p /etc/my_init.d
     ADD logtime.sh /etc/my_init.d/logtime.sh
 
-<a name="administering"></a>
-## Administering the image's system
 
-<a name="login"></a>
-### Logging into the container with SSH
+<a name="container_administration"></a>
+## Container administration
 
-You can use SSH to login to any container that is based on passenger-docker-docker.
+One of the ideas behind Docker is that containers should be stateless, easily restartable, and behave like a black box. However, you may occasionally encounter situations where you want to login to a container, or to run a command inside a container, for development, inspection and debugging purposes. This section describes how you can administer the container for those purposes.
 
-The first thing that you need to do is to ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so you can't login. For convenience reasons, we provide [a pregenerated, insecure key](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key) [(PuTTY format)](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key.ppk) that you can easily enable. However, please be aware that using this key is for convenience only. It does not provide any security because this key (both the public and the private side) is publicly available. **In production environments, you should use your own keys**.
+_**Tip**: passenger-docker is based on [baseimage-docker](https://github.com/phusion/baseimage-docker). Please consult [the baseimage-docker documentation](https://github.com/phusion/baseimage-docker) for more container administration documentation and tips._
+
+<a name="oneshot"></a>
+### Running a one-shot command in a new container
+
+_**Note:** This section describes how to run a command insider a -new- container. To run a command inside an existing running container, see [Running a command in an existing, running container](#run_inside_existing_container)._
+
+Normally, when you want to create a new container in order to run a single command inside it, and immediately exit after the command exits, you invoke Docker like this:
+
+    docker run YOUR_IMAGE COMMAND ARGUMENTS...
+
+However the downside of this approach is that the init system is not started. That is, while invoking `COMMAND`, important daemons such as cron and syslog are not running. Also, orphaned child processes are not properly reaped, because `COMMAND` is PID 1.
+
+Passenger-docker provides a facility to run a single one-shot command, while solving all of the aforementioned problems. Run a single command in the following manner:
+
+    docker run YOUR_IMAGE /sbin/my_init -- COMMAND ARGUMENTS ...
+
+This will perform the following:
+
+ * Runs all system startup files, such as /etc/my_init.d/* and /etc/rc.local.
+ * Starts all runit services.
+ * Runs the specified command.
+ * When the specified command exits, stops all runit services.
+
+For example:
+
+    $ docker run phusion/passenger-full:<VERSION> /sbin/my_init -- ls
+    *** Running /etc/rc.local...
+    *** Booting runit daemon...
+    *** Runit started as PID 80
+    *** Running ls...
+    bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
+    *** ls exited with exit code 0.
+    *** Shutting down runit daemon (PID 80)...
+    *** Killing all processes...
+
+You may find that the default invocation is too noisy. Or perhaps you don't want to run the startup files. You can customize all this by passing arguments to `my_init`. Invoke `docker run YOUR_IMAGE /sbin/my_init --help` for more information.
+
+The following example runs `ls` without running the startup files and with less messages, while running all runit services:
+
+    $ docker run phusion/passenger-full:<VERSION> /sbin/my_init --skip-startup-files --quiet -- ls
+    bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
+
+<a name="run_inside_existing_container"></a>
+### Running a command in an existing, running container
+
+There are two ways to run a command inside an existing, running container.
+
+ * Through the `docker exec` tool. This is builtin Docker tool, available since Docker 1.4. Internally, it uses Linux kernel system calls in order to execute a command within the context of a container. Learn more in [Login to the container, or running a command inside it, via `docker exec`](#login_docker_exec).
+ * Through SSH. This approach requires running an SSH daemon inside the container, and requires you to setup SSH keys. Learn more in [Login to the container, or running a command inside it, via SSH](#login_ssh).
+
+Both way have their own pros and cons, which you can learn in their respective subsections.
+
+<a name="login_docker_exec"></a>
+### Login to the container, or running a command inside it, via `docker exec`
+
+You can use the `docker exec` tool on the Docker host OS to login to any container that is based on passenger-docker. You can also use it to run a command inside a running container. `docker exec` works by using Linux kernel system calls.
+
+Here's how it compares to [using SSH to login to the container or to run a command inside it](#login_ssh):
+
+ * Pros
+   * Does not require running an SSH daemon inside the container.
+   * Does not require setting up SSH keys.
+   * Works on any container, even containers not based on passenger-docker.
+ * Cons
+   * If the `docker exec` process on the host is terminated by a signal (e.g. with the `kill` command or even with Ctrl-C), then the command that is executed by `docker exec` is *not* killed and cleaned up. You will either have to do that manually, or you have to run `docker exec` with `-t -i`.
+   * Requires privileges on the Docker host to be able to access the Docker daemon. Note that anybody who can access the Docker daemon effectively has root access.
+   * Not possible to allow users to login to the container without also letting them login to the Docker host.
+
+<a name="docker_exec_usage"></a>
+#### Usage
+
+Start a container:
+
+    docker run YOUR_IMAGE
+
+Find out the ID of the container that you just ran:
+
+    docker ps
+
+Now that you have the ID, you can use `docker exec` to run arbitrary commands in the container. For example, to run `echo hello world`:
+
+    docker exec YOUR-CONTAINER-ID echo hello world
+
+To open a bash session inside the container, you must pass `-t -i` so that a terminal is available:
+
+    docker exec -t -i YOUR-CONTAINER-ID bash -l
+
+<a name="login_ssh"></a>
+### Login to the container, or running a command inside it, via SSH
+
+You can use SSH to login to any container that is based on passenger-docker. You can also use it to run a command inside a running container.
+
+Here's how it compares to [using `docker exec` to login to the container or to run a command inside it](#login_docker_exec):
+
+ * Pros
+   * Does not require root privileges on the Docker host.
+   * Allows you to let users login to the container, without letting them login to the Docker host. However, this is not enabled by default because passenger-docker does not expose the SSH server to the public Internet by default.
+ * Cons
+   * Requires setting up SSH keys. However, passenger-docker makes this easy for many cases through a pregenerated, insecure key. Read on to learn more.
+
+<a name="enabling_ssh"></a>
+#### Enabling SSH
+
+Passenger-docker disables the SSH server by default. Add the following to your Dockerfile to enable it:
+
+    RUN rm -f /etc/service/sshd/down
+    
+    # Regenerate SSH host keys. Passenger-docker does not contain any, so you
+    # have to do that yourself. You may also comment out this instruction; the
+    # init system will auto-generate one during boot.
+    RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
+<a name="ssh_keys"></a>
+#### About SSH keys
+
+First, you must ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so nobody can login. For convenience reasons, we provide [a pregenerated, insecure key](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key) [(PuTTY format)](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key.ppk) that you can easily enable. However, please be aware that using this key is for convenience only. It does not provide any security because this key (both the public and the private side) is publicly available. **In production environments, you should use your own keys**.
 
 <a name="using_the_insecure_key_for_one_container_only"></a>
 #### Using the insecure key for one container only
@@ -392,18 +512,24 @@ Find out the ID of the container that you just ran:
 
 Once you have the ID, look for its IP address with:
 
-    docker inspect <ID> | grep IPAddress
+    docker inspect -f "{{ .NetworkSettings.IPAddress }}" <ID>
 
-Now SSH into the container as follows:
+Now that you have the IP address, you can use SSH to login to the container, or to execute a command inside it:
 
+    # Download the insecure private key
     curl -o insecure_key -fSL https://github.com/phusion/baseimage-docker/raw/master/image/insecure_key
     chmod 600 insecure_key
+
+    # Login to the container
     ssh -i insecure_key root@<IP address>
+
+    # Running a command inside the container
+    ssh -i insecure_key root@<IP address> echo hello world
 
 <a name="enabling_the_insecure_key_permanently"></a>
 #### Enabling the insecure key permanently
 
-It is also possible to enable the insecure key in the image permanently. This is not generally recommended, but it suitable for e.g. temporary development or demo environments where security does not matter.
+It is also possible to enable the insecure key in the image permanently. This is not generally recommended, but is suitable for e.g. temporary development or demo environments where security does not matter.
 
 Edit your Dockerfile to install the insecure key permanently:
 
@@ -414,11 +540,11 @@ Instructions for logging in the container is the same as in section [Using the i
 <a name="using_your_own_key"></a>
 #### Using your own key
 
-Edit your Dockerfile to install an SSH key:
+Edit your Dockerfile to install an SSH public key:
 
     ## Install an SSH of your choice.
-    ADD your_key /tmp/your_key
-    RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && rm -f /tmp/your_key
+    ADD your_key.pub /tmp/your_key.pub
+    RUN cat /tmp/your_key.pub >> /root/.ssh/authorized_keys && rm -f /tmp/your_key.pub
 
 Then rebuild your image. Once you have that, start a container based on that image:
 
@@ -430,16 +556,20 @@ Find out the ID of the container that you just ran:
 
 Once you have the ID, look for its IP address with:
 
-    docker inspect <ID> | grep IPAddress
+    docker inspect -f "{{ .NetworkSettings.IPAddress }}" <ID>
 
-Now SSH into the container as follows:
+Now that you have the IP address, you can use SSH to login to the container, or to execute a command inside it:
 
+    # Login to the container
     ssh -i /path-to/your_key root@<IP address>
 
-<a name="docker_bash"></a>
-#### The `docker-bash` tool
+    # Running a command inside the container
+    ssh -i /path-to/your_key root@<IP address> echo hello world
 
-Looking up the IP of a container and running an SSH command quickly becomes tedious. Luckily, [baseimage-docker](https://github.com/phusion/baseimage-docker) provides the `docker-bash` tool which automates this process. This tool is to be run on the *Docker host*, not inside a Docker container.
+<a name="docker_ssh"></a>
+#### The `docker-ssh` tool
+
+Looking up the IP of a container and running an SSH command quickly becomes tedious. Luckily, we provide the `docker-ssh` tool which automates this process. This tool is to be run on the *Docker host*, not inside a Docker container.
 
 First, install the tool on the Docker host:
 
@@ -449,13 +579,13 @@ First, install the tool on the Docker host:
 
 Then run the tool as follows to login to a container using SSH:
 
-    docker-bash YOUR-CONTAINER-ID
+    docker-ssh YOUR-CONTAINER-ID
 
 You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
 
-By default, `docker-bash` will open a Bash session. You can also tell it to run a command, and then exit:
+By default, `docker-ssh` will open a Bash session. You can also tell it to run a command, and then exit:
 
-    docker-bash YOUR-CONTAINER-ID echo hello world
+    docker-ssh YOUR-CONTAINER-ID echo hello world
 
 <a name="inspecting_web_app_status"></a>
 ### Inspecting the status of your web app
@@ -510,6 +640,7 @@ Build one of the images:
     make build_ruby19
     make build_ruby20
     make build_ruby21
+    make build_ruby22
     make build_jruby17
     make build_nodejs
     make build_customizable
