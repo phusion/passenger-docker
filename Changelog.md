@@ -6,6 +6,7 @@
  * Support for JRuby 1.7.18. Thanks to Per Lundberg. Closes GH-65.
  * In order to work around [an AUFS bug](https://github.com/docker/docker/issues/783), the `/build` directory has been renamed to `/pd_build`.
  * Pups has been removed.
+ * Qt has been removed from the Ruby images because it's not used by a lot of Ruby apps. Closes GH-52.
 
 ## 0.9.14 (release date: 2014-10-03)
 
