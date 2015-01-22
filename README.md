@@ -30,6 +30,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
      * [Adding your web app to the image](#adding_web_app)
      * [Configuring Nginx](#configuring_nginx)
      * [Setting environment variables in Nginx](#nginx_env_vars)
+     * [Application environment name (`RAILS_ENV`, `NODE_ENV`, etc)](#app_env_name)
    * [Using Redis](#redis)
    * [Using memcached](#memcached)
    * [Additional daemons](#additional_daemons)
@@ -166,6 +167,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby19:<VERSION>
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
+    #FROM phusion/passenger-ruby22:<VERSION>
     #FROM phusion/passenger-jruby17:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
@@ -216,7 +218,7 @@ Nginx and Passenger are disabled by default. Enable them like so:
 <a name="adding_web_app"></a>
 #### Adding your web app to the image
 
-Passenger works like a `mod_ruby`, `mod_node`, etc. It changes Nginx into an application server and runs your app from Nginx. So to get your web app up and running, you just have to add a virtual host entry to Nginx which describes where you app is, and Passenger will take care of the rest.
+Passenger works like a `mod_ruby`, `mod_nodejs`, etc. It changes Nginx into an application server and runs your app from Nginx. So to get your web app up and running, you just have to add a virtual host entry to Nginx which describes where you app is, and Passenger will take care of the rest.
 
 You can add a virtual host entry (`server` block) by placing a .conf file in the directory `/etc/nginx/sites-enabled`. For example:
 
@@ -270,7 +272,7 @@ For example:
 
 By default Nginx [clears all environment variables](http://nginx.org/en/docs/ngx_core_module.html#env) (except `TZ`) for its child processes (Passenger being one of them). That's why any environment variables you set with `docker run -e`, Docker linking and `/etc/container_environment`, won't reach Nginx.
 
-To preserve these variables, place a file ending in `*.conf` in the directory `/etc/nginx/main.d`. For example when linking a PostgreSQL container or MongoDB container:
+To preserve these variables, place an Nginx config file ending with `*.conf` in the directory `/etc/nginx/main.d`, in which you tell Nginx to preserve these variables. For example when linking a PostgreSQL container or MongoDB container:
 
     # /etc/nginx/main.d/postgres-env.conf:
     env POSTGRES_PORT_5432_TCP_ADDR;
@@ -280,6 +282,41 @@ To preserve these variables, place a file ending in `*.conf` in the directory `/
     ADD postgres-env.conf /etc/nginx/main.d/postgres-env.conf
 
 By default, passenger-docker already contains a config file `/etc/nginx/main.d/default.conf` which preserves the `PATH` environment variable.
+
+<a name="app_env_name"></a>
+#### Application environment name (`RAILS_ENV`, `NODE_ENV`, etc)
+
+Some web frameworks adjust their behavior according to the value some environment variables. For example, Rails respects `RAILS_ENV` while Connect.js respects `NODE_ENV`. By default, Phusion Passenger sets all of the following environment variables to the variable **production**:
+
+ * `RAILS_ENV`
+ * `RACK_ENV`
+ * `WSGI_ENV`
+ * `NODE_ENV`
+ * `PASSENGER_APP_ENV`
+
+Setting these environment variables yourself (e.g. using `docker run -e RAILS_ENV=...`) will not have any effect, because Phusion Passenger overrides all of these environment variables. The only exception is `PASSENGER_APP_ENV` (see below).
+
+With passenger-docker, there are two ways to set the aforementioned environment variables. The first is through the [`passenger_app_env`](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#PassengerAppEnv) config option in Nginx. For example:
+
+    # /etc/nginx/sites-enabled/webapp.conf:
+    server {
+        ...
+        # Ensures that RAILS_ENV, NODE_ENV, etc are set to "staging"
+        # when your application is started.
+        passenger_app_env staging;
+    }
+
+The second way is by setting the `PASSENGER_APP_ENV` environment variable from `docker run`
+
+    docker run -e PASSENGER_APP_ENV=staging YOUR_IMAGE
+
+This works because passenger-docker autogenerates an Nginx configuration file (`/etc/nginx/conf.d/00_app_env.conf`) during container boot. This file sets the `passenger_app_env` option in the `http` context. This means that if you already set `passenger_app_env` in the `server` context, running `docker run -e PASSENGER_APP_ENV=...` won't have any effect!
+
+If you want to set a default value while still allowing that to be overridden by `docker run -e PASSENGER_APP_ENV=`, then instead of specifying `passenger_app_env` in your Nginx config file, you should create a `/etc/nginx/conf.d/00_app_env.conf`. This file will be overwritten if the user runs `docker run -e PASSENGER_APP_ENV=...`.
+
+    # /etc/nginx/conf.d/00_app_env.conf
+    # File will be overwritten if user runs the container with `-e PASSENGER_APP_ENV=...`!
+    passenger_app_env staging;
 
 <a name="redis"></a>
 ### Using Redis
@@ -325,9 +362,9 @@ Here's an example showing you how to a memached server runit entry can be made.
 
     ### In memcached.sh (make sure this file is chmod +x):
     #!/bin/sh
-    # `chpst` is part of running. `chpst -u memcache` runs the given command
-    # as the user `memcache`. If you omit this, the command will be run as root.
-    exec chpst -u memcache /usr/bin/memcached >>/var/log/memcached.log 2>&1
+    # `setuser` is part of baseimage-docker. `setuser mecached xxx...` runs the given command
+    # (`xxx...`) as the user `memcache`. If you omit this, the command will be run as root.
+    exec /sbin/setuser memcache /usr/bin/memcached >>/var/log/memcached.log 2>&1
 
     ### In Dockerfile:
     RUN mkdir /etc/service/memcached
