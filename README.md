@@ -246,6 +246,7 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
     }
 
     # Dockerfile:
+    RUN rm /etc/nginx/sites-enabled/default
     ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...

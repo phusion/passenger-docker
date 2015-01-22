@@ -8,6 +8,7 @@
  * In order to work around [an AUFS bug](https://github.com/docker/docker/issues/783), the `/build` directory has been renamed to `/pd_build`.
  * Pups has been removed.
  * Qt has been removed from the Ruby images because it's not used by a lot of Ruby apps. This reduces the image size by ~150 MB. Closes GH-52.
+ * Documentation updates. Closes GH-33.
 
 ## 0.9.14 (release date: 2014-10-03)
 
