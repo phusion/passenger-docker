@@ -113,7 +113,7 @@ Auxiliary services and tools:
 <a name="memory_efficiency"></a>
 ### Memory efficiency
 
-Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, sshd, syslog-ng, etc).
+Passenger-docker is very lightweight on memory. In its default configuration, it only uses 10 MB of memory (the memory consumed by bash, runit, syslog-ng, etc).
 
 <a name="image_variants"></a>
 ### Image variants
