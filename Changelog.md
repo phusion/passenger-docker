@@ -1,12 +1,13 @@
 ## 0.9.15 (next version; not yet released)
 
  * Upgraded to baseimage-docker 0.9.16.
- * Upgraded to Phusion Passenger 4.0.57.
+ * Upgraded to Phusion Passenger 4.0.58.
  * Support for Ruby 2.2. Closes GH-64.
  * Support for JRuby 1.7.18. Thanks to Per Lundberg. Closes GH-65.
  * It is now possible to allow users to override the value of `RAILS_ENV`, `NODE_ENV` etc at runtime. Please refer to the documentation for details ("Application environment name (`RAILS_ENV`, `NODE_ENV`, etc)").
  * In order to work around [an AUFS bug](https://github.com/docker/docker/issues/783), the `/build` directory has been renamed to `/pd_build`.
  * Pups has been removed.
+ * Non-Ruby 1.9 images no longer contain Ruby 1.9. This is because a bug in the Phusion Passenger Debian packages has been fixed.
  * Qt has been removed from the Ruby images because it's not used by a lot of Ruby apps. This reduces the image size by ~150 MB. Closes GH-52.
  * Documentation updates, some of which are contributed by Olle Jonsson. Closes GH-33. Closes GH-62.
 
