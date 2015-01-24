@@ -287,7 +287,7 @@ By default, passenger-docker already contains a config file `/etc/nginx/main.d/d
 <a name="app_env_name"></a>
 #### Application environment name (`RAILS_ENV`, `NODE_ENV`, etc)
 
-Some web frameworks adjust their behavior according to the value some environment variables. For example, Rails respects `RAILS_ENV` while Connect.js respects `NODE_ENV`. By default, Phusion Passenger sets all of the following environment variables to the variable **production**:
+Some web frameworks adjust their behavior according to the value some environment variables. For example, Rails respects `RAILS_ENV` while Connect.js respects `NODE_ENV`. By default, Phusion Passenger sets all of the following environment variables to the value **production**:
 
  * `RAILS_ENV`
  * `RACK_ENV`
