@@ -246,10 +246,13 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
     }
 
     # Dockerfile:
-    RUN rm /etc/nginx/sites-enabled/default
-    ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
-    RUN mkdir /home/app/webapp
-    RUN ...commands to place your web app in /home/app/webapp...
+    ADD webapp.conf /etc/nginx/sites-enabled/default
+
+    # Copy your web app files to /home/app/webapp
+    COPY ...... /home/app/webapp/
+
+    # If you have a proper .dockerignore file, then you can simply:
+    #   COPY . /home/app/webapp/
 
 <a name="configuring_nginx"></a>
 #### Configuring Nginx
@@ -524,7 +527,7 @@ Here's how it compares to [using `docker exec` to login to the container or to r
 Passenger-docker disables the SSH server by default. Add the following to your Dockerfile to enable it:
 
     RUN rm -f /etc/service/sshd/down
-    
+
     # Regenerate SSH host keys. Passenger-docker does not contain any, so you
     # have to do that yourself. You may also comment out this instruction; the
     # init system will auto-generate one during boot.
