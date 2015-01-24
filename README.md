@@ -82,7 +82,6 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
  * The cron daemon.
- * The SSH server, so that you can easily login to your container to inspect or administer things. Password and challenge-response authentication are disabled by default. Only key authentication is allowed.
  * [Runit](http://smarden.org/runit/) for service supervision and management.
 
 Language support:
