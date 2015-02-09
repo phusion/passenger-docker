@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 ## Brightbox Ruby 1.9.3, 2.0 and 2.1
@@ -19,24 +19,21 @@ echo deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu trusty main > /etc/ap
 ## Rowan's Redis PPA
 echo deb http://ppa.launchpad.net/rwky/redis/ubuntu trusty main > /etc/apt/sources.list.d/redis.list
 
+## OpenJDK 8 PPA
+echo deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main > /etc/apt/sources.list.d/openjdk8.list
+
 # The recv-keys part takes a bit of time, so it's faster to receive multiple keys at once.
 #
 # Brightbox
 # Phusion Passenger
 # Chris Lea's Node.js PPA
 # Rowan's Redis PPA
+# OpenJDK 8 PPA
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-C3173AA6 \
-561F9B9CAC40B2F7 \
-C7917B12 \
-5862E31D
-
-## Debian's sid repo, needed for OpenJDK 8.
-apt-key adv --keyserver pgpkeys.mit.edu --recv-keys 8B48AD6246925553
-echo deb http://http.us.debian.org/debian unstable main non-free contrib > /etc/apt/sources.list.d/sid.list
-echo -e "\
-Package: *\n\
-Pin: release o=Debian\n\
-Pin-Priority: -10\n" > /etc/apt/preferences.d/sid
+	C3173AA6 \
+	561F9B9CAC40B2F7 \
+	C7917B12 \
+	5862E31D \
+	DA1A4A13543B466853BAF164EB9B1D8886F44E2A
 
 apt-get update

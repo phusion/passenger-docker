@@ -1,12 +1,14 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
-## This script is to be run after ruby1.9.sh, ruby2.0.sh and ruby2.1.sh.
+## This script is to be run after ruby1.9.sh, ruby2.0.sh, ruby2.1.sh,
+## ruby2.1.sh and jruby1.7.sh.
 
-cp /build/ruby-switch /usr/local/bin/ruby-switch
-echo "gem: --no-ri --no-rdoc" > /etc/gemrc
+cp /pd_build/ruby-switch /usr/local/bin/ruby-switch
+# The --bindir is necessary for JRuby. We don't want jgem to install to /usr/local/jruby-xxx/bin.
+echo "gem: --no-ri --no-rdoc --bindir /usr/local/bin" > /etc/gemrc
 
 ## Fix shebang lines in rake and bundler so that they're run with the currently
 ## configured default Ruby instead of the Ruby they're installed with.
@@ -28,18 +30,20 @@ minimal_apt_get_install libmysqlclient-dev
 minimal_apt_get_install libsqlite3-dev
 ## For postgres and pg.
 minimal_apt_get_install libpq-dev
-## For capybara-webkit.
-minimal_apt_get_install libqt4-webkit libqt4-dev
 ## For curb.
 minimal_apt_get_install libcurl4-openssl-dev
 ## For all kinds of stuff.
 minimal_apt_get_install zlib1g-dev
 
 ## Set the latest available Ruby as the default.
-if [[ -e /usr/bin/ruby2.1 ]]; then
+if [[ -e /usr/bin/ruby2.2 ]]; then
+	ruby-switch --set ruby2.2
+elif [[ -e /usr/bin/ruby2.1 ]]; then
 	ruby-switch --set ruby2.1
 elif [[ -e /usr/bin/ruby2.0 ]]; then
 	ruby-switch --set ruby2.0
 elif [[ -e /usr/bin/ruby1.9.1 ]]; then
 	ruby-switch --set ruby1.9.1
+elif [[ -e /usr/bin/jruby ]]; then
+	ruby-switch --set jruby
 fi

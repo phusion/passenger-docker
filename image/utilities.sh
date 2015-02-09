@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source /build/buildconfig
+source /pd_build/buildconfig
 set -x
 
 ## Many Ruby gems and NPM packages contain native extensions and require a compiler.
