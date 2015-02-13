@@ -12,7 +12,7 @@ minimal_apt_get_install openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
 
 curl --fail -L \
-  $JRUBY_MIRROR/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz \
+        $JRUBY_MIRROR/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz \
 	-o /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
 cd /usr/local
 tar xzf /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
