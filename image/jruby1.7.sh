@@ -3,17 +3,16 @@ set -e
 source /pd_build/buildconfig
 set -x
 
-JRUBY_VERSION=1.7.18
-JRUBY_MAJOR_MINOR=1.7
+. /pd_build/ruby_versions
+
+# Add if on some ENV here to use different mirrors depending on location.
+JRUBY_MIRROR=https://s3.amazonaws.com/jruby.org/downloads
 
 minimal_apt_get_install openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
 
-# Original URL:
-# https://s3.amazonaws.com/jruby.org/downloads/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz
-# We use a mirror at oss-binaries.phusionpassenger.com because it's faster from the Netherlands.
 curl --fail -L \
-	https://oss-binaries.phusionpassenger.com/jruby/jruby-bin-$JRUBY_VERSION.tar.gz \
+	$JRUBY_MIRROR/$JRUBY_VERSION/jruby-bin-$JRUBY_VERSION.tar.gz \
 	-o /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
 cd /usr/local
 tar xzf /tmp/jruby-bin-$JRUBY_VERSION.tar.gz
