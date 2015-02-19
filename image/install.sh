@@ -18,6 +18,6 @@ if [[ "$redis" = 1 ]]; then /pd_build/redis.sh; fi
 if [[ "$memcached" = 1 ]]; then /pd_build/memcached.sh; fi
 
 # Must be installed after Ruby, so that we don't end up with two Ruby versions.
-/pd_build/nginx-passenger.sh
+command -v ruby >/dev/null 2>&1 && /pd_build/nginx-passenger.sh
 
 /pd_build/finalize.sh
