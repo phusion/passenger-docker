@@ -1,5 +1,5 @@
 NAME = ecraft/passenger
-VERSION = 0.9.16
+VERSION = 0.9.17
 JRUBY_PATCH=19
 
 .PHONY: all build_all \
