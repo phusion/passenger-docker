@@ -4,6 +4,7 @@ source /pd_build/buildconfig
 set -x
 
 . /pd_build/ruby_versions
+JRUBY_VERSION=${JRUBY_MAJOR_MINOR}.${JRUBY_PATCH}
 
 # Add if on some ENV here to use different mirrors depending on location.
 JRUBY_MIRROR=https://s3.amazonaws.com/jruby.org/downloads
