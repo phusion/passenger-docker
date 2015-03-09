@@ -1,5 +1,7 @@
-NAME = phusion/passenger
-VERSION = 0.9.15
+NAME = ecraft/passenger
+VERSION = 0.9.18
+JRUBY_MAJOR_MINOR=1.7
+JRUBY_PATCH=19
 
 .PHONY: all build_all \
 	build_customizable \
@@ -59,6 +61,9 @@ build_jruby17:
 	cp -pR image jruby17_image
 	echo jruby17=1 >> jruby17_image/buildconfig
 	echo final=1 >> jruby17_image/buildconfig
+	echo 'export JRUBY_MAJOR_MINOR=$(JRUBY_MAJOR_MINOR)' >> jruby17_image/ruby_versions
+	echo 'export JRUBY_PATCH=$(JRUBY_PATCH)' >> jruby17_image/ruby_versions
+	echo 'export JRUBY_VERSION=${JRUBY_MAJOR_MINOR}.${JRUBY_PATCH}' >> jruby17_image/ruby_versions
 	docker build -t $(NAME)-jruby17:$(VERSION) --rm jruby17_image
 
 build_nodejs:
