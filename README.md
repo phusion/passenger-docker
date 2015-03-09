@@ -36,6 +36,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Additional daemons](#additional_daemons)
    * [Selecting a default Ruby version](#selecting_default_ruby)
    * [Running scripts during container startup](#running_startup_scripts)
+   * [Upgrading Passenger to the latest version](#upgrading_passenger)
  * [Container administration](#container_administration)
    * [Running a one-shot command in a new container](#oneshot)
    * [Running a command in an existing, running container](#run_inside_existing_container)
@@ -409,6 +410,15 @@ The following example shows how you can add a startup script. This script simply
     ### In Dockerfile:
     RUN mkdir -p /etc/my_init.d
     ADD logtime.sh /etc/my_init.d/logtime.sh
+
+<a name="upgrading_passenger"></a>
+### Upgrading Passenger to the latest version
+
+passenger-docker images contain a specific Passenger version by default. Passenger is installed through [the Passenger APT repository](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#install_on_debian_ubuntu), so you can upgrade Passenger inside your Docker image at any time, even if we haven't published an updated passenger-docker with a newer Passenger version.
+
+To upgrade to the latest Passenger version, run this to your Dockerfile:
+
+    RUN apt-get update && apt-get upgrade
 
 
 <a name="container_administration"></a>
