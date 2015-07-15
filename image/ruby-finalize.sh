@@ -17,6 +17,9 @@ sed -E -i 's|/usr/bin/env j?ruby.*$|/usr/bin/env ruby|; s|/usr/bin/j?ruby.*$|/us
 
 ## The Rails asset compiler requires a Javascript runtime.
 minimal_apt_get_install nodejs
+if [[ ! -e /usr/bin/node ]]; then
+	ln -s /usr/bin/nodejs /usr/bin/node
+fi
 
 ## Install development headers for native libraries that tend to be used often by Ruby gems.
 

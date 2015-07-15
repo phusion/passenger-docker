@@ -3,6 +3,9 @@
  * The latest OpenSSL updates have been pulled in. This fixes [CVE-2015-1793](http://openssl.org/news/secadv_20150709.txt). Upgrading is strongly recommended.
  * Upgraded to baseimage-docker 0.9.17.
  * Upgraded to Phusion Passenger 5.0.14.
+ * Upgraded to Ruby 2.1.6 and 2.2.2.
+ * Upgraded to JRuby 1.7.21.
+ * Upgraded to Node.js 0.12.7.
  * Fixed Ruby tool shebang lines in the passenger-full image variant. Closes GH-78.
 
 ## 0.9.15 (release date: 2015-01-23)
