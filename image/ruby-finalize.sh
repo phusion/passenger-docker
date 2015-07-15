@@ -12,7 +12,7 @@ echo "gem: --no-ri --no-rdoc --bindir /usr/local/bin" > /etc/gemrc
 
 ## Fix shebang lines in rake and bundler so that they're run with the currently
 ## configured default Ruby instead of the Ruby they're installed with.
-sed -i 's|/usr/bin/env ruby.*$|/usr/bin/env ruby|; s|/usr/bin/ruby.*$|/usr/bin/env ruby|' \
+sed -E -i 's|/usr/bin/env j?ruby.*$|/usr/bin/env ruby|; s|/usr/bin/j?ruby.*$|/usr/bin/env ruby|' \
 	/usr/local/bin/rake /usr/local/bin/bundle /usr/local/bin/bundler
 
 ## The Rails asset compiler requires a Javascript runtime.

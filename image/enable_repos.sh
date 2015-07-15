@@ -26,14 +26,20 @@ echo deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main > /etc/apt/so
 #
 # Brightbox
 # Phusion Passenger
-# Chris Lea's Node.js PPA
 # Rowan's Redis PPA
 # OpenJDK 8 PPA
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
 	C3173AA6 \
 	561F9B9CAC40B2F7 \
-	C7917B12 \
 	5862E31D \
 	DA1A4A13543B466853BAF164EB9B1D8886F44E2A
 
-apt-get update
+if [[ "$nodejs" = 1 ]]; then
+	## NodeSource's Node.js repository
+	## This also runs apt-get update
+	curl --fail -ssL -o /tmp/setup-nodejs https://deb.nodesource.com/setup_0.12
+	bash /tmp/setup-nodejs
+	rm -f /tmp/setup-nodejs
+else
+	apt-get update
+fi
