@@ -36,6 +36,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Additional daemons](#additional_daemons)
    * [Selecting a default Ruby version](#selecting_default_ruby)
    * [Running scripts during container startup](#running_startup_scripts)
+   * [Upgrading the operating system inside the container](#upgrading_os)
    * [Upgrading Passenger to the latest version](#upgrading_passenger)
  * [Container administration](#container_administration)
    * [Running a one-shot command in a new container](#oneshot)
@@ -411,6 +412,17 @@ The following example shows how you can add a startup script. This script simply
     RUN mkdir -p /etc/my_init.d
     ADD logtime.sh /etc/my_init.d/logtime.sh
 
+<a name="upgrading_os"></a>
+### Upgrading the operating system inside the container
+
+passenger-docker images contain an Ubuntu 14.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
+
+While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us.
+
+To upgrade the OS in the image, run this in your Dockerfile:
+
+    RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
 <a name="upgrading_passenger"></a>
 ### Upgrading Passenger to the latest version
 
@@ -418,7 +430,7 @@ passenger-docker images contain a specific Passenger version by default. Passeng
 
 To upgrade to the latest Passenger version, run this to your Dockerfile:
 
-    RUN apt-get update && apt-get upgrade
+    RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 
 <a name="container_administration"></a>
