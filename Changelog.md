@@ -1,3 +1,9 @@
+## 0.9.16 (not yet released)
+
+ * The latest OpenSSL updates have been pulled in. This fixes [CVE-2015-1793](http://openssl.org/news/secadv_20150709.txt). Upgrading is strongly recommended.
+ * Upgraded to baseimage-docker 0.9.17.
+ * Upgraded to Phusion Passenger 5.0.14.
+
 ## 0.9.15 (release date: 2015-01-23)
 
  * Upgraded to baseimage-docker 0.9.16.
