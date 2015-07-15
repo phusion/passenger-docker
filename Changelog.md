@@ -1,4 +1,4 @@
-## 0.9.16 (not yet released)
+## 0.9.16 (release date: 2015-07-15)
 
  * The latest OpenSSL updates have been pulled in. This fixes [CVE-2015-1793](http://openssl.org/news/secadv_20150709.txt). Upgrading is strongly recommended.
  * Upgraded to baseimage-docker 0.9.17.
