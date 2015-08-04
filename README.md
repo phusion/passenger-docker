@@ -426,7 +426,27 @@ To upgrade the OS in the image, run this in your Dockerfile:
 <a name="upgrading_passenger"></a>
 ### Upgrading Passenger to the latest version
 
-passenger-docker images contain a specific Passenger version by default. Passenger is installed through [the Passenger APT repository](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#install_on_debian_ubuntu), so you can upgrade Passenger inside your Docker image at any time, even if we haven't published an updated passenger-docker with a newer Passenger version.
+#### Upgrading to the latest image
+
+Passenger-docker images contain a specific Passenger version by default. We regularly update passenger-docker with the latest version of Passenger, Ruby, Node.js, etc.
+
+To upgrade your image to the latest passenger-docker version, please edit your Dockerfile and change the passenger-docker version in the `FROM` command to the latest version.
+
+For example, if you were using passenger-docker 0.9.16 and want to upgrade to 0.9.17, then change...
+
+    FROM phusion/passenger-docker-XXXX:0.9.16
+
+...to:
+
+    FROM phusion/passenger-docker-XXXX:0.9.17
+
+Then rebuild your image.
+
+#### Upgrading Passenger without waiting for image updates
+
+We do not update the passenger-docker image on *every* Passenger release. Having said that, you can upgrade Passenger at any time, without waiting for us to release a new image.
+
+Passenger is installed through [the Passenger APT repository](https://www.phusionpassenger.com/library/install/nginx/apt_repo/), so you can use APT to upgrade Passenger.
 
 To upgrade to the latest Passenger version, run this to your Dockerfile:
 
