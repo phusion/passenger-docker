@@ -298,7 +298,7 @@ Some web frameworks adjust their behavior according to the value some environmen
 
 Setting these environment variables yourself (e.g. using `docker run -e RAILS_ENV=...`) will not have any effect, because Phusion Passenger overrides all of these environment variables. The only exception is `PASSENGER_APP_ENV` (see below).
 
-With passenger-docker, there are two ways to set the aforementioned environment variables. The first is through the [`passenger_app_env`](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html#PassengerAppEnv) config option in Nginx. For example:
+With passenger-docker, there are two ways to set the aforementioned environment variables. The first is through the [`passenger_app_env`](https://www.phusionpassenger.com/library/config/nginx/reference/#passenger_app_env) config option in Nginx. For example:
 
     # /etc/nginx/sites-enabled/webapp.conf:
     server {
