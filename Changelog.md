@@ -1,4 +1,4 @@
-## 0.9.17 (not yet released)
+## 0.9.17 (release date: 2015-08-04)
 
  * Upgraded to Phusion Passenger 5.0.15.
  * Upgraded to JRuby 9.0.0.0. Closes GH-99.
