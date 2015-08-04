@@ -1,3 +1,7 @@
+## 0.9.17 (not yet released)
+
+ * Upgraded to JRuby 9.0.0.0. Closes GH-99.
+
 ## 0.9.16 (release date: 2015-07-15)
 
  * The latest OpenSSL updates have been pulled in. This fixes [CVE-2015-1793](http://openssl.org/news/secadv_20150709.txt). Upgrading is strongly recommended.

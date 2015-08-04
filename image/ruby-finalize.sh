@@ -4,7 +4,7 @@ source /pd_build/buildconfig
 set -x
 
 ## This script is to be run after ruby1.9.sh, ruby2.0.sh, ruby2.1.sh,
-## ruby2.1.sh and jruby1.7.sh.
+## ruby2.1.sh and jruby9.0.sh.
 
 cp /pd_build/ruby-switch /usr/local/bin/ruby-switch
 # The --bindir is necessary for JRuby. We don't want jgem to install to /usr/local/jruby-xxx/bin.

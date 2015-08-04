@@ -3,8 +3,8 @@ set -e
 source /pd_build/buildconfig
 set -x
 
-JRUBY_VERSION=1.7.21
-JRUBY_MAJOR_MINOR=1.7
+JRUBY_VERSION=9.0.0.0
+JRUBY_MAJOR_MINOR=9.0
 
 minimal_apt_get_install openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
