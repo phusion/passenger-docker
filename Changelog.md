@@ -1,6 +1,8 @@
 ## 0.9.17 (not yet released)
 
+ * Upgraded to Phusion Passenger 5.0.15.
  * Upgraded to JRuby 9.0.0.0. Closes GH-99.
+ * Fixed passenger-full containing Node.js 0.12 instead of 0.10. Closes GH-96.
 
 ## 0.9.16 (release date: 2015-07-15)
 

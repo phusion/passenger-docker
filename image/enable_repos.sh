@@ -31,12 +31,8 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
 	5862E31D \
 	DA1A4A13543B466853BAF164EB9B1D8886F44E2A
 
-if [[ "$nodejs" = 1 ]]; then
-	## NodeSource's Node.js repository
-	## This also runs apt-get update
-	curl --fail -ssL -o /tmp/setup-nodejs https://deb.nodesource.com/setup_0.12
-	bash /tmp/setup-nodejs
-	rm -f /tmp/setup-nodejs
-else
-	apt-get update
-fi
+## NodeSource's Node.js repository
+## This also runs apt-get update
+curl --fail -ssL -o /tmp/setup-nodejs https://deb.nodesource.com/setup_0.12
+bash /tmp/setup-nodejs
+rm -f /tmp/setup-nodejs
