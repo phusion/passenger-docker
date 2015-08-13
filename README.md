@@ -93,7 +93,7 @@ Language support:
    * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8 from [the openjdk-r PPA](https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa).
- * Python 2.7 and Python 3.0.
+ * Python 2.7 and Python 3.4.
  * Node.js 0.12, through [NodeSource's APT repository](https://nodesource.com/).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
