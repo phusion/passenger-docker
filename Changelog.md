@@ -1,3 +1,8 @@
+## 0.9.18 (release date: 2015-12-08)
+
+ * Upgraded to Phusion Passenger 5.0.22.
+ * Upgraded to baseimage-docker 0.9.17.
+
 ## 0.9.17 (release date: 2015-08-04)
 
  * Upgraded to Phusion Passenger 5.0.15.
