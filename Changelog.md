@@ -2,6 +2,9 @@
 
  * Upgraded to Phusion Passenger 5.0.22.
  * Upgraded to baseimage-docker 0.9.17.
+ * Upgraded to Ruby 2.1.7 and 2.2.3.
+ * Upgraded to JRuby 9.0.4.0.
+ * Upgraded to Node.js 0.12.9.
 
 ## 0.9.17 (release date: 2015-08-04)
 
