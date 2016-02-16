@@ -131,7 +131,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 0.11.
+ * `phusion/passenger-nodejs` - Node.js 0.12.
 
 **Other images**
 
@@ -182,9 +182,7 @@ So put the following in your Dockerfile:
     # If you're using the 'customizable' variant, you need to explicitly opt-in
     # for features. Uncomment the features you want:
     #
-    #   Build system and git.
-    #RUN /pd_build/utilities.sh
-    #   Ruby support.
+    #   Ruby support (packaged with Node support as well).
     #RUN /pd_build/ruby1.9.sh
     #RUN /pd_build/ruby2.0.sh
     #RUN /pd_build/ruby2.1.sh
@@ -192,7 +190,8 @@ So put the following in your Dockerfile:
     #RUN /pd_build/jruby9.0.sh
     #   Python support.
     #RUN /pd_build/python.sh
-    #   Node.js and Meteor support.
+    #   Node.js and Meteor standalone support.
+    #   (not needed if you already have the above Ruby support)
     #RUN /pd_build/nodejs.sh
 
     # ...put your own build instructions here...

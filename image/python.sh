@@ -4,4 +4,4 @@ source /pd_build/buildconfig
 set -x
 
 ## Install Python.
-apt-get install -y python python2.7 python3
+minimal_apt_get_install python python2.7 python3
