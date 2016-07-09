@@ -3,8 +3,8 @@ set -e
 source /pd_build/buildconfig
 set -x
 
-JRUBY_VERSION=9.0.4.0
-JRUBY_MAJOR_MINOR=9.0
+JRUBY_VERSION=9.1.2.0
+JRUBY_MAJOR_MINOR=9.1
 
 minimal_apt_get_install openjdk-8-jre-headless
 dpkg-reconfigure ca-certificates-java
@@ -50,7 +50,7 @@ Version: $JRUBY_VERSION
 Architecture: all
 Replaces: jruby1.0, jruby1.1, jruby1.2
 Provides: ruby-interpreter, rubygems1.9
-Depends: default-jre | java6-runtime | java-runtime-headless
+Depends: openjdk-8-jre-headless | java8-runtime-headless
 Recommends: ri
 Description: 100% pure-Java implementation of Ruby (fake package)
  JRuby is a 100% pure-Java implementation of the Ruby programming language.
@@ -85,5 +85,5 @@ update-alternatives \
 	--slave /usr/bin/irb irb /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/jirb \
 	--slave /usr/bin/rdoc rdoc /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/rdoc \
 	--slave /usr/bin/ri ri /usr/local/jruby-$JRUBY_MAJOR_MINOR/bin/ri
-jgem$JRUBY_MAJOR_MINOR install rake bundler --no-rdoc --no-ri --bindir /usr/local/bin
+jgem$JRUBY_MAJOR_MINOR install rake bundler --no-document --bindir /usr/local/bin
 /pd_build/ruby-finalize.sh

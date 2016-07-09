@@ -1,5 +1,13 @@
 ## 0.9.19 (not yet released)
 
+ * Upgraded to baseimage-docker 0.9.19.
+ * Upgraded to Ubuntu 16.04 with security updates as of July 9, 2016.
+ * Upgraded to Phusion Passenger 5.0.29.
+ * Upgraded Redis to 3.0.
+ * Removed support for Ruby 1.9.
+ * Upgraded to Ruby 1.9.3-p551, 2.1.9 and 2.2.5.
+ * Upgraded to JRuby 9.1.2.0. We are still on OpenJDK 8 because there is a problem with JRuby and OpenJDK 9.
+ * Upgraded to Node.js 4.2.6.
 
 ## 0.9.18 (release date: 2015-12-08)
 

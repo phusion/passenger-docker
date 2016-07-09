@@ -7,11 +7,10 @@ set -x
 /pd_build/prepare.sh
 /pd_build/utilities.sh
 
-if [[ "$ruby19" = 1 ]]; then /pd_build/ruby1.9.sh; fi
 if [[ "$ruby20" = 1 ]]; then /pd_build/ruby2.0.sh; fi
 if [[ "$ruby21" = 1 ]]; then /pd_build/ruby2.1.sh; fi
 if [[ "$ruby22" = 1 ]]; then /pd_build/ruby2.2.sh; fi
-if [[ "$jruby90" = 1 ]]; then /pd_build/jruby9.0.sh; fi
+if [[ "$jruby91" = 1 ]]; then /pd_build/jruby9.1.sh; fi
 if [[ "$python" = 1 ]]; then /pd_build/python.sh; fi
 if [[ "$nodejs" = 1 ]]; then /pd_build/nodejs.sh; fi
 if [[ "$redis" = 1 ]]; then /pd_build/redis.sh; fi

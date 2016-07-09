@@ -18,5 +18,5 @@ update-alternatives \
 	--slave /usr/share/man/man1/irb.1.gz irb.1.gz /usr/share/man/man1/irb2.0.*.gz \
 	--slave /usr/share/man/man1/rake.1.gz rake.1.gz /usr/share/man/man1/rake2.0.*.gz \
 	--slave /usr/share/man/man1/ri.1.gz ri.1.gz /usr/share/man/man1/ri2.0.*.gz
-gem2.0 install rake bundler --no-rdoc --no-ri
+gem2.0 install rake bundler --no-document
 /pd_build/ruby-finalize.sh

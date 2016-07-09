@@ -79,7 +79,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 14.04 LTS as base system.
+ * Ubuntu 16.04 LTS as base system.
  * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -88,18 +88,18 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 1.9.3, 2.0.0, 2.1.6, and 2.2.2; JRuby 9.0.0.0.
-   * 2.2.2 is configured as the default.
+ * Ruby 2.0.0, 2.1.9, and 2.2.5; JRuby 9.1.2.0.
+   * 2.2.5 is configured as the default.
    * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
    * JRuby is installed from source, but we register an APT entry for it.
-   * JRuby uses OpenJDK 8 from [the openjdk-r PPA](https://launchpad.net/~openjdk-r/+archive/ubuntu/ppa).
+   * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
- * Node.js 0.12, through [NodeSource's APT repository](https://nodesource.com/).
+ * Node.js 4.2.6.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
 
- * Nginx 1.6. Disabled by default.
+ * Nginx 1.10. Disabled by default.
  * [Phusion Passenger 5](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
@@ -108,8 +108,8 @@ Web server and application server:
 
 Auxiliary services and tools:
 
- * Redis 2.6, through [Rowan's Redis PPA](https://launchpad.net/~rwky/+archive/redis). Disabled by default.
- * Memcached. Disabled by default.
+ * Redis 3.0. Not installed by default.
+ * Memcached. Not installed by default.
 
 <a name="memory_efficiency"></a>
 ### Memory efficiency
@@ -123,15 +123,14 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby19` - Ruby 1.9.
  * `phusion/passenger-ruby20` - Ruby 2.0.
  * `phusion/passenger-ruby21` - Ruby 2.1.
  * `phusion/passenger-ruby22` - Ruby 2.2.
- * `phusion/passenger-jruby90` - JRuby 9.0.0.0.
+ * `phusion/passenger-jruby91` - JRuby 9.1.2.0.
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 0.11.
+ * `phusion/passenger-nodejs` - Node.js 4.2.6.
 
 **Other images**
 
@@ -155,7 +154,7 @@ You don't have to download anything manually. The above command will automatical
 <a name="getting_started"></a>
 ### Getting started
 
-There are several images, e.g. `phusion/passenger-ruby21` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
+There are several images, e.g. `phusion/passenger-ruby22` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
 
 So put the following in your Dockerfile:
 
@@ -165,11 +164,10 @@ So put the following in your Dockerfile:
     # a list of version numbers.
     FROM phusion/passenger-full:<VERSION>
     # Or, instead of the 'full' variant, use one of these:
-    #FROM phusion/passenger-ruby19:<VERSION>
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
     #FROM phusion/passenger-ruby22:<VERSION>
-    #FROM phusion/passenger-jruby90:<VERSION>
+    #FROM phusion/passenger-jruby91:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
 
@@ -185,11 +183,10 @@ So put the following in your Dockerfile:
     #   Build system and git.
     #RUN /pd_build/utilities.sh
     #   Ruby support.
-    #RUN /pd_build/ruby1.9.sh
     #RUN /pd_build/ruby2.0.sh
     #RUN /pd_build/ruby2.1.sh
     #RUN /pd_build/ruby2.2.sh
-    #RUN /pd_build/jruby9.0.sh
+    #RUN /pd_build/jruby9.1.sh
     #   Python support.
     #RUN /pd_build/python.sh
     #   Node.js and Meteor support.
@@ -240,10 +237,10 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
 
         # If this is a Ruby app, specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.1;
+        # For Ruby 2.2
+        passenger_ruby /usr/bin/ruby2.2;
         # For Ruby 2.0
         passenger_ruby /usr/bin/ruby2.0;
-        # For Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
-        #passenger_ruby /usr/bin/ruby1.9.1;
     }
 
     # Dockerfile:
@@ -381,8 +378,6 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
 
-    # Ruby 1.9.3 (you can ignore the "1.9.1" suffix)
-    RUN ruby-switch --set ruby1.9.1
     # Ruby 2.0
     RUN ruby-switch --set ruby2.0
     # Ruby 2.1
@@ -415,7 +410,7 @@ The following example shows how you can add a startup script. This script simply
 <a name="upgrading_os"></a>
 ### Upgrading the operating system inside the container
 
-passenger-docker images contain an Ubuntu 14.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
+passenger-docker images contain an Ubuntu 16.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
 
 While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us.
 
@@ -716,11 +711,10 @@ Start a virtual machine with Docker in it. You can use the Vagrantfile that we'v
 
 Build one of the images:
 
-    make build_ruby19
     make build_ruby20
     make build_ruby21
     make build_ruby22
-    make build_jruby90
+    make build_jruby91
     make build_nodejs
     make build_customizable
     make build_full
