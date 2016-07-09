@@ -24,6 +24,10 @@ mkdir /etc/service/nginx-log-forwarder
 cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 
 ## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby2.2 ]]; then
+	ruby2.2 -S passenger-config build-native-support
+	setuser app ruby2.2 -S passenger-config build-native-support
+fi
 if [[ -e /usr/bin/ruby2.1 ]]; then
 	ruby2.1 -S passenger-config build-native-support
 	setuser app ruby2.1 -S passenger-config build-native-support
@@ -32,11 +36,7 @@ if [[ -e /usr/bin/ruby2.0 ]]; then
 	ruby2.0 -S passenger-config build-native-support
 	setuser app ruby2.0 -S passenger-config build-native-support
 fi
-if [[ -e /usr/bin/ruby1.9.1 ]]; then
-	ruby1.9.1 -S passenger-config build-native-support
-	setuser app ruby1.9.1 -S passenger-config build-native-support
-fi
-if [[ -e /usr/local/jruby-1.7.18/bin/jruby ]]; then
-  jruby -S passenger-config build-native-support
-  setuser app jruby -S passenger-config build-native-support
+if [[ -e /usr/bin/jruby ]]; then
+	jruby --dev -S passenger-config build-native-support
+	setuser app jruby -S passenger-config build-native-support
 fi
