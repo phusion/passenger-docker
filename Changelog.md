@@ -1,3 +1,6 @@
+## 0.9.19 (not yet released)
+
+
 ## 0.9.18 (release date: 2015-12-08)
 
  * Upgraded to Phusion Passenger 5.0.22.
