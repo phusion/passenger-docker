@@ -4,7 +4,7 @@ source /pd_build/buildconfig
 set -x
 
 ## This script is to be run after ruby2.0.sh, ruby2.1.sh,
-## ruby2.1.sh, ruby2.2.sh and jruby9.1.sh.
+## ruby2.1.sh, ruby2.2.sh, ruby2.3.sh and jruby9.1.sh.
 
 cp /pd_build/ruby-switch /usr/local/bin/ruby-switch
 # The --bindir is necessary for JRuby. We don't want jgem to install to /usr/local/jruby-xxx/bin.
@@ -39,7 +39,9 @@ minimal_apt_get_install libcurl4-openssl-dev
 minimal_apt_get_install zlib1g-dev
 
 ## Set the latest available Ruby as the default.
-if [[ -e /usr/bin/ruby2.2 ]]; then
+if [[ -e /usr/bin/ruby2.3 ]]; then
+	ruby-switch --set ruby2.3
+elif [[ -e /usr/bin/ruby2.2 ]]; then
 	ruby-switch --set ruby2.2
 elif [[ -e /usr/bin/ruby2.1 ]]; then
 	ruby-switch --set ruby2.1

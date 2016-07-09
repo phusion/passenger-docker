@@ -88,8 +88,8 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, and 2.2.5; JRuby 9.1.2.0.
-   * 2.2.5 is configured as the default.
+ * Ruby 2.0.0, 2.1.9, 2.2.5 and 2.3.1; JRuby 9.1.2.0.
+   * 2.3.1 is configured as the default.
    * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
@@ -126,6 +126,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby20` - Ruby 2.0.
  * `phusion/passenger-ruby21` - Ruby 2.1.
  * `phusion/passenger-ruby22` - Ruby 2.2.
+ * `phusion/passenger-ruby23` - Ruby 2.3.
  * `phusion/passenger-jruby91` - JRuby 9.1.2.0.
 
 **Node.js and Meteor images**
@@ -167,6 +168,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby20:<VERSION>
     #FROM phusion/passenger-ruby21:<VERSION>
     #FROM phusion/passenger-ruby22:<VERSION>
+    #FROM phusion/passenger-ruby23:<VERSION>
     #FROM phusion/passenger-jruby91:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
@@ -186,6 +188,7 @@ So put the following in your Dockerfile:
     #RUN /pd_build/ruby2.0.sh
     #RUN /pd_build/ruby2.1.sh
     #RUN /pd_build/ruby2.2.sh
+    #RUN /pd_build/ruby2.3.sh
     #RUN /pd_build/jruby9.1.sh
     #   Python support.
     #RUN /pd_build/python.sh
@@ -236,11 +239,11 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
         passenger_user app;
 
         # If this is a Ruby app, specify a Ruby version:
-        passenger_ruby /usr/bin/ruby2.1;
+        passenger_ruby /usr/bin/ruby2.3;
         # For Ruby 2.2
         passenger_ruby /usr/bin/ruby2.2;
-        # For Ruby 2.0
-        passenger_ruby /usr/bin/ruby2.0;
+        # For Ruby 2.1
+        passenger_ruby /usr/bin/ruby2.1;
     }
 
     # Dockerfile:
@@ -384,6 +387,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN ruby-switch --set ruby2.1
     # Ruby 2.2
     RUN ruby-switch --set ruby2.2
+    # Ruby 2.3
+    RUN ruby-switch --set ruby2.3
     # JRuby
     RUN ruby-switch --set jruby
 
@@ -714,6 +719,7 @@ Build one of the images:
     make build_ruby20
     make build_ruby21
     make build_ruby22
+    make build_ruby23
     make build_jruby91
     make build_nodejs
     make build_customizable

@@ -5,6 +5,7 @@
  * Upgraded to Phusion Passenger 5.0.29.
  * Upgraded Redis to 3.0.
  * Removed support for Ruby 1.9.
+ * Added support for Ruby 2.3.1.
  * Upgraded to Ruby 1.9.3-p551, 2.1.9 and 2.2.5.
  * Upgraded to JRuby 9.1.2.0. We are still on OpenJDK 8 because there is a problem with JRuby and OpenJDK 9.
  * Upgraded to Node.js 4.2.6.
