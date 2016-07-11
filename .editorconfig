@@ -1,0 +1,17 @@
+# http://EditorConfig.org
+
+root = true
+
+[Gemfile]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.rb]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.sh]
+indent_style = tab
+trim_trailing_whitespace = true
