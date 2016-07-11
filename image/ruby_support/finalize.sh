@@ -2,6 +2,9 @@
 set -e
 source /pd_build/buildconfig
 
+## Remove useless files.
+rm -f /usr/local/rvm/rubies/*/lib/libruby-static.a
+
 ## Set the latest available Ruby as the default.
 
 function set_rvm_default()

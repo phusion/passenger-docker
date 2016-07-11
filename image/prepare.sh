@@ -4,6 +4,10 @@ source /pd_build/buildconfig
 
 header "Performing miscellaneous preparation"
 
+## Ensure that docs and non-English locales are not installed.
+run cp /pd_build/config/dpkg-nodocs.conf /etc/dpkg/dpkg.cfg.d/01_nodoc
+run cp /pd_build/config/dpkg-only-english-locale.conf /etc/dpkg/dpkg.cfg.d/01_only_english_locale
+
 ## Create a user for the web app.
 run addgroup --gid 9999 app
 run adduser --uid 9999 --gid 9999 --disabled-password --gecos "Application" app
