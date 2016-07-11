@@ -1,4 +1,4 @@
-## 0.9.19 (not yet released)
+## 0.9.19 (release date: 2016-07-11)
 
  * Upgraded to baseimage-docker 0.9.19.
  * Upgraded to Ubuntu 16.04 with security updates as of July 9, 2016.
