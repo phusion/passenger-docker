@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 source /pd_build/buildconfig
-set -x
+
+header "Installing Python..."
 
 ## Install Python.
-apt-get install -y python python2.7 python3
+run apt-get install -y python python2.7 python3
