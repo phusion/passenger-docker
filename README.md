@@ -618,7 +618,7 @@ Passenger-docker disables the SSH server by default. Add the following to your D
 <a name="ssh_keys"></a>
 #### About SSH keys
 
-First, you must ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so nobody can login. For convenience reasons, we provide [a pregenerated, insecure key](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key) [(PuTTY format)](https://github.com/phusion/baseimage-docker/blob/master/image/insecure_key.ppk) that you can easily enable. However, please be aware that using this key is for convenience only. It does not provide any security because this key (both the public and the private side) is publicly available. **In production environments, you should use your own keys**.
+First, you must ensure that you have the right SSH keys installed inside the container. By default, no keys are installed, so nobody can login. For convenience reasons, we provide [a pregenerated, insecure key](https://raw.githubusercontent.com/phusion/baseimage-docker/master/image/services/sshd/keys/insecure_key) [(PuTTY format)](https://raw.githubusercontent.com/phusion/baseimage-docker/master/image/services/sshd/keys/insecure_key.ppk) that you can easily enable. However, please be aware that using this key is for convenience only. It does not provide any security because this key (both the public and the private side) is publicly available. **In production environments, you should use your own keys**.
 
 <a name="using_the_insecure_key_for_one_container_only"></a>
 #### Using the insecure key for one container only
@@ -640,7 +640,7 @@ Once you have the ID, look for its IP address with:
 Now that you have the IP address, you can use SSH to login to the container, or to execute a command inside it:
 
     # Download the insecure private key
-    curl -o insecure_key -fSL https://github.com/phusion/baseimage-docker/raw/master/image/insecure_key
+    curl -o insecure_key -fSL https://raw.githubusercontent.com/phusion/baseimage-docker/master/image/services/sshd/keys/insecure_key
     chmod 600 insecure_key
 
     # Login to the container
