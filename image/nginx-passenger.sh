@@ -8,11 +8,13 @@ header "Installing Phusion Passenger..."
 ## Phusion Passenger requires Ruby. Install it through RVM, not APT,
 ## so that the -customizable variant cannot end up having Ruby installed
 ## from APT and Ruby installed from RVM.
-run /pd_build/ruby_support/prepare.sh
-run /usr/local/rvm/bin/rvm install ruby-2.3.1
-# Make passenger_system_ruby work.
-run create_rvm_wrapper_script ruby2.3 ruby-2.3.1 ruby
-run /pd_build/ruby_support/finalize.sh
+if [[ ! -e /usr/bin/ruby ]]; then
+	run /pd_build/ruby_support/prepare.sh
+	run /usr/local/rvm/bin/rvm install ruby-2.3.1
+	# Make passenger_system_ruby work.
+	run create_rvm_wrapper_script ruby2.3 ruby-2.3.1 ruby
+	run /pd_build/ruby_support/finalize.sh
+fi
 
 ## Install Phusion Passenger.
 if [[ "$PASSENGER_ENTERPRISE" ]]; then

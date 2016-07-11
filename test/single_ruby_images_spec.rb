@@ -40,6 +40,11 @@ supported_rubies.each do |ruby_spec|
         match(about_regex)
     end
 
+    it 'includes exactly one Ruby' do
+      rubies = capture_command_in_container('/usr/local/rvm/bin/rvm list strings').split("\n")
+      expect(rubies.size).to eq(1)
+    end
+
     it 'is included in the Makefile' do
       makefile = File.read("#{ROOT}/Makefile")
       # Ignore everything before the 'all' target
