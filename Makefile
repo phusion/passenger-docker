@@ -84,14 +84,14 @@ build_full:
 	docker build -t $(NAME)-full:$(VERSION) --rm full_image
 
 tag_latest:
-	docker tag -f $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
-	docker tag -f $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
-	docker tag -f $(NAME)-ruby21:$(VERSION) $(NAME)-ruby21:latest
-	docker tag -f $(NAME)-ruby22:$(VERSION) $(NAME)-ruby22:latest
-	docker tag -f $(NAME)-ruby23:$(VERSION) $(NAME)-ruby23:latest
-	docker tag -f $(NAME)-jruby91:$(VERSION) $(NAME)-jruby91:latest
-	docker tag -f $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
-	docker tag -f $(NAME)-full:$(VERSION) $(NAME)-full:latest
+	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
+	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
+	docker tag $(NAME)-ruby21:$(VERSION) $(NAME)-ruby21:latest
+	docker tag $(NAME)-ruby22:$(VERSION) $(NAME)-ruby22:latest
+	docker tag $(NAME)-ruby23:$(VERSION) $(NAME)-ruby23:latest
+	docker tag $(NAME)-jruby91:$(VERSION) $(NAME)-jruby91:latest
+	docker tag $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
+	docker tag $(NAME)-full:$(VERSION) $(NAME)-full:latest
 
 release: tag_latest
 	@if ! docker images $(NAME)-customizable | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-customizable version $(VERSION) is not yet built. Please run 'make build'"; false; fi
