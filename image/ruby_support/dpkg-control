@@ -9,7 +9,7 @@ Package: ruby-fake
 Version: 1.0.0
 Architecture: all
 Replaces: jruby1.0, jruby1.1, jruby1.2
-Provides: ruby-interpreter, rubygems, librack-ruby, ruby-rack
+Provides: ruby-interpreter, rubygems, rubygems-integration, librack-ruby, ruby-rack
 Description: Ruby interpreter (fake package)
  This is a fake package that does not contain any files; it exists just to
  satisfy dependencies.
