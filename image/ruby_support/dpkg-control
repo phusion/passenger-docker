@@ -1,0 +1,15 @@
+Source: ruby-fake
+Section: ruby
+Priority: optional
+Maintainer: Unmaintained <noreply@debian.org>
+Build-Depends: debhelper (>= 9~)
+Standards-Version: 3.9.6
+Homepage: https://github.com/phusion/passenger-docker
+Package: ruby-fake
+Version: 1.0.0
+Architecture: all
+Replaces: jruby1.0, jruby1.1, jruby1.2
+Provides: ruby-interpreter, rubygems, librack-ruby, ruby-rack
+Description: Ruby interpreter (fake package)
+ This is a fake package that does not contain any files; it exists just to
+ satisfy dependencies.

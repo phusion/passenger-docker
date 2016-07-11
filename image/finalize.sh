@@ -3,6 +3,10 @@ set -e
 source /pd_build/buildconfig
 set -x
 
+if [[ -e /usr/local/rvm ]]; then
+	/usr/local/rvm/bin/rvm cleanup all
+fi
+
 apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 if [[ "$final" = 1 ]]; then

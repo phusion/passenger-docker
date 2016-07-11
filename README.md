@@ -34,7 +34,10 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Using Redis](#redis)
    * [Using memcached](#memcached)
    * [Additional daemons](#additional_daemons)
-   * [Selecting a default Ruby version](#selecting_default_ruby)
+   * [Using Ruby](#using_ruby)
+     * [Selecting a default Ruby version](#selecting_default_ruby)
+     * [Running a command with a specific Ruby version](#running_command_with_specific_ruby_version)
+     * [Default wrapper scripts](default_ruby_wrapper_scripts)
    * [Running scripts during container startup](#running_startup_scripts)
    * [Upgrading the operating system inside the container](#upgrading_os)
    * [Upgrading Passenger to the latest version](#upgrading_passenger)
@@ -54,6 +57,8 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
    * [Logs](#logs)
  * [Switching to Phusion Passenger Enterprise](#enterprise)
  * [Building the image yourself](#building)
+ * [FAQ](#faq)
+   * [Why is RVM used to manage Ruby versions?](#why_rvm)
  * [Conclusion](#conclusion)
 
 ---------------------------------------
@@ -89,8 +94,8 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 Language support:
 
  * Ruby 2.0.0, 2.1.9, 2.2.5 and 2.3.1; JRuby 9.1.2.0.
+   * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.3.1 is configured as the default.
-   * MRI Ruby is installed through [the Brightbox APT repository](https://launchpad.net/~brightbox/+archive/ruby-ng). We're not using RVM!
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
@@ -376,21 +381,60 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 
 **Tip**: If you're thinking about running your web app, consider deploying it on Passenger instead of on runit. Passenger relieves you from even having to write a shell script, and adds all sorts of useful production features like process scaling, introspection, etc. These are not available when you're only using runit.
 
+<a name="using_ruby"></a>
+### Using Ruby
+
+We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Because of this there are some special considerations you need to know, particularly when you are using the `passenger-full` image which contains multiple Ruby versions installed in parallel. You can learn more about RVM at the RVM website, but this section will teach you its basic usage.
+
 <a name="selecting_default_ruby"></a>
-### Selecting a default Ruby version
+#### Selecting a default Ruby version
 
-The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use `ruby-switch` to select a different version as default.
+The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
-    # Ruby 2.0
-    RUN ruby-switch --set ruby2.0
-    # Ruby 2.1
-    RUN ruby-switch --set ruby2.1
-    # Ruby 2.2
-    RUN ruby-switch --set ruby2.2
-    # Ruby 2.3
-    RUN ruby-switch --set ruby2.3
-    # JRuby
-    RUN ruby-switch --set jruby
+    # Ruby 2.0.0
+    RUN bash -lc 'rvm --default use ruby-2.0.0'
+    # Ruby 2.1.9
+    RUN bash -lc 'rvm --default use ruby-2.1.9'
+    # Ruby 2.2.5
+    RUN bash -lc 'rvm --default use ruby-2.2.5'
+    # Ruby 2.3.1
+    RUN bash -lc 'rvm --default use ruby-2.3.1'
+    # JRuby 9.1.2.0
+    RUN bash -lc 'rvm --default use jruby-9.1.2.0'
+
+Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
+
+<a name="running_command_with_specific_ruby_version"></a>
+#### Running a command with a specific Ruby version
+
+You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
+
+    $ rvm-exec 2.3.1 ruby -v
+    ruby 2.3.1
+    $ rvm-exec 2.2.5 ruby -v
+    ruby 2.2.5
+
+More examples, but with Bundler instead:
+
+    # This runs 'bundle install' using Ruby 2.3.1
+    rvm-exec 2.3.1 bundle install
+
+    # This runs 'bundle install' using Ruby 2.2.5
+    rvm-exec 2.2.5 bundle install
+
+<a name="default_ruby_wrapper_scripts"></a>
+#### Default wrapper scripts
+
+Rubies are installed by RVM to /usr/local/rvm. Interactive and login Bash shells load the RVM environment, which ensures that the appropriate directories under /usr/local/rvm are in PATH.
+
+But this means that if you invoke a command without going through an interactive and login Bash shell (e.g. directly using `docker exec`) then the RVM environment won't be loaded. In order to make Ruby work even in this case, Passenger-docker includes a bunch of wrapper scripts:
+
+ * /usr/bin/ruby
+ * /usr/bin/rake
+ * /usr/bin/gem
+ * /usr/bin/bundle
+
+These wrapper scripts execute the respective command through `rvm-exec` using the default Ruby interpreter.
 
 <a name="running_startup_scripts"></a>
 ### Running scripts during container startup
@@ -728,6 +772,44 @@ Build one of the images:
 If you want to call the resulting image something else, pass the NAME variable, like this:
 
     make build NAME=joe/passenger
+
+<a name="faq"></a>
+## FAQ
+
+<a name="why_rvm"></a>
+### Why is RVM used to manage Ruby versions?
+
+For one, it is popular. At the moment of writing (July 2016), it is the most popular Ruby version manager. But see also the questions and answers below.
+
+#### Why are you not using rbenv or chruby?
+
+In summary:
+
+ * We have found RVM to be much more user friendly than rbenv and chruby.
+ * RVM supplies precompiled binaries, while rbenv and chruby only support compiling Ruby from source.
+ * Installing Ruby from Brightbox's APT repository caused too many problems. We used Brightbox's APT repository in the past, but we concluded that it is not the way to go forward.
+
+Rbenv and chruby's main value proposition is that they are "simple". Indeed, they are simpler in implementation (fewer lines of code) than RVM, but they are not simpler to use. Rbenv and chruby are built on the Unix "do one thing only" philosophy. While this is sound, it is not necessarily the behavior that users want: I have seen many users struggling with basic rbenv/chruby usage because of lack of understanding of environment variables, or not having installed the right dependencies. Many users do not understand how the system is supposed to function and what all the different parts are, so doing one thing only may not be what they need. In such a case the simplicity ends up being more of a liability than an asset. It's like selling a car engine, frame and interior separately, while most consumers want an entire car.
+
+RVM is built around a more "holistic" philosophy, if you will. It tries harder to be friendly to users who may not necessarily understand how everything works, for example by automatically installing a bash profile entry, by automatically installing necessary dependencies.
+
+Another critique of RVM is that it is complicated and causes problems. This has not been our experience: perhaps this was the case in the past, but we have found RVM to be quite stable.
+
+#### Why don't you just install Ruby manually from source?
+
+By installing Ruby manually from source, we are just reinventing some of the functionality provided by a real Ruby version manager such as RVM, so we may as well use one to save ourselves time. There is no reason not to use RVM: it only occupies 5 MB of space.
+
+#### Why are you not using the Brightbox's APT repository?
+
+The Brightbox APT repository contains packages for multiple Ruby versions, which can be installed side-by-side. At first, this seems like the perfect solution. And indeed, passenger-docker used to use the Brightbox APT repository.
+
+Unfortunately, we have found that it is much harder to make the different Rubies play nice with each other than it should be. Despite being installable side-to-side, they still conflict with each other. The most notable problem is that all Rubies' RubyGems install binwrappers to /usr/local/bin, but binwrappers generated by different Ruby versions may not be compatible with each other.
+
+RVM provides much better isolation between different Ruby versions.
+
+#### Why don't you just install Ruby from Ubuntu's APT repository?
+
+Because we need to support Ruby versions not available from Ubuntu's APT repository. Besides, Ubuntu (and Debian) are notorious for being slow with updating Ruby packages. By the time the next Ruby version is released, we will have to wait until the next Ubuntu LTS version before we can use it.
 
 <a name="conclusion"></a>
 ## Conclusion

@@ -4,6 +4,7 @@
  * Upgraded to Ubuntu 16.04 with security updates as of July 9, 2016.
  * Upgraded to Phusion Passenger 5.0.29.
  * Upgraded Redis to 3.0.
+ * We now use RVM to manage Ruby interpreters, instead of the Brightbox APT repository. Please see the README for rationale.
  * Removed support for Ruby 1.9.
  * Added support for Ruby 2.3.1.
  * Upgraded to Ruby 1.9.3-p551, 2.1.9 and 2.2.5.
