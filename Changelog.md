@@ -13,6 +13,7 @@
  * ImageMagick is no longer included (needed by rmagick and minimagick). This shaves around 120 MB. If you need it you should install it yourself.
  * Man pages, documentation and non-English locales are now removed. This shaves around 64 MB.
  * Gzip support in Nginx is now correctly enabled by default. Closes GH-115.
+ * Nginx log rotation has now been fixed. Closes GH-113.
 
 ## 0.9.18 (release date: 2015-12-08)
 
