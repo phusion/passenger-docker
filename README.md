@@ -190,11 +190,11 @@ So put the following in your Dockerfile:
     #   Build system and git.
     #RUN /pd_build/utilities.sh
     #   Ruby support.
-    #RUN /pd_build/ruby2.0.sh
-    #RUN /pd_build/ruby2.1.sh
-    #RUN /pd_build/ruby2.2.sh
-    #RUN /pd_build/ruby2.3.sh
-    #RUN /pd_build/jruby9.1.sh
+    #RUN /pd_build/ruby-2.0.*.sh
+    #RUN /pd_build/ruby-2.1.*.sh
+    #RUN /pd_build/ruby-2.2.*.sh
+    #RUN /pd_build/ruby-2.3.*.sh
+    #RUN /pd_build/jruby-9.1.*.sh
     #   Python support.
     #RUN /pd_build/python.sh
     #   Node.js and Meteor support.
