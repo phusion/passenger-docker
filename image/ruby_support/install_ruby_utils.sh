@@ -12,8 +12,6 @@ fi
 if ! [[ -e /tmp/ruby_native_libs_installed ]]; then
 	## For nokogiri.
 	run minimal_apt_get_install libxml2-dev libxslt1-dev
-	## For rmagick and minimagick.
-	run minimal_apt_get_install imagemagick libmagickwand-dev
 	## For mysql and mysql2.
 	run minimal_apt_get_install libmysqlclient-dev
 	## For sqlite3.

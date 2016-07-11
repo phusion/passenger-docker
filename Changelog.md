@@ -10,6 +10,7 @@
  * Upgraded to Ruby 1.9.3-p551, 2.1.9 and 2.2.5.
  * Upgraded to JRuby 9.1.2.0. We are still on OpenJDK 8 because there is a problem with JRuby and OpenJDK 9.
  * Upgraded to Node.js 4.2.6.
+ * ImageMagick is no longer included (needed by rmagick and minimagick). This shaves around 120 MB. If you need it you should install it yourself.
 
 ## 0.9.18 (release date: 2015-12-08)
 
