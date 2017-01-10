@@ -38,6 +38,10 @@ run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 
 ## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby2.4 ]]; then
+	run ruby2.4 -S passenger-config build-native-support
+	run setuser app ruby2.4 -S passenger-config build-native-support
+fi
 if [[ -e /usr/bin/ruby2.3 ]]; then
 	run ruby2.3 -S passenger-config build-native-support
 	run setuser app ruby2.3 -S passenger-config build-native-support

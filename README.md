@@ -93,7 +93,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, 2.2.5 and 2.3.3; JRuby 9.1.2.0.
+ * Ruby 2.0.0, 2.1.9, 2.2.5, 2.3.3 and 2.4.0; JRuby 9.1.2.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.3.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -399,6 +399,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN bash -lc 'rvm --default use ruby-2.2.5'
     # Ruby 2.3.3
     RUN bash -lc 'rvm --default use ruby-2.3.3'
+    # Ruby 2.4.0
+    RUN bash -lc 'rvm --default use ruby-2.4.0'
     # JRuby 9.1.2.0
     RUN bash -lc 'rvm --default use jruby-9.1.2.0'
 
@@ -609,7 +611,7 @@ Here's how it compares to [using `docker exec` to login to the container or to r
 Passenger-docker disables the SSH server by default. Add the following to your Dockerfile to enable it:
 
     RUN rm -f /etc/service/sshd/down
-    
+
     # Regenerate SSH host keys. Passenger-docker does not contain any, so you
     # have to do that yourself. You may also comment out this instruction; the
     # init system will auto-generate one during boot.
@@ -764,6 +766,7 @@ Build one of the images:
     make build_ruby21
     make build_ruby22
     make build_ruby23
+    make build_ruby24
     make build_jruby91
     make build_nodejs
     make build_customizable
