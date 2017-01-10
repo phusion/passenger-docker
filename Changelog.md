@@ -1,3 +1,9 @@
+## 0.9.20 (release date: 2017-01-10)
+
+ * Upgraded to Phusion Passenger 5.1.1.
+ * Upgraded to Ruby 2.3.3.
+ * Added support for Ruby 2.4.0.
+
 ## 0.9.19 (release date: 2016-07-11)
 
  * Upgraded to baseimage-docker 0.9.19.
