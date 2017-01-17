@@ -10,9 +10,9 @@ header "Installing Phusion Passenger..."
 ## from APT and Ruby installed from RVM.
 if [[ ! -e /usr/bin/ruby ]]; then
 	run /pd_build/ruby_support/prepare.sh
-	run /usr/local/rvm/bin/rvm install ruby-2.3.1
+	run /usr/local/rvm/bin/rvm install ruby-2.3.3
 	# Make passenger_system_ruby work.
-	run create_rvm_wrapper_script ruby2.3 ruby-2.3.1 ruby
+	run create_rvm_wrapper_script ruby2.3 ruby-2.3.3 ruby
 	run /pd_build/ruby_support/finalize.sh
 fi
 
@@ -38,6 +38,10 @@ run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 
 ## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby2.4 ]]; then
+	run ruby2.4 -S passenger-config build-native-support
+	run setuser app ruby2.4 -S passenger-config build-native-support
+fi
 if [[ -e /usr/bin/ruby2.3 ]]; then
 	run ruby2.3 -S passenger-config build-native-support
 	run setuser app ruby2.3 -S passenger-config build-native-support

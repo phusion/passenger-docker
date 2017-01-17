@@ -93,9 +93,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, 2.2.5 and 2.3.1; JRuby 9.1.2.0.
+ * Ruby 2.0.0, 2.1.9, 2.2.5, 2.3.3 and 2.4.0; JRuby 9.1.2.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.3.1 is configured as the default.
+   * 2.3.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
@@ -397,8 +397,10 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN bash -lc 'rvm --default use ruby-2.1.9'
     # Ruby 2.2.5
     RUN bash -lc 'rvm --default use ruby-2.2.5'
-    # Ruby 2.3.1
-    RUN bash -lc 'rvm --default use ruby-2.3.1'
+    # Ruby 2.3.3
+    RUN bash -lc 'rvm --default use ruby-2.3.3'
+    # Ruby 2.4.0
+    RUN bash -lc 'rvm --default use ruby-2.4.0'
     # JRuby 9.1.2.0
     RUN bash -lc 'rvm --default use jruby-9.1.2.0'
 
@@ -409,15 +411,15 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
-    $ rvm-exec 2.3.1 ruby -v
-    ruby 2.3.1
+    $ rvm-exec 2.3.3 ruby -v
+    ruby 2.3.3
     $ rvm-exec 2.2.5 ruby -v
     ruby 2.2.5
 
 More examples, but with Bundler instead:
 
-    # This runs 'bundle install' using Ruby 2.3.1
-    rvm-exec 2.3.1 bundle install
+    # This runs 'bundle install' using Ruby 2.3.3
+    rvm-exec 2.3.3 bundle install
 
     # This runs 'bundle install' using Ruby 2.2.5
     rvm-exec 2.2.5 bundle install
@@ -609,7 +611,7 @@ Here's how it compares to [using `docker exec` to login to the container or to r
 Passenger-docker disables the SSH server by default. Add the following to your Dockerfile to enable it:
 
     RUN rm -f /etc/service/sshd/down
-    
+
     # Regenerate SSH host keys. Passenger-docker does not contain any, so you
     # have to do that yourself. You may also comment out this instruction; the
     # init system will auto-generate one during boot.
@@ -737,7 +739,7 @@ If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/ent
  3. Insert into your Dockerfile:
 
         ADD passenger-enterprise-license /etc/passenger-enterprise-license
-        RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt trusty main > /etc/apt/sources.list.d/passenger.list
+        RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt xenial main > /etc/apt/sources.list.d/passenger.list
         RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" passenger-enterprise nginx-extras
 
     Replace `$DOWNLOAD_TOKEN` with your actual download token, as found in the Customer Area.
@@ -764,6 +766,7 @@ Build one of the images:
     make build_ruby21
     make build_ruby22
     make build_ruby23
+    make build_ruby24
     make build_jruby91
     make build_nodejs
     make build_customizable
