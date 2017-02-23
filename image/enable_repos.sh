@@ -14,7 +14,7 @@ else
 fi
 
 ## Rowan's Redis PPA
-echo deb http://ppa.launchpad.net/rwky/redis/ubuntu trusty main > /etc/apt/sources.list.d/redis.list
+echo deb http://ppa.launchpad.net/rwky/ppa/ubuntu trusty main > /etc/apt/sources.list.d/redis.list
 
 ## OpenJDK 8 PPA
 echo deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu trusty main > /etc/apt/sources.list.d/openjdk8.list
