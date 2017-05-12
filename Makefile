@@ -1,5 +1,5 @@
 NAME = phusion/passenger
-VERSION = 0.9.20
+VERSION = 0.9.21
 
 .PHONY: all build_all \
 	build_customizable \
