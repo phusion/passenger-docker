@@ -821,6 +821,6 @@ Because we need to support Ruby versions not available from Ubuntu's APT reposit
  * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
  * Looking for a minimal image containing only a correct base system? Take a look at [baseimage-docker](https://github.com/phusion/baseimage-docker).
 
-[<img src="http://www.phusion.nl/assets/logo.png">](http://www.phusion.nl/)
+[<img src="https://www.phusion.nl/images/PhusionLogo-Blue.png">](http://www.phusion.nl/)
 
 Please enjoy passenger-docker, a product by [Phusion](http://www.phusion.nl/). :-)
