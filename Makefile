@@ -3,6 +3,7 @@ VERSION = 0.9.20
 
 .PHONY: all build_all \
 	build_customizable \
+	build_python2 build_python3 \
 	build_ruby20 build_ruby21 build_ruby22 build_ruby23 build_ruby24 build_jruby91 \
 	build_nodejs build_full \
 	tag_latest release clean clean_images
@@ -11,6 +12,8 @@ all: build_all
 
 build_all: \
 	build_customizable \
+	build_python2 \
+	build_python3 \
 	build_ruby20 \
 	build_ruby21 \
 	build_ruby22 \
@@ -26,6 +29,20 @@ build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
 	docker build -t $(NAME)-customizable:$(VERSION) --rm customizable_image
+
+build_python2:
+	rm -rf python2_image
+	cp -pR image python2_image
+	echo python=1 >> python2_image/buildconfig
+	echo final=1 >> python2_image/buildconfig
+	docker build -t $(NAME)-python2:$(VERSION) --rm python2_image
+
+build_python3:
+	rm -rf python3_image
+	cp -pR image python3_image
+	echo python=1 >> python3_image/buildconfig
+	echo final=1 >> python3_image/buildconfig
+	docker build -t $(NAME)-python3:$(VERSION) --rm python3_image
 
 build_ruby20:
 	rm -rf ruby20_image
@@ -85,7 +102,8 @@ build_full:
 	echo ruby23=1 >> full_image/buildconfig
 	echo ruby24=1 >> full_image/buildconfig
 	echo jruby91=1 >> full_image/buildconfig
-	echo python=1 >> full_image/buildconfig
+	echo python2=1 >> full_image/buildconfig
+	echo python3=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo redis=1 >> full_image/buildconfig
 	echo memcached=1 >> full_image/buildconfig
@@ -94,6 +112,8 @@ build_full:
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
+	docker tag $(NAME)-python2:$(VERSION) $(NAME)-python:latest
+	docker tag $(NAME)-python3:$(VERSION) $(NAME)-python:latest
 	docker tag $(NAME)-ruby20:$(VERSION) $(NAME)-ruby20:latest
 	docker tag $(NAME)-ruby21:$(VERSION) $(NAME)-ruby21:latest
 	docker tag $(NAME)-ruby22:$(VERSION) $(NAME)-ruby22:latest
@@ -105,6 +125,8 @@ tag_latest:
 
 release: tag_latest
 	@if ! docker images $(NAME)-customizable | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-customizable version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-python2 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-python2 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-python3 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-python3 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby20 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby20 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby21 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby21 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby22 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby22 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
@@ -114,6 +136,8 @@ release: tag_latest
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-nodejs version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	docker push $(NAME)-customizable
+	docker push $(NAME)-python2
+	docker push $(NAME)-python3
 	docker push $(NAME)-ruby20
 	docker push $(NAME)-ruby21
 	docker push $(NAME)-ruby22
@@ -126,6 +150,8 @@ release: tag_latest
 
 clean:
 	rm -rf customizable_image
+	rm -rf python2_image
+	rm -rf python3_image
 	rm -rf ruby20_image
 	rm -rf ruby21_image
 	rm -rf ruby22_image
@@ -137,6 +163,8 @@ clean:
 
 clean_images:
 	docker rmi phusion/passenger-customizable:latest phusion/passenger-customizable:$(VERSION) || true
+	docker rmi phusion/passenger-python2:latest phusion/passenger-python:$(VERSION) || true
+	docker rmi phusion/passenger-python3:latest phusion/passenger-python:$(VERSION) || true
 	docker rmi phusion/passenger-ruby20:latest phusion/passenger-ruby20:$(VERSION) || true
 	docker rmi phusion/passenger-ruby21:latest phusion/passenger-ruby21:$(VERSION) || true
 	docker rmi phusion/passenger-ruby22:latest phusion/passenger-ruby22:$(VERSION) || true
