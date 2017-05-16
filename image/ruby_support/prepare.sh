@@ -15,7 +15,9 @@ run gpg --import /pd_build/ruby_support/mpapis-pubkey.asc
 run bash /pd_build/ruby_support/rvm-install.sh stable
 echo "+ Updating /etc/profile.d/rvm_secure_path.sh"
 echo export rvmsudo_secure_path=1 > /etc/profile.d/rvm_secure_path.sh
+echo export rvm_silence_path_mismatch_check_flag=1 >> /etc/profile.d/rvm_silence_path_warning.sh
 run chmod +x /etc/profile.d/rvm_secure_path.sh
+run chmod +x /etc/profile.d/rvm_silence_path_warning.sh
 run usermod -a -G rvm app
 
 # Note: we cannot install an 'rvm' script to /usr/bin because
