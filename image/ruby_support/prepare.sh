@@ -24,12 +24,6 @@ run usermod -a -G rvm app
 # then RVM will try to remove /usr/bin from PATH.
 run install -o root /pd_build/ruby_support/system-rvm-exec.sh /usr/bin/rvm-exec
 
-create_rvm_wrapper_script ruby default ruby
-create_rvm_wrapper_script gem default gem
-create_rvm_wrapper_script rake default rake
-create_rvm_wrapper_script bundle default bundle
-create_rvm_wrapper_script bundler default bundler
-
 # Ensure bash always loads the RVM environment.
 echo 'if [[ "$rvm_prefix" = "" ]]; then source /etc/profile.d/*rvm*; fi' >> /etc/bash.bashrc
 

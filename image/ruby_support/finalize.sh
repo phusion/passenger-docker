@@ -31,3 +31,9 @@ elif [[ "$known_rubies" =~ ^ruby-2\.0 ]]; then
 elif [[ "$known_rubies" =~ ^jruby ]]; then
 	set_rvm_default '^jruby'
 fi
+
+create_rvm_wrapper_script ruby default ruby
+create_rvm_wrapper_script gem default gem
+create_rvm_wrapper_script rake default rake
+create_rvm_wrapper_script bundle default bundle
+create_rvm_wrapper_script bundler default bundler
