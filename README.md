@@ -99,7 +99,7 @@ Language support:
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
- * Node.js 4.2.6.
+ * Node.js 7.10.0.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -137,7 +137,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 4.2.6.
+ * `phusion/passenger-nodejs` - Node.js 7.10.0.
 
 **Other images**
 
@@ -189,9 +189,7 @@ So put the following in your Dockerfile:
     # If you're using the 'customizable' variant, you need to explicitly opt-in
     # for features. Uncomment the features you want:
     #
-    #   Build system and git.
-    #RUN /pd_build/utilities.sh
-    #   Ruby support.
+    #   Ruby support (packaged with Node support as well).
     #RUN /pd_build/ruby-2.0.*.sh
     #RUN /pd_build/ruby-2.1.*.sh
     #RUN /pd_build/ruby-2.2.*.sh
@@ -200,7 +198,8 @@ So put the following in your Dockerfile:
     #RUN /pd_build/jruby-9.1.*.sh
     #   Python support.
     #RUN /pd_build/python.sh
-    #   Node.js and Meteor support.
+    #   Node.js and Meteor standalone support.
+    #   (not needed if you already have the above Ruby support)
     #RUN /pd_build/nodejs.sh
 
     # ...put your own build instructions here...
