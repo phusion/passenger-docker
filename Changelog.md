@@ -1,3 +1,7 @@
+## Next version (not released yet)
+
+ * Upgraded to Ruby 2.4.1 (from 2.4.0)
+
 ## 0.9.21 (release date: 2017-05-18)
 
  * Upgraded to Phusion Passenger 5.1.4.
