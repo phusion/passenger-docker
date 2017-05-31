@@ -190,6 +190,7 @@ So put the following in your Dockerfile:
     # for features. Uncomment the features you want:
     #
     #   Ruby support (packaged with Node support as well).
+    #   Note: Node version included in ruby build is 4.2.6 from Ubuntu 16.0
     #RUN /pd_build/ruby-2.0.*.sh
     #RUN /pd_build/ruby-2.1.*.sh
     #RUN /pd_build/ruby-2.2.*.sh
