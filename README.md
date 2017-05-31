@@ -262,10 +262,13 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
     }
 
     # Dockerfile:
-    RUN rm /etc/nginx/sites-enabled/default
-    ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
-    RUN mkdir /home/app/webapp
-    RUN ...commands to place your web app in /home/app/webapp...
+    ADD webapp.conf /etc/nginx/sites-enabled/default
+
+    # Copy your web app files to /home/app/webapp
+    COPY ...... /home/app/webapp/
+
+    # If you have a proper .dockerignore file, then you can simply:
+    #   COPY . /home/app/webapp/
 
 <a name="configuring_nginx"></a>
 #### Configuring Nginx
