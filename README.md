@@ -187,9 +187,15 @@ So put the following in your Dockerfile:
     CMD ["/sbin/my_init"]
 
     # If you're using the 'customizable' variant, you need to explicitly opt-in
-    # for features. Uncomment the features you want:
+    # for features. 
     #
-    #   Ruby support (packaged with Node support as well).
+    # N.B. these images are based on https://github.com/phusion/baseimage-docker, 
+    # so anything it provides is also automatically on board in the images below 
+    # (e.g. older versions of Ruby, Node, Python).  
+    # 
+    # Uncomment the features you want:
+    #
+    #   Ruby support
     #RUN /pd_build/ruby-2.0.*.sh
     #RUN /pd_build/ruby-2.1.*.sh
     #RUN /pd_build/ruby-2.2.*.sh
