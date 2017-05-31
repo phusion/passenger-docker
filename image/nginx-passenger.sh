@@ -37,6 +37,9 @@ run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 
+# Fix nginx log rotation
+sed -i 's|invoke-rc.d nginx rotate >/dev/null 2>&1|if [ -f /var/run/nginx.pid ]; then \\\n\t\t\tkill -USR1 `cat /var/run/nginx.pid` >/dev/null 2>\&1; \\\n\t\tfi \\|g' /etc/logrotate.d/nginx
+
 ## Precompile Ruby extensions.
 if [[ -e /usr/bin/ruby2.4 ]]; then
 	run ruby2.4 -S passenger-config build-native-support
