@@ -1,6 +1,8 @@
-## Next version (not released yet)
+## 0.9.22 (release date: 2017-06-19)
 
- * Upgraded to Ruby 2.4.1 (from 2.4.0)
+ * Upgraded to Phusion Passenger 5.1.5 (from 5.1.4).
+ * Upgraded to Ruby 2.4.1 (from 2.4.0).
+ * Upgraded to baseimage-docker 0.9.22 (from 0.9.21).
 
 ## 0.9.21 (release date: 2017-05-18)
 
