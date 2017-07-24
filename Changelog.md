@@ -1,3 +1,7 @@
+## 0.9.23 (release date: 2017-07-24)
+
+ * Upgraded to Phusion Passenger 5.1.6 (from 5.1.5).
+
 ## 0.9.22 (release date: 2017-06-19)
 
  * Upgraded to Phusion Passenger 5.1.5 (from 5.1.4).
