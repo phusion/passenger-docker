@@ -1,3 +1,10 @@
+## 0.9.26 (release date: TBD)
+
+ * Upgraded to Phusion Passenger 5.1.9 (from 5.1.8).
+ * Upgraded to Ruby 2.4.2 (from 2.4.1).
+ * Upgraded to Ruby 2.3.5 (from 2.3.3).
+ * Upgraded to Ruby 2.2.8 (from 2.2.5).
+
 ## 0.9.25 (release date: 2017-08-23)
 
  * Upgraded to Phusion Passenger 5.1.8 (from 5.1.7).
