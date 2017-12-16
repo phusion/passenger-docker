@@ -93,9 +93,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, 2.2.8, 2.3.5 and 2.4.2; JRuby 9.1.2.0.
+ * Ruby 2.0.0, 2.1.9, 2.2.9, 2.3.6 and 2.4.3; JRuby 9.1.2.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.3.5 is configured as the default.
+   * 2.3.6 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
@@ -405,12 +405,12 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN bash -lc 'rvm --default use ruby-2.0.0'
     # Ruby 2.1.9
     RUN bash -lc 'rvm --default use ruby-2.1.9'
-    # Ruby 2.2.8
-    RUN bash -lc 'rvm --default use ruby-2.2.8'
-    # Ruby 2.3.5
-    RUN bash -lc 'rvm --default use ruby-2.3.5'
-    # Ruby 2.4.2
-    RUN bash -lc 'rvm --default use ruby-2.4.2'
+    # Ruby 2.2.9
+    RUN bash -lc 'rvm --default use ruby-2.2.9'
+    # Ruby 2.3.6
+    RUN bash -lc 'rvm --default use ruby-2.3.6'
+    # Ruby 2.4.3
+    RUN bash -lc 'rvm --default use ruby-2.4.3'
     # JRuby 9.1.2.0
     RUN bash -lc 'rvm --default use jruby-9.1.2.0'
 
@@ -421,18 +421,18 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
-    $ rvm-exec 2.3.5 ruby -v
-    ruby 2.3.5
-    $ rvm-exec 2.2.8 ruby -v
-    ruby 2.2.8
+    $ rvm-exec 2.3.6 ruby -v
+    ruby 2.3.6
+    $ rvm-exec 2.2.9 ruby -v
+    ruby 2.2.9
 
 More examples, but with Bundler instead:
 
-    # This runs 'bundle install' using Ruby 2.3.5
-    rvm-exec 2.3.5 bundle install
+    # This runs 'bundle install' using Ruby 2.3.6
+    rvm-exec 2.3.6 bundle install
 
-    # This runs 'bundle install' using Ruby 2.2.8
-    rvm-exec 2.2.8 bundle install
+    # This runs 'bundle install' using Ruby 2.2.9
+    rvm-exec 2.2.9 bundle install
 
 <a name="default_ruby_wrapper_scripts"></a>
 #### Default wrapper scripts
