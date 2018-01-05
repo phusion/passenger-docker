@@ -93,7 +93,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, 2.2.9, 2.3.6 and 2.4.3; JRuby 9.1.2.0.
+ * Ruby 2.0.0, 2.1.9, 2.2.9, 2.3.6, 2.4.3 and 2.5.0; JRuby 9.1.2.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.3.6 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -133,6 +133,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby22` - Ruby 2.2.
  * `phusion/passenger-ruby23` - Ruby 2.3.
  * `phusion/passenger-ruby24` - Ruby 2.4.
+ * `phusion/passenger-ruby25` - Ruby 2.5.
  * `phusion/passenger-jruby91` - JRuby 9.1.2.0.
 
 **Node.js and Meteor images**
@@ -176,6 +177,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby22:<VERSION>
     #FROM phusion/passenger-ruby23:<VERSION>
     #FROM phusion/passenger-ruby24:<VERSION>
+    #FROM phusion/passenger-ruby25:<VERSION>
     #FROM phusion/passenger-jruby91:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
@@ -777,6 +779,7 @@ Build one of the images:
     make build_ruby22
     make build_ruby23
     make build_ruby24
+    make build_ruby25
     make build_jruby91
     make build_nodejs
     make build_customizable

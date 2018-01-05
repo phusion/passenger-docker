@@ -11,6 +11,7 @@ if [[ "$ruby21" = 1 ]]; then run /pd_build/ruby-2.1.9.sh; fi
 if [[ "$ruby22" = 1 ]]; then run /pd_build/ruby-2.2.9.sh; fi
 if [[ "$ruby23" = 1 ]]; then run /pd_build/ruby-2.3.6.sh; fi
 if [[ "$ruby24" = 1 ]]; then run /pd_build/ruby-2.4.3.sh; fi
+if [[ "$ruby25" = 1 ]]; then run /pd_build/ruby-2.5.0.sh; fi
 if [[ "$jruby91" = 1 ]]; then run /pd_build/jruby-9.1.2.0.sh; fi
 if [[ "$python" = 1 ]]; then run /pd_build/python.sh; fi
 if [[ "$nodejs" = 1 ]]; then run /pd_build/nodejs.sh; fi
