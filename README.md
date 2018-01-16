@@ -220,7 +220,7 @@ The image has an `app` user with UID 9999 and home directory `/home/app`. Your a
 
 Your application should be placed inside /home/app.
 
-Note: when copying your application, make sure to set the ownership of the application directory to `app` by calling `COPY --chown=app:app /path/to/your/web/app`
+Note: when copying your application, make sure to set the ownership of the application directory to `app` by calling `COPY --chown=app:app /local/path/of/your/app /home/app/webapp`
 
 <a name="nginx_passenger"></a>
 ### Using Nginx and Passenger
@@ -268,7 +268,7 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
     ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
-    # COPY --chown=app:app /path/to/your/web/app # This copies your web app with the correct ownership.
+    # COPY --chown=app:app /local/path/of/your/app /home/app/webapp # This copies your web app with the correct ownership.
 
 <a name="configuring_nginx"></a>
 #### Configuring Nginx
