@@ -1,5 +1,6 @@
 ## 0.9.29 (release date: TODO)
 
+ * Hints about app permission in container. Thanks to contribution by skunkworker (PR 206)
  * Thanks to contribution by ledermann (PR 204):
    - Added build for Ruby 2.5 (2.5.0). 
    - Upgraded to Ruby 2.4.3 (from 2.4.2).
