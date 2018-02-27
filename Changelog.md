@@ -1,3 +1,11 @@
+## 0.9.29 (release date: TODO)
+
+ * Thanks to contribution by ledermann (PR 204):
+   - Added build for Ruby 2.5 (2.5.0). 
+   - Upgraded to Ruby 2.4.3 (from 2.4.2).
+   - Upgraded to Ruby 2.3.6 (from 2.3.5).
+   - Upgraded to Ruby 2.2.9 (from 2.2.8).
+
 ## 0.9.28 (release date: 2018-01-29)
 
  * Upgraded to Phusion Passenger 5.2.0 (from 5.1.12).
