@@ -6,6 +6,7 @@
    - Upgraded to Ruby 2.4.3 (from 2.4.2).
    - Upgraded to Ruby 2.3.6 (from 2.3.5).
    - Upgraded to Ruby 2.2.9 (from 2.2.8).
+ * Upgraded to Node.js 8.9.4 LTS (from 7.10.0, sticking to LTS releases from now).
 
 ## 0.9.28 (release date: 2018-01-29)
 
