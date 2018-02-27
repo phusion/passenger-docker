@@ -127,15 +127,25 @@ release: tag_latest
 	@if ! docker images $(NAME)-jruby91 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-jruby91 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-nodejs version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	docker push $(NAME)-customizable:latest
 	docker push $(NAME)-customizable:$(VERSION)
+	docker push $(NAME)-ruby20:latest
 	docker push $(NAME)-ruby20:$(VERSION)
+	docker push $(NAME)-ruby21:latest
 	docker push $(NAME)-ruby21:$(VERSION)
+	docker push $(NAME)-ruby22:latest
 	docker push $(NAME)-ruby22:$(VERSION)
+	docker push $(NAME)-ruby23:latest
 	docker push $(NAME)-ruby23:$(VERSION)
+	docker push $(NAME)-ruby24:latest
 	docker push $(NAME)-ruby24:$(VERSION)
+	docker push $(NAME)-ruby25:latest
 	docker push $(NAME)-ruby25:$(VERSION)
+	docker push $(NAME)-jruby91:latest
 	docker push $(NAME)-jruby91:$(VERSION)
+	docker push $(NAME)-nodejs:latest
 	docker push $(NAME)-nodejs:$(VERSION)
+	docker push $(NAME)-full:latest
 	docker push $(NAME)-full:$(VERSION)
 	@echo "*** Don't forget to create a tag. git tag rel-$(VERSION) && git push origin rel-$(VERSION)"
 
