@@ -6,7 +6,7 @@ First off, thank you for considering contributing to passenger-docker. It's peop
 We look for contributions improving documentation, bug triaging, or writing tutorials, as well as bug reports and patches.
 
 ### Contributions we are not looking for
-Please, don't use the issue tracker for support questions. Instead consider Stack Overflow.
+Please, don't use the issue tracker for support questions. Instead [consider Stack Overflow](https://stackoverflow.com/search?tab=newest&q=passenger%20docker).
 
 ## Ground Rules
 
