@@ -1,6 +1,7 @@
-## 0.9.30 (release date: TODO)
+## 0.9.30 (release date: 2018-04-06)
 
  * Upgraded to Phusion Passenger 5.2.3 (from 5.2.1).
+ * Upgraded to Node.js 8.11.1 LTS Carbon (from 8.9.4).
  * Thanks to contribution by ledermann (PR 214):
    - Upgraded to Ruby 2.5.1 (from 2.5.0).
    - Upgraded to Ruby 2.4.4 (from 2.4.2).
