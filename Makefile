@@ -29,63 +29,63 @@ build_all: \
 build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION) --rm customizable_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION) --rm customizable_image --no-cache
 
 build_ruby20:
 	rm -rf ruby20_image
 	cp -pR image ruby20_image
 	echo ruby20=1 >> ruby20_image/buildconfig
 	echo final=1 >> ruby20_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby20:$(VERSION) --rm ruby20_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby20:$(VERSION) --rm ruby20_image --no-cache
 
 build_ruby21:
 	rm -rf ruby21_image
 	cp -pR image ruby21_image
 	echo ruby21=1 >> ruby21_image/buildconfig
 	echo final=1 >> ruby21_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby21:$(VERSION) --rm ruby21_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby21:$(VERSION) --rm ruby21_image --no-cache
 
 build_ruby22:
 	rm -rf ruby22_image
 	cp -pR image ruby22_image
 	echo ruby22=1 >> ruby22_image/buildconfig
 	echo final=1 >> ruby22_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby22:$(VERSION) --rm ruby22_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby22:$(VERSION) --rm ruby22_image --no-cache
 
 build_ruby23:
 	rm -rf ruby23_image
 	cp -pR image ruby23_image
 	echo ruby23=1 >> ruby23_image/buildconfig
 	echo final=1 >> ruby23_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby23:$(VERSION) --rm ruby23_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby23:$(VERSION) --rm ruby23_image --no-cache
 
 build_ruby24:
 	rm -rf ruby24_image
 	cp -pR image ruby24_image
 	echo ruby24=1 >> ruby24_image/buildconfig
 	echo final=1 >> ruby24_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby24:$(VERSION) --rm ruby24_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby24:$(VERSION) --rm ruby24_image --no-cache
 
 build_ruby25:
 	rm -rf ruby25_image
 	cp -pR image ruby25_image
 	echo ruby25=1 >> ruby25_image/buildconfig
 	echo final=1 >> ruby25_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby25:$(VERSION) --rm ruby25_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby25:$(VERSION) --rm ruby25_image --no-cache
 
 build_jruby91:
 	rm -rf jruby91_image
 	cp -pR image jruby91_image
 	echo jruby91=1 >> jruby91_image/buildconfig
 	echo final=1 >> jruby91_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby91:$(VERSION) --rm jruby91_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby91:$(VERSION) --rm jruby91_image --no-cache
 
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
 	echo nodejs=1 >> nodejs_image/buildconfig
 	echo final=1 >> nodejs_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION) --rm nodejs_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION) --rm nodejs_image --no-cache
 
 build_full:
 	rm -rf full_image
@@ -102,7 +102,7 @@ build_full:
 	echo redis=1 >> full_image/buildconfig
 	echo memcached=1 >> full_image/buildconfig
 	echo final=1 >> full_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-full:$(VERSION) --rm full_image
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-full:$(VERSION) --rm full_image --no-cache
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
