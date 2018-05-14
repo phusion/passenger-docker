@@ -1,3 +1,7 @@
+## 0.9.32 (release date: 2018-05-14)
+
+ * Upgraded to Phusion Passenger 5.3.1 (from 5.3.0).
+
 ## 0.9.31 (release date: 2018-05-09)
 
  * Upgraded to Phusion Passenger 5.3.0 (from 5.2.3).
