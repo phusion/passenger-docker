@@ -842,6 +842,8 @@ Thanks for your interest in contributing! There are many ways to contribute to t
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
  * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
  * Looking for a minimal image containing only a correct base system? Take a look at [baseimage-docker](https://github.com/phusion/baseimage-docker).
+ * Need a helping hand? Phusion also offers [consulting](https://www.phusion.nl/consultancy) on a wide range of topics, including Web Development, UI/UX Research & Design, Technology Migration and Auditing. 
+
 
 [<img src="https://www.phusion.nl/images/mark_logotype.svg">](http://www.phusion.nl/)
 
