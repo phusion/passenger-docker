@@ -1,3 +1,35 @@
+## 0.9.35 (release date: 2018-08-01)
+
+ * Upgraded to Phusion Passenger 5.3.4 (from 5.3.3).
+
+## 0.9.34 (release date: 2018-06-26)
+
+ * Upgraded to Phusion Passenger 5.3.3 (from 5.3.2).
+
+## 0.9.33 (release date: 2018-06-12)
+
+ * Upgraded to Phusion Passenger 5.3.2 (from 5.3.1).
+ * Upgraded to baseimage-docker 0.10.1 (from 0.9.22).
+
+## 0.9.32 (release date: 2018-05-14)
+
+ * Upgraded to Phusion Passenger 5.3.1 (from 5.3.0).
+
+## 0.9.31 (release date: 2018-05-09)
+
+ * Upgraded to Phusion Passenger 5.3.0 (from 5.2.3).
+
+## 0.9.30 (release date: 2018-04-06)
+
+ * Upgraded to Phusion Passenger 5.2.3 (from 5.2.1).
+ * Upgraded to Node.js 8.11.1 LTS Carbon (from 8.9.4).
+ * Thanks to contribution by ledermann (PR 214):
+   - Upgraded to Ruby 2.5.1 (from 2.5.0).
+   - Upgraded to Ruby 2.4.4 (from 2.4.2).
+   - Upgraded to Ruby 2.3.7 (from 2.3.6).
+   - Upgraded to Ruby 2.2.10 (from 2.2.9).
+
+
 ## 0.9.29 (release date: 2018-02-27)
 
  * Upgraded to Phusion Passenger 5.2.1 (from 5.2.0).

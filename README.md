@@ -1,6 +1,6 @@
 # Docker base images for Ruby, Python, Node.js and Meteor web apps
 
-<center><img src="http://blog.phusion.nl/wp-content/uploads/2012/07/Passenger_chair_256x256.jpg" width="196" height="196" alt="Phusion Passenger"> <img src="http://blog.phusion.nl/wp-content/uploads/2013/11/docker.png" width="233" height="196" alt="Docker"></center>
+<img src="http://blog.phusion.nl/content/images/2018/03/passenger-docker.jpg" width="500" alt="Docker">
 
 Passenger-docker is a set of [Docker](https://www.docker.com) images meant to serve as good bases for **Ruby, Python, Node.js and Meteor** web app images. In line with [Phusion Passenger](https://www.phusionpassenger.com/)'s goal, passenger-docker's goal is to make Docker image building for web apps much easier and faster.
 
@@ -59,6 +59,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
  * [Building the image yourself](#building)
  * [FAQ](#faq)
    * [Why is RVM used to manage Ruby versions?](#why_rvm)
+ * [Contributing](#contributing)
  * [Conclusion](#conclusion)
 
 ---------------------------------------
@@ -93,13 +94,13 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.0.0, 2.1.9, 2.2.9, 2.3.6, 2.4.3 and 2.5.0; JRuby 9.1.2.0.
+ * Ruby 2.0.0, 2.1.9, 2.2.10, 2.3.7, 2.4.4 and 2.5.1; JRuby 9.1.2.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.3.6 is configured as the default.
+   * 2.3.7 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.4.
- * Node.js 8.9.4.
+ * Node.js 8.11.1.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -138,7 +139,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 8.9.4.
+ * `phusion/passenger-nodejs` - Node.js 8.11.1.
 
 **Other images**
 
@@ -410,12 +411,12 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
     RUN bash -lc 'rvm --default use ruby-2.0.0'
     # Ruby 2.1.9
     RUN bash -lc 'rvm --default use ruby-2.1.9'
-    # Ruby 2.2.9
-    RUN bash -lc 'rvm --default use ruby-2.2.9'
-    # Ruby 2.3.6
-    RUN bash -lc 'rvm --default use ruby-2.3.6'
-    # Ruby 2.4.3
-    RUN bash -lc 'rvm --default use ruby-2.4.3'
+    # Ruby 2.2.10
+    RUN bash -lc 'rvm --default use ruby-2.2.10'
+    # Ruby 2.3.7
+    RUN bash -lc 'rvm --default use ruby-2.3.7'
+    # Ruby 2.4.4
+    RUN bash -lc 'rvm --default use ruby-2.4.4'
     # JRuby 9.1.2.0
     RUN bash -lc 'rvm --default use jruby-9.1.2.0'
 
@@ -426,18 +427,18 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
-    $ rvm-exec 2.3.6 ruby -v
-    ruby 2.3.6
-    $ rvm-exec 2.2.9 ruby -v
-    ruby 2.2.9
+    $ rvm-exec 2.3.7 ruby -v
+    ruby 2.3.7
+    $ rvm-exec 2.2.10 ruby -v
+    ruby 2.2.10
 
 More examples, but with Bundler instead:
 
-    # This runs 'bundle install' using Ruby 2.3.6
-    rvm-exec 2.3.6 bundle install
+    # This runs 'bundle install' using Ruby 2.3.7
+    rvm-exec 2.3.7 bundle install
 
-    # This runs 'bundle install' using Ruby 2.2.9
-    rvm-exec 2.2.9 bundle install
+    # This runs 'bundle install' using Ruby 2.2.10
+    rvm-exec 2.2.10 bundle install
 
 <a name="default_ruby_wrapper_scripts"></a>
 #### Default wrapper scripts
@@ -830,12 +831,19 @@ RVM provides much better isolation between different Ruby versions.
 
 Because we need to support Ruby versions not available from Ubuntu's APT repository. Besides, Ubuntu (and Debian) are notorious for being slow with updating Ruby packages. By the time the next Ruby version is released, we will have to wait until the next Ubuntu LTS version before we can use it.
 
+<a name="contributing"></a>
+## Contributing
+
+Thanks for your interest in contributing! There are many ways to contribute to this project. Get started [here](https://github.com/phusion/passenger-docker/blob/master/CONTRIBUTING.md).
+
 <a name="conclusion"></a>
 ## Conclusion
 
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
  * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
  * Looking for a minimal image containing only a correct base system? Take a look at [baseimage-docker](https://github.com/phusion/baseimage-docker).
+ * Need a helping hand? Phusion also offers [consulting](https://www.phusion.nl/consultancy) on a wide range of topics, including Web Development, UI/UX Research & Design, Technology Migration and Auditing. 
+
 
 [<img src="https://www.phusion.nl/images/mark_logotype.svg">](http://www.phusion.nl/)
 
