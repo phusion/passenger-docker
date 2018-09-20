@@ -271,7 +271,8 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
     ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
     RUN mkdir /home/app/webapp
     RUN ...commands to place your web app in /home/app/webapp...
-    # COPY --chown=app:app /local/path/of/your/app /home/app/webapp # This copies your web app with the correct ownership.
+    # This copies your web app with the correct ownership.
+    # COPY --chown=app:app /local/path/of/your/app /home/app/webapp 
 
 <a name="configuring_nginx"></a>
 #### Configuring Nginx
