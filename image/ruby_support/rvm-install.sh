@@ -25,8 +25,8 @@ rvm_install_initialize()
 }
 
 log()  { printf "%b\n" "$*"; }
-debug(){ [[ ${rvm_debug_flag:-0} -eq 0 ]] || printf "%b\n" "Running($#): $*"; }
-fail() { log "\nERROR: $*\n" ; exit 1 ; }
+debug(){ [[ ${rvm_debug_flag:-0} -eq 0 ]] || printf "%b\n" "$*" >&2; }
+fail() { log "\nERROR: $*\n" >&2 ; exit 1 ; }
 
 rvm_install_commands_setup()
 {
@@ -116,7 +116,7 @@ Options
 
       <account>/
 
-        If account is wayneeseguin or mpapis, installs from one of the following:
+        If account is rvm or mpapis, installs from one of the following:
 
           https://github.com/rvm/rvm/archive/master.tar.gz
           https://bitbucket.org/mpapis/rvm/get/master.tar.gz
@@ -127,7 +127,7 @@ Options
 
       <account>/<branch>
 
-        If account is wayneeseguin or mpapis, installs from one of the following:
+        If account is rvm or mpapis, installs from one of the following:
 
           https://github.com/rvm/rvm/archive/<branch>.tar.gz
           https://bitbucket.org/mpapis/rvm/get/<branch>.tar.gz
@@ -345,7 +345,7 @@ get_package()
   _url="$1"
   _file="$2"
   log "Downloading ${_url}"
-  __rvm_curl -sS ${_url} -o ${rvm_archives_path}/${_file} ||
+  __rvm_curl -sS ${_url} > ${rvm_archives_path}/${_file} ||
   {
     _return=$?
     case $_return in
@@ -390,10 +390,13 @@ rvm_install_gpg_setup()
   {
     rvm_gpg_command="$( \which gpg2 2>/dev/null )" &&
     [[ ${rvm_gpg_command} != "/cygdrive/"* ]]
-  } ||
-    rvm_gpg_command="$( \which gpg 2>/dev/null )" ||
-    rvm_gpg_command=""
+  } || {
+    rvm_gpg_command="$( \which gpg 2>/dev/null )" &&
+    [[ ${rvm_gpg_command} != "/cygdrive/"* ]]
+  } || rvm_gpg_command=""
+
   debug "Detected GPG program: '$rvm_gpg_command'"
+
   [[ -n "$rvm_gpg_command" ]] || return $?
 }
 
@@ -407,15 +410,12 @@ verify_package_pgp()
   else
     typeset _ret=$?
     log "\
-Warning, RVM 1.26.0 introduces signed releases and \
-automated check of signatures when GPG software found.
-Assuming you trust Michal Papis import the mpapis public \
-key (downloading the signatures).
+Warning, RVM 1.26.0 introduces signed releases and automated check of signatures when GPG software found. \
+Assuming you trust Michal Papis import the mpapis public key (downloading the signatures).
 
-GPG signature verification failed for '$1' - '$3'!
-try downloading the signatures:
+GPG signature verification failed for '$1' - '$3'! Try to install GPG v2 and then fetch the public key:
 
-    ${SUDO_USER:+sudo }${rvm_gpg_command##*/} --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    ${SUDO_USER:+sudo }gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
 or if it fails:
 
@@ -425,6 +425,9 @@ the key can be compared with:
 
     https://rvm.io/mpapis.asc
     https://keybase.io/mpapis
+
+NOTE: GPG version 2.1.17 have a bug which cause failures during fetching keys from remote server. Please downgrade \
+or upgrade to newer version (if available) or use the second method described above.
 "
     exit $_ret
   fi
@@ -472,7 +475,17 @@ get_and_unpack()
     return $_return
   }
 
-  rm -rf ${rvm_src_path}/rvm/*
+  # Remove existing installation
+  typeset _cleanup_cmd
+  _cleanup_cmd="rm -rf ${rvm_src_path}/rvm/{,.[!.],..?}*"
+
+  $_cleanup_cmd || {
+    _return=$?
+      log "Could not remove old RVM sources. Try:\n\n\tsudo $_cleanup_cmd\n\nThen retry your task again."
+      return $_return
+  }
+
+  # Unpack sources
   __rvm_debug_command $rvm_tar_command xzf ${rvm_archives_path}/${_file} ${rvm_tar_options:-} --strip-components 1 ||
   {
     _return=$?
@@ -596,13 +609,13 @@ rvm_install_parse_params()
               ;;
             (*/)
               branch=master
-              if [[ "${1%/}" -ne wayneeseguin ]] && [[ "${1%/}" -ne mpapis ]]
+              if [[ "${1%/}" -ne rvm ]] && [[ "${1%/}" -ne mpapis ]]
               then sources=(github.com/${1%/}/rvm)
               fi
               ;;
             (*/*)
               branch=${1#*/}
-              if [[ "${1%%/*}" -ne wayneeseguin ]] && [[ "${1%%/*}" -ne mpapis ]]
+              if [[ "${1%%/*}" -ne rvm ]] && [[ "${1%%/*}" -ne mpapis ]]
               then sources=(github.com/${1%%/*}/rvm)
               fi
               ;;
@@ -717,7 +730,7 @@ rvm_install_parse_params()
         shift
         ;;
 
-      (help|usage)
+      (help)
         usage
         exit 0
         ;;
@@ -751,7 +764,7 @@ rvm_install_validate_rvm_path()
   case "$rvm_path" in
     (*[[:space:]]*)
       printf "%b" "
-It looks you are one of the happy *space* users(in home dir name),
+It looks you are one of the happy *space* users (in home dir name),
 RVM is not yet fully ready for it, use this trick to fix it:
 
     sudo mkdir -p /${USER// /_}.rvm
@@ -779,6 +792,42 @@ follow this link for details how to fix:
   if [[ "$rvm_path" != "/"* ]]
   then fail "The rvm install path must be fully qualified. Tried $rvm_path"
   fi
+}
+
+rvm_install_validate_volume_mount_mode()
+{
+  \typeset path partition test_exec
+
+  path=$rvm_path
+
+  # Directory $rvm_path might not exists at this point so we need to traverse the tree upwards
+  while [[ -n "$path" ]]
+  do
+      if [[ -d $path ]]
+      then
+        partition=`df -P $path | awk 'END{print $1}'`
+
+        test_exec=$(mktemp $path/rvm-exec-test.XXXXXX)
+        echo '#!/bin/sh' > "$test_exec"
+        chmod +x "$test_exec"
+
+        if ! "$test_exec"
+        then
+          rm -f "$test_exec"
+          printf "%b" "
+It looks that scripts located in ${path}, which would be RVM destination ${rvm_path},
+are not executable. One of the reasons might be that partition ${partition} holding this location
+is mounted in *noexec* mode, which prevents RVM from working correctly. Please verify your setup
+and re-mount partition ${partition} without the noexec option."
+          exit 2
+        fi
+
+        rm -f "$test_exec"
+        break
+      fi
+
+      path=${path%/*}
+  done
 }
 
 rvm_install_select_and_get_version()
@@ -825,7 +874,7 @@ rvm_install_main()
 {
   [[ -f ./scripts/install ]] ||
   {
-    log "'./scripts/install' can not be found for installation, something went wrong, it usally means your 'tar' is broken, please report it here: https://github.com/rvm/rvm/issues"
+    log "'./scripts/install' can not be found for installation, something went wrong, it usually means your 'tar' is broken, please report it here: https://github.com/rvm/rvm/issues"
     return 127
   }
 
@@ -840,8 +889,8 @@ rvm_install_ruby_and_gems()
     (( ${#install_rubies[@]} > 0 ))
   then
     source ${rvm_scripts_path:-${rvm_path}/scripts}/rvm
-    source ${rvm_scripts_path:-${rvm_path}/scripts}/version
-    __rvm_version
+    source ${rvm_scripts_path:-${rvm_path}/scripts}/functions/version
+    __rvm_print_headline
 
     for _ruby in ${install_rubies[@]}
     do command rvm "${forwarded_flags[@]}" install ${_ruby} -j 2
@@ -879,6 +928,7 @@ rvm_install()
   rvm_install_default_settings
   rvm_install_parse_params "$@"
   rvm_install_validate_rvm_path
+  rvm_install_validate_volume_mount_mode
   rvm_install_select_and_get_version
   rvm_install_main
   rvm_install_ruby_and_gems

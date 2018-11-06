@@ -2,7 +2,7 @@
 set -e
 source /pd_build/buildconfig
 
-RVM_ID=`basename "$0" | sed 's/.sh$//'`
+RVM_ID=$(basename "$0" | sed 's/.sh$//')
 
 header "Installing $RVM_ID"
 run /pd_build/ruby_support/prepare.sh

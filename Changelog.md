@@ -1,3 +1,16 @@
+## 1.0.0 (release date: 2018-11-06)
+
+ * Upgraded to baseimage-docker 0.11.
+ * Upgraded to Ubuntu 18.04.
+ * Upgraded to Phusion Passenger 5.3.6.
+ * Upgraded to Nginx 1.14.0.
+ * Upgraded to Ruby 2.5.3.
+ * Upgraded to Ruby 2.4.5.
+ * Upgraded to Ruby 2.3.8.
+ * Upgraded to JRuby 9.2.0.0.
+ * Upgraded to Redis 4.0.
+ * Dropped Ruby 2.0, 2.1 and 2.2.
+
 ## 0.9.35 (release date: 2018-08-01)
 
  * Upgraded to Phusion Passenger 5.3.4 (from 5.3.3).
