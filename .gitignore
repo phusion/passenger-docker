@@ -1,12 +1,7 @@
 .DS_Store
 .vagrant
 customizable_image
-ruby20_image
-ruby21_image
-ruby22_image
-ruby23_image
-ruby24_image
-ruby25_image
-jruby91_image
+ruby*_image
+jruby*_image
 nodejs_image
 full_image

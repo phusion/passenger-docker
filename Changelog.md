@@ -1,3 +1,7 @@
+## 1.0.1 (release date: 2018-11-30)
+
+ * Upgraded to Phusion Passenger 6.0.0 (from 5.3.6).
+
 ## 1.0.0 (release date: 2018-11-06)
 
  * Upgraded to baseimage-docker 0.11.
