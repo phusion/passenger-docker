@@ -12,6 +12,7 @@ echo "gem: --no-document" > /etc/gemrc
 ## Install RVM.
 export HOME=/root
 run gpg --import /pd_build/ruby_support/mpapis-pubkey.asc
+run gpg --import /pd_build/ruby_support/pkuczynski-pubkey.asc
 run bash /pd_build/ruby_support/rvm-install.sh stable
 echo "+ Updating /etc/profile.d/rvm_secure_path.sh"
 echo export rvmsudo_secure_path=1 > /etc/profile.d/rvm_secure_path.sh
