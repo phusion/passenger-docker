@@ -9,6 +9,7 @@ run /pd_build/utilities.sh
 if [[ "$ruby23" = 1 ]]; then run /pd_build/ruby-2.3.8.sh; fi
 if [[ "$ruby24" = 1 ]]; then run /pd_build/ruby-2.4.5.sh; fi
 if [[ "$ruby25" = 1 ]]; then run /pd_build/ruby-2.5.3.sh; fi
+if [[ "$ruby26" = 1 ]]; then run /pd_build/ruby-2.6.0.sh; fi
 if [[ "$jruby92" = 1 ]]; then run /pd_build/jruby-9.2.0.0.sh; fi
 if [[ "$python" = 1 ]]; then run /pd_build/python.sh; fi
 if [[ "$nodejs" = 1 ]]; then run /pd_build/nodejs.sh; fi

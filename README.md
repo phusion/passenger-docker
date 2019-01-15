@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.3.8, 2.4.5 and 2.5.3; JRuby 9.2.0.0.
+ * Ruby 2.3.8, 2.4.5, 2.5.3 and 2.6.0; JRuby 9.2.0.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.5.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -132,6 +132,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby23` - Ruby 2.3.
  * `phusion/passenger-ruby24` - Ruby 2.4.
  * `phusion/passenger-ruby25` - Ruby 2.5.
+ * `phusion/passenger-ruby26` - Ruby 2.6.
  * `phusion/passenger-jruby92` - JRuby 9.2.
 
 **Node.js and Meteor images**
@@ -160,7 +161,7 @@ You don't have to download anything manually. The above command will automatical
 <a name="getting_started"></a>
 ### Getting started
 
-There are several images, e.g. `phusion/passenger-ruby25` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
+There are several images, e.g. `phusion/passenger-ruby26` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
 
 So put the following in your Dockerfile:
 
@@ -173,6 +174,7 @@ So put the following in your Dockerfile:
     #FROM phusion/passenger-ruby23:<VERSION>
     #FROM phusion/passenger-ruby24:<VERSION>
     #FROM phusion/passenger-ruby25:<VERSION>
+    #FROM phusion/passenger-ruby26:<VERSION>
     #FROM phusion/passenger-jruby92:<VERSION>
     #FROM phusion/passenger-nodejs:<VERSION>
     #FROM phusion/passenger-customizable:<VERSION>
@@ -248,6 +250,9 @@ You can add a virtual host entry (`server` block) by placing a .conf file in the
         passenger_user app;
 
         # If this is a Ruby app, specify a Ruby version:
+        # For Ruby 2.6
+        passenger_ruby /usr/bin/ruby2.6;
+        # For Ruby 2.5
         passenger_ruby /usr/bin/ruby2.5;
         # For Ruby 2.4
         passenger_ruby /usr/bin/ruby2.4;
@@ -764,6 +769,7 @@ Build one of the images:
     make build_ruby23
     make build_ruby24
     make build_ruby25
+    make build_ruby26
     make build_jruby92
     make build_nodejs
     make build_customizable
