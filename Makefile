@@ -6,7 +6,7 @@ EXTRA_BUILD_FLAGS?=
 
 .PHONY: all build_all \
 	build_customizable \
-	build_ruby23 build_ruby24 build_ruby25 build_jruby92 \
+	build_ruby23 build_ruby24 build_ruby25 build_ruby26 build_jruby92 \
 	build_nodejs build_full \
 	tag_latest release clean clean_images
 
@@ -17,6 +17,7 @@ build_all: \
 	build_ruby23 \
 	build_ruby24 \
 	build_ruby25 \
+	build_ruby26 \
 	build_jruby92 \
 	build_nodejs \
 	build_full
@@ -49,6 +50,13 @@ build_ruby25:
 	echo final=1 >> ruby25_image/buildconfig
 	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby25:$(VERSION) --rm ruby25_image --no-cache
 
+build_ruby26:
+	rm -rf ruby26_image
+	cp -pR image ruby26_image
+	echo ruby26=1 >> ruby26_image/buildconfig
+	echo final=1 >> ruby26_image/buildconfig
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby26:$(VERSION) --rm ruby26_image --no-cache
+
 build_jruby92:
 	rm -rf jruby92_image
 	cp -pR image jruby92_image
@@ -69,6 +77,7 @@ build_full:
 	echo ruby23=1 >> full_image/buildconfig
 	echo ruby24=1 >> full_image/buildconfig
 	echo ruby25=1 >> full_image/buildconfig
+	echo ruby26=1 >> full_image/buildconfig
 	echo jruby92=1 >> full_image/buildconfig
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
@@ -82,6 +91,7 @@ tag_latest:
 	docker tag $(NAME)-ruby23:$(VERSION) $(NAME)-ruby23:latest
 	docker tag $(NAME)-ruby24:$(VERSION) $(NAME)-ruby24:latest
 	docker tag $(NAME)-ruby25:$(VERSION) $(NAME)-ruby25:latest
+	docker tag $(NAME)-ruby26:$(VERSION) $(NAME)-ruby26:latest
 	docker tag $(NAME)-jruby92:$(VERSION) $(NAME)-jruby92:latest
 	docker tag $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
 	docker tag $(NAME)-full:$(VERSION) $(NAME)-full:latest
@@ -91,6 +101,7 @@ release: tag_latest
 	@if ! docker images $(NAME)-ruby23 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby23 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby24 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby24 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby25 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby25 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-ruby26 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby26 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-jruby92 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-jruby92 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-nodejs version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
@@ -102,6 +113,8 @@ release: tag_latest
 	docker push $(NAME)-ruby24:$(VERSION)
 	docker push $(NAME)-ruby25:latest
 	docker push $(NAME)-ruby25:$(VERSION)
+	docker push $(NAME)-ruby26:latest
+	docker push $(NAME)-ruby26:$(VERSION)
 	docker push $(NAME)-jruby92:latest
 	docker push $(NAME)-jruby92:$(VERSION)
 	docker push $(NAME)-nodejs:latest
@@ -115,6 +128,7 @@ clean:
 	rm -rf ruby23_image
 	rm -rf ruby24_image
 	rm -rf ruby25_image
+	rm -rf ruby26_image
 	rm -rf jruby92_image
 	rm -rf nodejs_image
 	rm -rf full_image
@@ -124,6 +138,7 @@ clean_images:
 	docker rmi $(NAME)-ruby23:latest $(NAME)-ruby23:$(VERSION) || true
 	docker rmi $(NAME)-ruby24:latest $(NAME)-ruby24:$(VERSION) || true
 	docker rmi $(NAME)-ruby25:latest $(NAME)-ruby25:$(VERSION) || true
+	docker rmi $(NAME)-ruby26:latest $(NAME)-ruby25:$(VERSION) || true
 	docker rmi $(NAME)-jruby92:latest $(NAME)-jruby92:$(VERSION) || true
 	docker rmi $(NAME)-nodejs:latest $(NAME)-nodejs:$(VERSION) || true
 	docker rmi $(NAME)-full:latest $(NAME)-full:$(VERSION) || true
