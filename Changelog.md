@@ -1,6 +1,11 @@
-## 1.0.2 (release date: Not yet released)
+## 1.0.3 (release date: 2019-02-25)
+
+ * Upgraded to Phusion Passenger 6.0.2 (from 6.0.1).
+
+## 1.0.2 (release date: 2019-02-06)
 
  * Update signing keys from rvm.io. Closes GH-234.
+ * Upgraded to Phusion Passenger 6.0.1 (from 6.0.0).
 
 ## 1.0.1 (release date: 2018-11-30)
 
