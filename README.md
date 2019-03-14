@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.3.8, 2.4.5, 2.5.3 and 2.6.0; JRuby 9.2.0.0.
+ * Ruby 2.3.8, 2.4.5, 2.5.4 and 2.6.2; JRuby 9.2.0.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.5.3 is configured as the default.
+   * 2.5.4 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 8.
  * Python 2.7 and Python 3.6.
@@ -165,49 +165,53 @@ There are several images, e.g. `phusion/passenger-ruby26` and `phusion/passenger
 
 So put the following in your Dockerfile:
 
-    # Use phusion/passenger-full as base image. To make your builds reproducible, make
-    # sure you lock down to a specific version, not to `latest`!
-    # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
-    # a list of version numbers.
-    FROM phusion/passenger-full:<VERSION>
-    # Or, instead of the 'full' variant, use one of these:
-    #FROM phusion/passenger-ruby23:<VERSION>
-    #FROM phusion/passenger-ruby24:<VERSION>
-    #FROM phusion/passenger-ruby25:<VERSION>
-    #FROM phusion/passenger-ruby26:<VERSION>
-    #FROM phusion/passenger-jruby92:<VERSION>
-    #FROM phusion/passenger-nodejs:<VERSION>
-    #FROM phusion/passenger-customizable:<VERSION>
+```dockerfile
+# Use phusion/passenger-full as base image. To make your builds reproducible, make
+# sure you lock down to a specific version, not to `latest`!
+# See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
+# a list of version numbers.
+FROM phusion/passenger-full:<VERSION>
+# Or, instead of the 'full' variant, use one of these:
+#FROM phusion/passenger-ruby23:<VERSION>
+#FROM phusion/passenger-ruby24:<VERSION>
+#FROM phusion/passenger-ruby25:<VERSION>
+#FROM phusion/passenger-ruby26:<VERSION>
+#FROM phusion/passenger-jruby92:<VERSION>
+#FROM phusion/passenger-nodejs:<VERSION>
+#FROM phusion/passenger-customizable:<VERSION>
 
-    # Set correct environment variables.
-    ENV HOME /root
+# Set correct environment variables.
+ENV HOME /root
 
-    # Use baseimage-docker's init process.
-    CMD ["/sbin/my_init"]
+# Use baseimage-docker's init process.
+CMD ["/sbin/my_init"]
 
-    # If you're using the 'customizable' variant, you need to explicitly opt-in
-    # for features.
-    #
-    # N.B. these images are based on https://github.com/phusion/baseimage-docker,
-    # so anything it provides is also automatically on board in the images below
-    # (e.g. older versions of Ruby, Node, Python).
-    #
-    # Uncomment the features you want:
-    #
-    #   Ruby support
-    #RUN /pd_build/ruby-2.3.*.sh
-    #RUN /pd_build/ruby-2.4.*.sh
-    #RUN /pd_build/jruby-9.2.*.sh
-    #   Python support.
-    #RUN /pd_build/python.sh
-    #   Node.js and Meteor standalone support.
-    #   (not needed if you already have the above Ruby support)
-    #RUN /pd_build/nodejs.sh
+# If you're using the 'customizable' variant, you need to explicitly opt-in
+# for features.
+#
+# N.B. these images are based on https://github.com/phusion/baseimage-docker,
+# so anything it provides is also automatically on board in the images below
+# (e.g. older versions of Ruby, Node, Python).
+#
+# Uncomment the features you want:
+#
+#   Ruby support
+#RUN /pd_build/ruby-2.3.*.sh
+#RUN /pd_build/ruby-2.4.*.sh
+#RUN /pd_build/ruby-2.5.*.sh
+#RUN /pd_build/ruby-2.6.*.sh
+#RUN /pd_build/jruby-9.2.*.sh
+#   Python support.
+#RUN /pd_build/python.sh
+#   Node.js and Meteor standalone support.
+#   (not needed if you already have the above Ruby support)
+#RUN /pd_build/nodejs.sh
 
-    # ...put your own build instructions here...
+# ...put your own build instructions here...
 
-    # Clean up APT when done.
-    RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+```
 
 <a name="app_user"></a>
 ### The `app` user
@@ -225,7 +229,9 @@ Before using Passenger, you should familiarise yourself with it by [reading its 
 
 Nginx and Passenger are disabled by default. Enable them like so:
 
-    RUN rm -f /etc/service/nginx/down
+```dockerfile
+RUN rm -f /etc/service/nginx/down
+```
 
 <a name="adding_web_app"></a>
 #### Adding your web app to the image
@@ -234,39 +240,43 @@ Passenger works like a `mod_ruby`, `mod_nodejs`, etc. It changes Nginx into an a
 
 You can add a virtual host entry (`server` block) by placing a .conf file in the directory `/etc/nginx/sites-enabled`. For example:
 
-    # /etc/nginx/sites-enabled/webapp.conf:
-    server {
-        listen 80;
-        server_name www.webapp.com;
-        root /home/app/webapp/public;
+# /etc/nginx/sites-enabled/webapp.conf:
+```nginx
+server {
+    listen 80;
+    server_name www.webapp.com;
+    root /home/app/webapp/public;
 
-        # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
+    # The following deploys your Ruby/Python/Node.js/Meteor app on Passenger.
 
-        # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
-        # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
-        # socket setup, process management, etc are all taken care automatically for
-        # you! Learn more at https://www.phusionpassenger.com/.
-        passenger_enabled on;
-        passenger_user app;
+    # Not familiar with Passenger, and used (G)Unicorn/Thin/Puma/pure Node before?
+    # Yes, this is all you need to deploy on Passenger! All the reverse proxying,
+    # socket setup, process management, etc are all taken care automatically for
+    # you! Learn more at https://www.phusionpassenger.com/.
+    passenger_enabled on;
+    passenger_user app;
 
-        # If this is a Ruby app, specify a Ruby version:
-        # For Ruby 2.6
-        passenger_ruby /usr/bin/ruby2.6;
-        # For Ruby 2.5
-        passenger_ruby /usr/bin/ruby2.5;
-        # For Ruby 2.4
-        passenger_ruby /usr/bin/ruby2.4;
-        # For Ruby 2.3
-        passenger_ruby /usr/bin/ruby2.3;
-    }
+    # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 2.6
+    passenger_ruby /usr/bin/ruby2.6;
+    # For Ruby 2.5
+    passenger_ruby /usr/bin/ruby2.5;
+    # For Ruby 2.4
+    passenger_ruby /usr/bin/ruby2.4;
+    # For Ruby 2.3
+    passenger_ruby /usr/bin/ruby2.3;
+}
+```
 
-    # Dockerfile:
-    RUN rm /etc/nginx/sites-enabled/default
-    ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
-    RUN mkdir /home/app/webapp
-    RUN ...commands to place your web app in /home/app/webapp...
-    # This copies your web app with the correct ownership.
-    # COPY --chown=app:app /local/path/of/your/app /home/app/webapp 
+# Dockerfile:
+```dockerfile
+RUN rm /etc/nginx/sites-enabled/default
+ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
+RUN mkdir /home/app/webapp
+RUN ...commands to place your web app in /home/app/webapp...
+# This copies your web app with the correct ownership.
+# COPY --chown=app:app /local/path/of/your/app /home/app/webapp
+```
 
 <a name="configuring_nginx"></a>
 #### Configuring Nginx
@@ -316,13 +326,15 @@ Setting these environment variables yourself (e.g. using `docker run -e RAILS_EN
 
 With passenger-docker, there are two ways to set the aforementioned environment variables. The first is through the [`passenger_app_env`](https://www.phusionpassenger.com/library/config/nginx/reference/#passenger_app_env) config option in Nginx. For example:
 
-    # /etc/nginx/sites-enabled/webapp.conf:
-    server {
-        ...
-        # Ensures that RAILS_ENV, NODE_ENV, etc are set to "staging"
-        # when your application is started.
-        passenger_app_env staging;
-    }
+```nginx
+# /etc/nginx/sites-enabled/webapp.conf:
+server {
+    ...
+    # Ensures that RAILS_ENV, NODE_ENV, etc are set to "staging"
+    # when your application is started.
+    passenger_app_env staging;
+}
+```
 
 The second way is by setting the `PASSENGER_APP_ENV` environment variable from `docker run`
 
@@ -332,9 +344,11 @@ This works because passenger-docker autogenerates an Nginx configuration file (`
 
 If you want to set a default value while still allowing that to be overridden by `docker run -e PASSENGER_APP_ENV=`, then instead of specifying `passenger_app_env` in your Nginx config file, you should create a `/etc/nginx/conf.d/00_app_env.conf`. This file will be overwritten if the user runs `docker run -e PASSENGER_APP_ENV=...`.
 
-    # /etc/nginx/conf.d/00_app_env.conf
-    # File will be overwritten if user runs the container with `-e PASSENGER_APP_ENV=...`!
-    passenger_app_env staging;
+```nginx
+# /etc/nginx/conf.d/00_app_env.conf
+# File will be overwritten if user runs the container with `-e PASSENGER_APP_ENV=...`!
+passenger_app_env staging;
+```
 
 <a name="redis"></a>
 ### Using Redis
@@ -343,11 +357,13 @@ If you want to set a default value while still allowing that to be overridden by
 
 Install and enable Redis:
 
-    # Opt-in for Redis if you're using the 'customizable' image.
-    #RUN /pd_build/redis.sh
+```dockerfile
+# Opt-in for Redis if you're using the 'customizable' image.
+#RUN /pd_build/redis.sh
 
-    # Enable the Redis service.
-    RUN rm -f /etc/service/redis/down
+# Enable the Redis service.
+RUN rm -f /etc/service/redis/down
+```
 
 The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, but make sure `daemonize no` is set.
 
@@ -358,16 +374,20 @@ The configuration file is in /etc/redis/redis.conf. Modify it as you see fit, bu
 
 Install and enable memcached:
 
-    # Opt-in for Memcached if you're using the 'customizable' image.
-    #RUN /pd_build/memcached.sh
+```dockerfile
+# Opt-in for Memcached if you're using the 'customizable' image.
+#RUN /pd_build/memcached.sh
 
-    # Enable the memcached service.
-    RUN rm -f /etc/service/memcached/down
+# Enable the memcached service.
+RUN rm -f /etc/service/memcached/down
+```
 
 The configuration file is in /etc/memcached.conf. Note that it does not follow the Debian/Ubuntu format, but our own, in order to make it work well with runit. The default contents are:
 
+
     # These arguments are passed to the memcached daemon.
     MEMCACHED_OPTS="-l 127.0.0.1"
+
 
 <a name="additional_daemons"></a>
 ### Additional daemons
@@ -402,12 +422,18 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
-    # Ruby 2.3.8
-    RUN bash -lc 'rvm --default use ruby-2.3.8'
-    # Ruby 2.4.5
-    RUN bash -lc 'rvm --default use ruby-2.4.5'
-    # JRuby 9.2.0.0
-    RUN bash -lc 'rvm --default use jruby-9.2.0.0'
+```dockerfile
+# Ruby 2.3.8
+RUN bash -lc 'rvm --default use ruby-2.3.8'
+# Ruby 2.4.5
+RUN bash -lc 'rvm --default use ruby-2.4.5'
+# Ruby 2.5.4
+RUN bash -lc 'rvm --default use ruby-2.5.4'
+# Ruby 2.6.2
+RUN bash -lc 'rvm --default use ruby-2.6.2'
+# JRuby 9.2.0.0
+RUN bash -lc 'rvm --default use jruby-9.2.0.0'
+```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 
@@ -416,18 +442,22 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
-    $ rvm-exec 2.5.3 ruby -v
-    ruby 2.5.3
-    $ rvm-exec 2.4.5 ruby -v
-    ruby 2.4.5
+```bash
+$ rvm-exec 2.5.4 ruby -v
+ruby 2.5.4
+$ rvm-exec 2.4.5 ruby -v
+ruby 2.4.5
+```
 
 More examples, but with Bundler instead:
 
-    # This runs 'bundle install' using Ruby 2.5.3
-    rvm-exec 2.5.3 bundle install
+```bash
+# This runs 'bundle install' using Ruby 2.5.4
+rvm-exec 2.5.4 bundle install
 
-    # This runs 'bundle install' using Ruby 2.4.5
-    rvm-exec 2.4.5 bundle install
+# This runs 'bundle install' using Ruby 2.4.5
+rvm-exec 2.4.5 bundle install
+```
 
 <a name="default_ruby_wrapper_scripts"></a>
 #### Default wrapper scripts
@@ -485,11 +515,15 @@ To upgrade your image to the latest passenger-docker version, please edit your D
 
 For example, if you were using passenger-docker 0.9.16 and want to upgrade to 0.9.17, then change...
 
-    FROM phusion/passenger-docker-XXXX:0.9.16
+```dockerfile
+FROM phusion/passenger-docker-XXXX:0.9.16
+```
 
 ...to:
 
-    FROM phusion/passenger-docker-XXXX:0.9.17
+```dockerfile
+FROM phusion/passenger-docker-XXXX:0.9.17
+```
 
 Then rebuild your image.
 
@@ -501,8 +535,9 @@ Passenger is installed through [the Passenger APT repository](https://www.phusio
 
 To upgrade to the latest Passenger version, run this to your Dockerfile:
 
-    RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
-
+```dockerfile
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+```
 
 <a name="container_administration"></a>
 ## Container administration
@@ -615,12 +650,14 @@ Here's how it compares to [using `docker exec` to login to the container or to r
 
 Passenger-docker disables the SSH server by default. Add the following to your Dockerfile to enable it:
 
-    RUN rm -f /etc/service/sshd/down
+```dockerfile
+RUN rm -f /etc/service/sshd/down
 
-    # Regenerate SSH host keys. Passenger-docker does not contain any, so you
-    # have to do that yourself. You may also comment out this instruction; the
-    # init system will auto-generate one during boot.
-    RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+# Regenerate SSH host keys. Passenger-docker does not contain any, so you
+# have to do that yourself. You may also comment out this instruction; the
+# init system will auto-generate one during boot.
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+```
 
 <a name="ssh_keys"></a>
 #### About SSH keys
@@ -646,15 +683,17 @@ Once you have the ID, look for its IP address with:
 
 Now that you have the IP address, you can use SSH to login to the container, or to execute a command inside it:
 
-    # Download the insecure private key
-    curl -o insecure_key -fSL https://raw.githubusercontent.com/phusion/baseimage-docker/master/image/services/sshd/keys/insecure_key
-    chmod 600 insecure_key
+```bash
+# Download the insecure private key
+curl -o insecure_key -fSL https://raw.githubusercontent.com/phusion/baseimage-docker/master/image/services/sshd/keys/insecure_key
+chmod 600 insecure_key
 
-    # Login to the container
-    ssh -i insecure_key root@<IP address>
+# Login to the container
+ssh -i insecure_key root@<IP address>
 
-    # Running a command inside the container
-    ssh -i insecure_key root@<IP address> echo hello world
+# Running a command inside the container
+ssh -i insecure_key root@<IP address> echo hello world
+```
 
 <a name="enabling_the_insecure_key_permanently"></a>
 #### Enabling the insecure key permanently
@@ -663,7 +702,9 @@ It is also possible to enable the insecure key in the image permanently. This is
 
 Edit your Dockerfile to install the insecure key permanently:
 
-    RUN /usr/sbin/enable_insecure_key
+```dockerfile
+RUN /usr/sbin/enable_insecure_key
+```
 
 Instructions for logging in the container is the same as in section [Using the insecure key for one container only](#using_the_insecure_key_for_one_container_only).
 
@@ -672,9 +713,11 @@ Instructions for logging in the container is the same as in section [Using the i
 
 Edit your Dockerfile to install an SSH public key:
 
-    ## Install an SSH of your choice.
-    ADD your_key.pub /tmp/your_key.pub
-    RUN cat /tmp/your_key.pub >> /root/.ssh/authorized_keys && rm -f /tmp/your_key.pub
+```dockerfile
+## Install an SSH of your choice.
+ADD your_key.pub /tmp/your_key.pub
+RUN cat /tmp/your_key.pub >> /root/.ssh/authorized_keys && rm -f /tmp/your_key.pub
+```
 
 Then rebuild your image. Once you have that, start a container based on that image:
 
@@ -690,11 +733,13 @@ Once you have the ID, look for its IP address with:
 
 Now that you have the IP address, you can use SSH to login to the container, or to execute a command inside it:
 
-    # Login to the container
-    ssh -i /path-to/your_key root@<IP address>
+```bash
+# Login to the container
+ssh -i /path-to/your_key root@<IP address>
 
-    # Running a command inside the container
-    ssh -i /path-to/your_key root@<IP address> echo hello world
+# Running a command inside the container
+ssh -i /path-to/your_key root@<IP address> echo hello world
+```
 
 <a name="docker_ssh"></a>
 #### The `docker-ssh` tool
@@ -703,9 +748,11 @@ Looking up the IP of a container and running an SSH command quickly becomes tedi
 
 First, install the tool on the Docker host:
 
-    curl --fail -L -O https://github.com/phusion/baseimage-docker/archive/master.tar.gz && \
-    tar xzf master.tar.gz && \
-    sudo ./baseimage-docker-master/install-tools.sh
+```bash
+curl --fail -L -O https://github.com/phusion/baseimage-docker/archive/master.tar.gz && \
+tar xzf master.tar.gz && \
+sudo ./baseimage-docker-master/install-tools.sh
+```
 
 Then run the tool as follows to login to a container using SSH:
 
@@ -743,9 +790,11 @@ If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/ent
  2. Download the license key and store it in the same directory as your Dockerfile.
  3. Insert into your Dockerfile:
 
-        ADD passenger-enterprise-license /etc/passenger-enterprise-license
-        RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt bionic main > /etc/apt/sources.list.d/passenger.list
-        RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" passenger-enterprise nginx-extras
+```dockerfile
+ADD passenger-enterprise-license /etc/passenger-enterprise-license
+RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt bionic main > /etc/apt/sources.list.d/passenger.list
+RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" passenger-enterprise nginx-extras
+```
 
     Replace `$DOWNLOAD_TOKEN` with your actual download token, as found in the Customer Area.
 
