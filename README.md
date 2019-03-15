@@ -427,8 +427,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 RUN bash -lc 'rvm --default use ruby-2.3.8'
 # Ruby 2.4.5
 RUN bash -lc 'rvm --default use ruby-2.4.5'
-# Ruby 2.5.4
-RUN bash -lc 'rvm --default use ruby-2.5.4'
+# Ruby 2.5.5
+RUN bash -lc 'rvm --default use ruby-2.5.5'
 # Ruby 2.6.2
 RUN bash -lc 'rvm --default use ruby-2.6.2'
 # JRuby 9.2.0.0
@@ -443,8 +443,8 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 2.5.4 ruby -v
-ruby 2.5.4
+$ rvm-exec 2.5.5 ruby -v
+ruby 2.5.5
 $ rvm-exec 2.4.5 ruby -v
 ruby 2.4.5
 ```
@@ -452,8 +452,8 @@ ruby 2.4.5
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 2.5.4
-rvm-exec 2.5.4 bundle install
+# This runs 'bundle install' using Ruby 2.5.5
+rvm-exec 2.5.5 bundle install
 
 # This runs 'bundle install' using Ruby 2.4.5
 rvm-exec 2.4.5 bundle install
@@ -874,7 +874,7 @@ Thanks for your interest in contributing! There are many ways to contribute to t
  * Using passenger-docker? [Tweet about us](https://twitter.com/share) or [follow us on Twitter](https://twitter.com/phusion_nl).
  * Having problems? Please post a message at [the discussion forum](https://groups.google.com/d/forum/passenger-docker).
  * Looking for a minimal image containing only a correct base system? Take a look at [baseimage-docker](https://github.com/phusion/baseimage-docker).
- * Need a helping hand? Phusion also offers [consulting](https://www.phusion.nl/consultancy) on a wide range of topics, including Web Development, UI/UX Research & Design, Technology Migration and Auditing. 
+ * Need a helping hand? Phusion also offers [consulting](https://www.phusion.nl/consultancy) on a wide range of topics, including Web Development, UI/UX Research & Design, Technology Migration and Auditing.
 
 
 [<img src="https://www.phusion.nl/images/mark_logotype.svg">](http://www.phusion.nl/)
