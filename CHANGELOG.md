@@ -1,3 +1,6 @@
+## 1.0.5 (release date: 2019-03-15)
+ * Upgraded to Ruby 2.5.5.
+
 ## 1.0.4 (release date: 2019-03-14)
  * Upgraded to Ruby 2.5.4.
  * Upgraded to Ruby 2.6.2.
