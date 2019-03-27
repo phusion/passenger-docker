@@ -506,10 +506,10 @@ To upgrade the OS in the image, run this in your Dockerfile:
 
 To upgrade the OS in the image, and clean up any unneccessary files, run this in your Dockerfile:
 
-    RUN apt-get update & \
-        apt-get upgrade -y -o Dpkg::Options::="--force-confold" & \
-        apt-get -qy autoremove & \
-        apt-get clean & \
+    RUN apt-get update && \
+        apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+        apt-get -qy autoremove && \
+        apt-get clean && \
         rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 <a name="upgrading_passenger"></a>
