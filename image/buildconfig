@@ -1,7 +1,7 @@
 export LC_ALL=C
 export DEBIAN_FRONTEND=noninteractive
 
-DEFAULT_RUBY_GEMS='rake bundler rack'
+DEFAULT_RUBY_GEMS='rake rack'
 
 if perl -v >/dev/null 2>/dev/null; then
 	RESET=`perl -e 'print("\e[0m")'`
