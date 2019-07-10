@@ -511,7 +511,7 @@ To upgrade the OS in the image, run this in your Dockerfile:
 
 Passenger-docker images contain a specific Passenger version by default. We regularly update passenger-docker with the latest version of Passenger, Ruby, Node.js, etc.
 
-To upgrade your image to the latest passenger-docker version, please edit your Dockerfile and change the passenger-docker version in the `FROM` command to the latest version. You can find a list of available versions in the [Changelog](https://github.com/phusion/passenger-docker/blob/master/Changelog.md).
+To upgrade your image to the latest passenger-docker version, please edit your Dockerfile and change the passenger-docker version in the `FROM` command to the latest version. You can find a list of available versions in the [Changelog](https://github.com/phusion/passenger-docker/blob/master/CHANGELOG.md).
 
 For example, if you were using passenger-docker 0.9.16 and want to upgrade to 0.9.17, then change...
 
