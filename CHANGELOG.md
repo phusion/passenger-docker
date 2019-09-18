@@ -1,3 +1,7 @@
+## 1.0.8 (release date: 2019-09-17)
+
+ * Upgraded to Phusion Passenger 6.0.4 (from 6.0.3).
+
 ## 1.0.7 (release date: 2019-09-12)
 
  * Upgraded to Phusion Passenger 6.0.3 (from 6.0.2).
