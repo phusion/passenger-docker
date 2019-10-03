@@ -7,7 +7,7 @@ run /pd_build/prepare.sh
 run /pd_build/utilities.sh
 
 if [[ "$ruby23" = 1 ]]; then run /pd_build/ruby-2.3.8.sh; fi
-if [[ "$ruby24" = 1 ]]; then run /pd_build/ruby-2.4.6.sh; fi
+if [[ "$ruby24" = 1 ]]; then run /pd_build/ruby-2.4.9.sh; fi
 if [[ "$ruby25" = 1 ]]; then run /pd_build/ruby-2.5.7.sh; fi
 if [[ "$ruby26" = 1 ]]; then run /pd_build/ruby-2.6.3.sh; fi
 if [[ "$jruby92" = 1 ]]; then run /pd_build/jruby-9.2.5.0.sh; fi
