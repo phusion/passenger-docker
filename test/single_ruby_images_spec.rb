@@ -68,7 +68,7 @@ supported_rubies.each do |ruby_spec|
 
     specify 'the generic Ruby command executes the version-specific Ruby' do
       version_specific_cmd = "rvm-exec #{ruby_spec[:rvm_id]} ruby #{jruby_dev_arg} -v"
-      expect(capture_command_in_container(version_specific_cmd)).to eq(
+      expect(capture_command_in_container(version_specific_cmd)).to end_with(
         capture_command_in_container("ruby #{jruby_dev_arg} -v"))
     end
   end
