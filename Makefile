@@ -134,7 +134,7 @@ clean_images:
 	docker rmi $(NAME)-ruby23:latest $(NAME)-ruby23:$(VERSION) || true
 	docker rmi $(NAME)-ruby24:latest $(NAME)-ruby24:$(VERSION) || true
 	docker rmi $(NAME)-ruby25:latest $(NAME)-ruby25:$(VERSION) || true
-	docker rmi $(NAME)-ruby26:latest $(NAME)-ruby25:$(VERSION) || true
+	docker rmi $(NAME)-ruby26:latest $(NAME)-ruby26:$(VERSION) || true
 	docker rmi $(NAME)-jruby92:latest $(NAME)-jruby92:$(VERSION) || true
 	docker rmi $(NAME)-nodejs:latest $(NAME)-nodejs:$(VERSION) || true
 	docker rmi $(NAME)-full:latest $(NAME)-full:$(VERSION) || true
