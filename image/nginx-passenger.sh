@@ -10,9 +10,9 @@ header "Installing Phusion Passenger..."
 ## from APT and Ruby installed from RVM.
 if [[ ! -e /usr/bin/ruby ]]; then
 	run /pd_build/ruby_support/prepare.sh
-	run /usr/local/rvm/bin/rvm install ruby-2.5.5
+	run /usr/local/rvm/bin/rvm install ruby-2.6.5
 	# Make passenger_system_ruby work.
-	run create_rvm_wrapper_script ruby2.5 ruby-2.5.5 ruby
+	run create_rvm_wrapper_script ruby2.6 ruby-2.6.5 ruby
 	run /pd_build/ruby_support/finalize.sh
 fi
 
