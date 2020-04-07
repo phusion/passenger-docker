@@ -1,3 +1,6 @@
+## 1.0.10 (release date: 2020-04-07)
+ * Adds Ruby 2.7.0.
+
 ## 1.0.9 (release date: 2019-11-25)
  * Upgraded to Ruby 2.4.9.
  * Upgraded to Ruby 2.5.7.
