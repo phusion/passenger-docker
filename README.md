@@ -168,7 +168,7 @@ So put the following in your Dockerfile:
 ```dockerfile
 # Use phusion/passenger-full as base image. To make your builds reproducible, make
 # sure you lock down to a specific version, not to `latest`!
-# See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
+# See https://github.com/phusion/passenger-docker/blob/master/CHANGELOG.md for
 # a list of version numbers.
 FROM phusion/passenger-full:<VERSION>
 # Or, instead of the 'full' variant, use one of these:
