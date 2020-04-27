@@ -1,3 +1,12 @@
+## 1.0.10 (release date: ...)
+ * Upgraded to Ruby 2.4.10.
+ * Upgraded to Ruby 2.5.8.
+ * Upgraded to Ruby 2.6.6.
+ * Upgraded to JRuby 9.2.11.1.
+ * Added support for Ruby 2.7.1.
+ * Default ruby set to 2.7.1.
+ * Upgraded to Phusion Passenger 6.0.5 (from 6.0.4).
+
 ## 1.0.9 (release date: 2019-11-25)
  * Upgraded to Ruby 2.4.9.
  * Upgraded to Ruby 2.5.7.
