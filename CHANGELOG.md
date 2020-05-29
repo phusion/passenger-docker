@@ -1,4 +1,4 @@
-## 1.0.10 (release date: ...)
+## 1.0.10 (release date: 2020-05-29)
  * Upgraded to Ruby 2.4.10.
  * Upgraded to Ruby 2.5.8.
  * Upgraded to Ruby 2.6.6.
