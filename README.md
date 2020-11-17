@@ -85,7 +85,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 18.04 LTS as base system.
+ * Ubuntu 20.04 LTS as base system.
  * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -94,18 +94,18 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.3.8, 2.4.10, 2.5.8 and 2.6.6; JRuby 9.2.0.0.
+ * Ruby 2.4.10, 2.5.8, 2.6.6, 2.7.2, and JRuby 9.2.13.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.6.6 is configured as the default.
+   * 2.7.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
-   * JRuby uses OpenJDK 8.
- * Python 2.7 and Python 3.6.
- * Node.js 10.
+   * JRuby uses OpenJDK 14.
+ * Python 2.7 and Python 3.8.
+ * Node.js 14.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
 
- * Nginx 1.14. Disabled by default.
+ * Nginx 1.18. Disabled by default.
  * [Phusion Passenger 6](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
@@ -114,7 +114,7 @@ Web server and application server:
 
 Auxiliary services and tools:
 
- * Redis 4.0. Not installed by default.
+ * Redis 5.0. Not installed by default.
  * Memcached. Not installed by default.
 
 <a name="memory_efficiency"></a>
@@ -129,20 +129,20 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby23` - Ruby 2.3.
  * `phusion/passenger-ruby24` - Ruby 2.4.
  * `phusion/passenger-ruby25` - Ruby 2.5.
  * `phusion/passenger-ruby26` - Ruby 2.6.
+ * `phusion/passenger-ruby27` - Ruby 2.7.
  * `phusion/passenger-jruby92` - JRuby 9.2.
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 10.
+ * `phusion/passenger-nodejs` - Node.js 14.
 
 **Other images**
 
  * `phusion/passenger-full` - Contains everything in the above images. Ruby, Python, Node.js, all in a single image for your convenience.
- * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Ruby, Python and Node.js are not preinstalled. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains only Ruby 2.4, Ruby 2.5 and Node.js.
+ * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 2.4, Ruby 2.5 and Node.js.
 
 In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use another image.
 
@@ -176,6 +176,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby24:<VERSION>
 #FROM phusion/passenger-ruby25:<VERSION>
 #FROM phusion/passenger-ruby26:<VERSION>
+#FROM phusion/passenger-ruby27:<VERSION>
 #FROM phusion/passenger-jruby92:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
@@ -196,10 +197,10 @@ CMD ["/sbin/my_init"]
 # Uncomment the features you want:
 #
 #   Ruby support
-#RUN /pd_build/ruby-2.3.*.sh
 #RUN /pd_build/ruby-2.4.*.sh
 #RUN /pd_build/ruby-2.5.*.sh
 #RUN /pd_build/ruby-2.6.*.sh
+#RUN /pd_build/ruby-2.7.*.sh
 #RUN /pd_build/jruby-9.2.*.sh
 #   Python support.
 #RUN /pd_build/python.sh
@@ -257,14 +258,14 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 2.7
+    passenger_ruby /usr/bin/ruby2.7;
     # For Ruby 2.6
     passenger_ruby /usr/bin/ruby2.6;
     # For Ruby 2.5
     passenger_ruby /usr/bin/ruby2.5;
     # For Ruby 2.4
     passenger_ruby /usr/bin/ruby2.4;
-    # For Ruby 2.3
-    passenger_ruby /usr/bin/ruby2.3;
 }
 ```
 
@@ -423,16 +424,16 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 2.3.8
-RUN bash -lc 'rvm --default use ruby-2.3.8'
 # Ruby 2.4.10
 RUN bash -lc 'rvm --default use ruby-2.4.10'
 # Ruby 2.5.8
 RUN bash -lc 'rvm --default use ruby-2.5.8'
 # Ruby 2.6.6
 RUN bash -lc 'rvm --default use ruby-2.6.6'
-# JRuby 9.2.0.0
-RUN bash -lc 'rvm --default use jruby-9.2.0.0'
+# Ruby 2.7.2
+RUN bash -lc 'rvm --default use ruby-2.7.2'
+# JRuby 9.2.13.0
+RUN bash -lc 'rvm --default use jruby-9.2.13.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -496,7 +497,7 @@ The following example shows how you can add a startup script. This script simply
 <a name="upgrading_os"></a>
 ### Upgrading the operating system inside the container
 
-passenger-docker images contain an Ubuntu 16.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
+passenger-docker images contain an Ubuntu 20.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
 
 While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us.
 
@@ -792,7 +793,7 @@ If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/ent
 
 ```dockerfile
 ADD passenger-enterprise-license /etc/passenger-enterprise-license
-RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt bionic main > /etc/apt/sources.list.d/passenger.list
+RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list
 RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" passenger-enterprise nginx-extras
 ```
 
@@ -820,6 +821,7 @@ Build one of the images:
     make build_ruby24
     make build_ruby25
     make build_ruby26
+    make build_ruby27
     make build_jruby92
     make build_nodejs
     make build_customizable

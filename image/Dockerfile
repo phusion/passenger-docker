@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:master
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build

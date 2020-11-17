@@ -1,3 +1,14 @@
+## 1.0.12 (release date: 2020-11-18)
+ * Upgraded to Phusion Passenger 6.0.7 (from 6.0.6).
+ * Upgraded to Ruby 2.7.2 (from 2.7.1).
+ * Default Ruby set to 2.7.2.
+ * Upgraded to JRuby 9.2.13.0 with openjdk-14.
+ * Upgraded to Node.js 14 LTS (from 10).
+ * Switched image base to the baseimage-docker master tag.
+ * Upgraded to Ubuntu 20.04.
+ * Dropped support for Ruby 2.3.
+ * Upgraded to Nginx 1.18.0.
+
 ## 1.0.11 (release date: 2020-07-14)
  * Upgraded to Phusion Passenger 6.0.6 (from 6.0.5).
 
