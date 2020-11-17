@@ -8,7 +8,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
 
 **Relevant links:**
  [Github](https://github.com/phusion/passenger-docker) |
- [Docker registry](https://registry.hub.docker.com/u/phusion/passenger-full/) |
+ [Docker registry](https://registry.hub.docker.com/r/phusion/passenger-full/) |
  [Discussion forum](https://groups.google.com/d/forum/passenger-docker) |
  [Twitter](https://twitter.com/phusion_nl) |
  [Blog](http://blog.phusion.nl/)
