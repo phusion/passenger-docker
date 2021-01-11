@@ -19,17 +19,17 @@ function set_rvm_default()
 
 known_rubies=`/usr/local/rvm/bin/rvm list strings`
 if [[ "$known_rubies" =~ ruby-3\.0 ]]; then
-	set_rvm_default '^ruby-3\.0'
+	set_rvm_default ruby-3\.0
 elif [[ "$known_rubies" =~ ruby-2\.7 ]]; then
-	set_rvm_default '^ruby-2\.7'
+	set_rvm_default ruby-2\.7
 elif [[ "$known_rubies" =~ ruby-2\.6 ]]; then
-	set_rvm_default '^ruby-2\.6'
+	set_rvm_default ruby-2\.6
 elif [[ "$known_rubies" =~ ruby-2\.5 ]]; then
-	set_rvm_default '^ruby-2\.5'
+	set_rvm_default ruby-2\.5
 elif [[ "$known_rubies" =~ ruby-2\.4 ]]; then
-	set_rvm_default '^ruby-2\.4'
+	set_rvm_default ruby-2\.4
 elif [[ "$known_rubies" =~ jruby ]]; then
-	set_rvm_default '^jruby'
+	set_rvm_default jruby
 fi
 
 create_rvm_wrapper_script ruby default ruby
