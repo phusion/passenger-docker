@@ -18,7 +18,9 @@ function set_rvm_default()
 }
 
 known_rubies=`/usr/local/rvm/bin/rvm list strings`
-if [[ "$known_rubies" =~ ruby-2\.7 ]]; then
+if [[ "$known_rubies" =~ ruby-3\.0 ]]; then
+	set_rvm_default '^ruby-3\.0'
+elif [[ "$known_rubies" =~ ruby-2\.7 ]]; then
 	set_rvm_default '^ruby-2\.7'
 elif [[ "$known_rubies" =~ ruby-2\.6 ]]; then
 	set_rvm_default '^ruby-2\.6'
