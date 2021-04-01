@@ -1,3 +1,6 @@
+## 1.0.13 (release date: 2021-04-01)
+ * Upgraded to Phusion Passenger 6.0.8 (from 6.0.7).
+
 ## 1.0.12 (release date: 2020-11-18)
  * Upgraded to Phusion Passenger 6.0.7 (from 6.0.6).
  * Upgraded to Ruby 2.7.2 (from 2.7.1).
