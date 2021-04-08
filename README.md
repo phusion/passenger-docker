@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.4.10, 2.5.8, 2.6.6, 2.7.2, and JRuby 9.2.13.0.
+ * Ruby 2.4.10, 2.5.9, 2.6.7, 2.7.3, and JRuby 9.2.13.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.7.2 is configured as the default.
+   * 2.7.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 14.
  * Python 2.7 and Python 3.8.
@@ -426,12 +426,12 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 ```dockerfile
 # Ruby 2.4.10
 RUN bash -lc 'rvm --default use ruby-2.4.10'
-# Ruby 2.5.8
-RUN bash -lc 'rvm --default use ruby-2.5.8'
-# Ruby 2.6.6
-RUN bash -lc 'rvm --default use ruby-2.6.6'
-# Ruby 2.7.2
-RUN bash -lc 'rvm --default use ruby-2.7.2'
+# Ruby 2.5.9
+RUN bash -lc 'rvm --default use ruby-2.5.9'
+# Ruby 2.6.7
+RUN bash -lc 'rvm --default use ruby-2.6.7'
+# Ruby 2.7.3
+RUN bash -lc 'rvm --default use ruby-2.7.3'
 # JRuby 9.2.13.0
 RUN bash -lc 'rvm --default use jruby-9.2.13.0'
 ```
@@ -444,8 +444,8 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 2.5.8 ruby -v
-ruby 2.5.8
+$ rvm-exec 2.5.9 ruby -v
+ruby 2.5.9
 $ rvm-exec 2.4.10 ruby -v
 ruby 2.4.10
 ```
@@ -453,8 +453,8 @@ ruby 2.4.10
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 2.5.8
-rvm-exec 2.5.8 bundle install
+# This runs 'bundle install' using Ruby 2.5.9
+rvm-exec 2.5.9 bundle install
 
 # This runs 'bundle install' using Ruby 2.4.10
 rvm-exec 2.4.10 bundle install
