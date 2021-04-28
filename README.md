@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.4.10, 2.5.9, 2.6.7, 2.7.3, and JRuby 9.2.13.0.
+ * Ruby 2.4.10, 2.5.9, 2.6.7, 2.7.3, 3.0.1 and JRuby 9.2.13.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.7.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -133,6 +133,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby25` - Ruby 2.5.
  * `phusion/passenger-ruby26` - Ruby 2.6.
  * `phusion/passenger-ruby27` - Ruby 2.7.
+ * `phusion/passenger-ruby30` - Ruby 3.0.
  * `phusion/passenger-jruby92` - JRuby 9.2.
 
 **Node.js and Meteor images**
@@ -177,6 +178,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby25:<VERSION>
 #FROM phusion/passenger-ruby26:<VERSION>
 #FROM phusion/passenger-ruby27:<VERSION>
+#FROM phusion/passenger-ruby30:<VERSION>
 #FROM phusion/passenger-jruby92:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
@@ -201,6 +203,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-2.5.*.sh
 #RUN /pd_build/ruby-2.6.*.sh
 #RUN /pd_build/ruby-2.7.*.sh
+#RUN /pd_build/ruby-3.0.*.sh
 #RUN /pd_build/jruby-9.2.*.sh
 #   Python support.
 #RUN /pd_build/python.sh
@@ -258,6 +261,8 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 3.0
+    passenger_ruby /usr/bin/ruby3.0;    
     # For Ruby 2.7
     passenger_ruby /usr/bin/ruby2.7;
     # For Ruby 2.6
@@ -430,8 +435,10 @@ RUN bash -lc 'rvm --default use ruby-2.4.10'
 RUN bash -lc 'rvm --default use ruby-2.5.9'
 # Ruby 2.6.7
 RUN bash -lc 'rvm --default use ruby-2.6.7'
-# Ruby 2.7.3
+# Ruby .3
 RUN bash -lc 'rvm --default use ruby-2.7.3'
+# Ruby 3.0.1
+RUN bash -lc 'rvm --default use ruby-3.0.1'
 # JRuby 9.2.13.0
 RUN bash -lc 'rvm --default use jruby-9.2.13.0'
 ```
