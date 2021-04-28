@@ -435,7 +435,7 @@ RUN bash -lc 'rvm --default use ruby-2.4.10'
 RUN bash -lc 'rvm --default use ruby-2.5.9'
 # Ruby 2.6.7
 RUN bash -lc 'rvm --default use ruby-2.6.7'
-# Ruby .3
+# Ruby 2.7.3
 RUN bash -lc 'rvm --default use ruby-2.7.3'
 # Ruby 3.0.1
 RUN bash -lc 'rvm --default use ruby-3.0.1'
