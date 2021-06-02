@@ -1,5 +1,5 @@
 NAME = phusion/passenger
-VERSION = 1.0.14
+VERSION = 1.0.15
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=

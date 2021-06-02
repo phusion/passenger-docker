@@ -1,3 +1,7 @@
+## 1.0.15 (release date: 2021-06-02)
+ * Upgraded to Phusion Passenger 6.0.9 (from 6.0.8).
+ * This version includes a workaround for issue #313, which will be fixed properly with Passsenger 6.0.10.
+
 ## 1.0.14 (release date: 2021-05-06)
  * Upgraded to Ruby 2.5.9
  * Upgraded to Ruby 2.6.7
