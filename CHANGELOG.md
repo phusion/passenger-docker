@@ -1,3 +1,11 @@
+## 1.0.18 (release date: 2021-07-19)
+ * Fixed additional unwanted Rubies being present.
+
+## 1.0.17 (release date: 2021-07-19)
+ * Upgraded to Ruby 2.6.8
+ * Upgraded to Ruby 2.7.4
+ * Upgraded to Ruby 3.0.2
+
 ## 1.0.16 (release date: 2021-07-14)
  * Upgraded to Phusion Passenger 6.0.10 (from 6.0.9).
 
