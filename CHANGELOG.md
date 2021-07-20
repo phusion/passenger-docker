@@ -1,3 +1,6 @@
+## 1.0.19 (release date: 2021-07-19)
+ * Fixed wrong Ruby 3 being deleted (3.0.2 instead of 3.0.1 was deleted, 3.0.2 now restored and 3.0.1 removed).
+
 ## 1.0.18 (release date: 2021-07-19)
  * Fixed additional unwanted Rubies being present.
 
