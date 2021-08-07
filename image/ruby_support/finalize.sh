@@ -24,10 +24,6 @@ elif [[ "$known_rubies" =~ ruby-2\.7 ]]; then
 	set_rvm_default ruby-2\.7
 elif [[ "$known_rubies" =~ ruby-2\.6 ]]; then
 	set_rvm_default ruby-2\.6
-elif [[ "$known_rubies" =~ ruby-2\.5 ]]; then
-	set_rvm_default ruby-2\.5
-elif [[ "$known_rubies" =~ ruby-2\.4 ]]; then
-	set_rvm_default ruby-2\.4
 elif [[ "$known_rubies" =~ jruby ]]; then
 	set_rvm_default jruby
 fi
