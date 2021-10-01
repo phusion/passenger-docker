@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.4.10, 2.5.9, 2.6.8, 2.7.4, 3.0.2 and JRuby 9.2.13.0.
+ * Ruby 2.4.10, 2.5.9, 2.6.8, 2.7.4, 3.0.2 and JRuby 9.3.0.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.7.4 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -134,7 +134,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby26` - Ruby 2.6.
  * `phusion/passenger-ruby27` - Ruby 2.7.
  * `phusion/passenger-ruby30` - Ruby 3.0.
- * `phusion/passenger-jruby92` - JRuby 9.2.
+ * `phusion/passenger-jruby93` - JRuby 9.3.
 
 **Node.js and Meteor images**
 
@@ -179,7 +179,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby26:<VERSION>
 #FROM phusion/passenger-ruby27:<VERSION>
 #FROM phusion/passenger-ruby30:<VERSION>
-#FROM phusion/passenger-jruby92:<VERSION>
+#FROM phusion/passenger-jruby93:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
 
@@ -204,7 +204,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-2.6.*.sh
 #RUN /pd_build/ruby-2.7.*.sh
 #RUN /pd_build/ruby-3.0.*.sh
-#RUN /pd_build/jruby-9.2.*.sh
+#RUN /pd_build/jruby-9.3.*.sh
 #   Python support.
 #RUN /pd_build/python.sh
 #   Node.js and Meteor standalone support.
@@ -439,8 +439,8 @@ RUN bash -lc 'rvm --default use ruby-2.6.8'
 RUN bash -lc 'rvm --default use ruby-2.7.4'
 # Ruby 3.0.2
 RUN bash -lc 'rvm --default use ruby-3.0.2'
-# JRuby 9.2.13.0
-RUN bash -lc 'rvm --default use jruby-9.2.13.0'
+# JRuby 9.3.0.0
+RUN bash -lc 'rvm --default use jruby-9.3.0.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -829,7 +829,7 @@ Build one of the images:
     make build_ruby25
     make build_ruby26
     make build_ruby27
-    make build_jruby92
+    make build_jruby93
     make build_nodejs
     make build_customizable
     make build_full

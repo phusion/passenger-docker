@@ -1,3 +1,9 @@
+## 2.0.0 (release date: 2021-10-01)
+ * Upgraded to Phusion Passenger 6.0.11 (from 6.0.10).
+ * Upgraded to latest baseimage.
+ * Inlcude fix for expired Let's Encrypt root certificate.
+ * Upgraded to JRuby 9.3.0.0 with openjdk-17.
+
 ## 1.0.19 (release date: 2021-07-19)
  * Fixed wrong Ruby 3 being deleted (3.0.2 instead of 3.0.1 was deleted, 3.0.2 now restored and 3.0.1 removed).
 
