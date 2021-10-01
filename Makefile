@@ -10,8 +10,6 @@ all: build_all
 
 build_all: \
 	build_customizable \
-	build_ruby24 \
-	build_ruby25 \
 	build_ruby26 \
 	build_ruby27 \
 	build_ruby30 \
@@ -25,20 +23,6 @@ build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
 	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION) --rm customizable_image --no-cache
-
-build_ruby24:
-	rm -rf ruby24_image
-	cp -pR image ruby24_image
-	echo ruby24=1 >> ruby24_image/buildconfig
-	echo final=1 >> ruby24_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby24:$(VERSION) --rm ruby24_image --no-cache
-
-build_ruby25:
-	rm -rf ruby25_image
-	cp -pR image ruby25_image
-	echo ruby25=1 >> ruby25_image/buildconfig
-	echo final=1 >> ruby25_image/buildconfig
-	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby25:$(VERSION) --rm ruby25_image --no-cache
 
 build_ruby26:
 	rm -rf ruby26_image
@@ -78,8 +62,6 @@ build_nodejs:
 build_full:
 	rm -rf full_image
 	cp -pR image full_image
-	echo ruby24=1 >> full_image/buildconfig
-	echo ruby25=1 >> full_image/buildconfig
 	echo ruby26=1 >> full_image/buildconfig
 	echo ruby27=1 >> full_image/buildconfig
 	echo ruby30=1 >> full_image/buildconfig
@@ -93,8 +75,6 @@ build_full:
 
 tag_latest:
 	docker tag $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
-	docker tag $(NAME)-ruby24:$(VERSION) $(NAME)-ruby24:latest
-	docker tag $(NAME)-ruby25:$(VERSION) $(NAME)-ruby25:latest
 	docker tag $(NAME)-ruby26:$(VERSION) $(NAME)-ruby26:latest
 	docker tag $(NAME)-ruby27:$(VERSION) $(NAME)-ruby27:latest
 	docker tag $(NAME)-ruby30:$(VERSION) $(NAME)-ruby30:latest
@@ -104,8 +84,6 @@ tag_latest:
 
 release: tag_latest
 	@if ! docker images $(NAME)-customizable | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-customizable version $(VERSION) is not yet built. Please run 'make build'"; false; fi
-	@if ! docker images $(NAME)-ruby24 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby24 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
-	@if ! docker images $(NAME)-ruby25 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby25 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby26 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby26 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby27 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby27 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby30 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby30 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
@@ -114,10 +92,6 @@ release: tag_latest
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	docker push $(NAME)-customizable:latest
 	docker push $(NAME)-customizable:$(VERSION)
-	docker push $(NAME)-ruby24:latest
-	docker push $(NAME)-ruby24:$(VERSION)
-	docker push $(NAME)-ruby25:latest
-	docker push $(NAME)-ruby25:$(VERSION)
 	docker push $(NAME)-ruby26:latest
 	docker push $(NAME)-ruby26:$(VERSION)
 	docker push $(NAME)-ruby27:latest
@@ -134,8 +108,6 @@ release: tag_latest
 
 clean:
 	rm -rf customizable_image
-	rm -rf ruby24_image
-	rm -rf ruby25_image
 	rm -rf ruby26_image
 	rm -rf ruby27_image
 	rm -rf ruby30_image
@@ -145,8 +117,6 @@ clean:
 
 clean_images:
 	docker rmi $(NAME)-customizable:latest $(NAME)-customizable:$(VERSION) || true
-	docker rmi $(NAME)-ruby24:latest $(NAME)-ruby24:$(VERSION) || true
-	docker rmi $(NAME)-ruby25:latest $(NAME)-ruby25:$(VERSION) || true
 	docker rmi $(NAME)-ruby26:latest $(NAME)-ruby26:$(VERSION) || true
 	docker rmi $(NAME)-ruby27:latest $(NAME)-ruby27:$(VERSION) || true
 	docker rmi $(NAME)-ruby30:latest $(NAME)-ruby30:$(VERSION) || true
