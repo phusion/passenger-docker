@@ -7,6 +7,11 @@ if [[ ! -e /usr/bin/node ]]; then
 	run minimal_apt_get_install nodejs
 fi
 
+## Ruby pretty much requires tzinfo
+if [[ ! -e /usr/sbin/tzconfig ]]; then
+	run minimal_apt_get_install tzdata
+fi
+
 ## Install development headers for native libraries that tend to be used often by Ruby gems.
 if ! [[ -e /tmp/ruby_native_libs_installed ]]; then
 	## For nokogiri.
