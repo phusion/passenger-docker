@@ -4,7 +4,7 @@ source /pd_build/buildconfig
 set -x
 
 echo "+ Enabling Node Source APT repo"
-curl -sL https://deb.nodesource.com/setup_14.x | bash -
+curl -sL https://deb.nodesource.com/setup_16.x | bash -
 apt-get update
 
 ## Install Node.js (also needed for Rails asset compilation)

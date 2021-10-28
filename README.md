@@ -100,7 +100,7 @@ Language support:
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 14.
  * Python 2.7 and Python 3.8.
- * Node.js 14.
+ * Node.js 16.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -262,7 +262,7 @@ server {
 
     # If this is a Ruby app, specify a Ruby version:
     # For Ruby 3.0
-    passenger_ruby /usr/bin/ruby3.0;    
+    passenger_ruby /usr/bin/ruby3.0;
     # For Ruby 2.7
     passenger_ruby /usr/bin/ruby2.7;
     # For Ruby 2.6
