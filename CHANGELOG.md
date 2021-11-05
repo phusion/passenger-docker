@@ -1,5 +1,6 @@
 ## 2.0.1 (not yet released)
  * Added tzdata for Ruby convienience.
+ * Upgraded to Phusion Passenger 6.0.12 (from 6.0.11).
 
 ## 2.0.0 (release date: 2021-10-01)
  * Upgraded to Phusion Passenger 6.0.11 (from 6.0.10).
