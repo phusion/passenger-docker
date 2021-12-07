@@ -1,6 +1,13 @@
-## 2.0.1 (not yet released)
+## 2.1.0 (not yet released)
+ * Upgraded to Ruby 2.6.9
+ * Upgraded to Ruby 2.7.5
+ * Upgraded to Ruby 3.0.3
+ * Switched the ruby shims to use rvm wrappers, to hopefully address some ruby-environment instability.
+
+## 2.0.1 (release date: 2021-11-05)
  * Added tzdata for Ruby convienience.
  * Upgraded to Phusion Passenger 6.0.12 (from 6.0.11).
+ * Upgraded Node 14 LTS -> 16 LTS.
 
 ## 2.0.0 (release date: 2021-10-01)
  * Upgraded to Phusion Passenger 6.0.11 (from 6.0.10).

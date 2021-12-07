@@ -801,7 +801,7 @@ If you are a [Phusion Passenger Enterprise](https://www.phusionpassenger.com/ent
 ```dockerfile
 ADD passenger-enterprise-license /etc/passenger-enterprise-license
 RUN echo deb https://download:$DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list
-RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" passenger-enterprise nginx-extras
+RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" libnginx-mod-http-passenger-enterprise
 ```
 
     Replace `$DOWNLOAD_TOKEN` with your actual download token, as found in the Customer Area.
