@@ -48,6 +48,6 @@ function create_rvm_wrapper_script()
 	local command="$3"
 	echo "+ Creating /usr/bin/$name"
 	echo '#!/bin/sh' >> "/usr/bin/$name"
-	echo exec /usr/local/rvm/bin/rvm-exec "$rvm_id" "$command" '"$@"' >> "/usr/bin/$name"
+	echo exec "/usr/local/rvm/wrappers/$rvm_id/$command" '"$@"' >> "/usr/bin/$name"
 	chmod +x "/usr/bin/$name"
 }
