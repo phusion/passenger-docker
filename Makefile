@@ -13,6 +13,7 @@ build_all: \
 	build_ruby26 \
 	build_ruby27 \
 	build_ruby30 \
+	build_ruby31 \
 	build_jruby93 \
 	build_nodejs \
 	build_full
@@ -45,6 +46,13 @@ build_ruby30:
 	echo final=1 >> ruby30_image/buildconfig
 	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION) --rm ruby30_image --no-cache
 
+build_ruby31:
+	rm -rf ruby31_image
+	cp -pR image ruby31_image
+	echo ruby31=1 >> ruby31_image/buildconfig
+	echo final=1 >> ruby31_image/buildconfig
+	docker build $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION) --rm ruby31_image --no-cache
+
 build_jruby93:
 	rm -rf jruby93_image
 	cp -pR image jruby93_image
@@ -65,6 +73,7 @@ build_full:
 	echo ruby26=1 >> full_image/buildconfig
 	echo ruby27=1 >> full_image/buildconfig
 	echo ruby30=1 >> full_image/buildconfig
+	echo ruby31=1 >> full_image/buildconfig
 	echo jruby93=1 >> full_image/buildconfig
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
@@ -78,6 +87,7 @@ tag_latest:
 	docker tag $(NAME)-ruby26:$(VERSION) $(NAME)-ruby26:latest
 	docker tag $(NAME)-ruby27:$(VERSION) $(NAME)-ruby27:latest
 	docker tag $(NAME)-ruby30:$(VERSION) $(NAME)-ruby30:latest
+	docker tag $(NAME)-ruby31:$(VERSION) $(NAME)-ruby31:latest
 	docker tag $(NAME)-jruby93:$(VERSION) $(NAME)-jruby93:latest
 	docker tag $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
 	docker tag $(NAME)-full:$(VERSION) $(NAME)-full:latest
@@ -87,6 +97,7 @@ release: tag_latest
 	@if ! docker images $(NAME)-ruby26 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby26 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby27 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby27 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-ruby30 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby30 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-ruby31 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-ruby31 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-jruby93 | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-jruby93 version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-nodejs version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
@@ -98,6 +109,8 @@ release: tag_latest
 	docker push $(NAME)-ruby27:$(VERSION)
 	docker push $(NAME)-ruby30:latest
 	docker push $(NAME)-ruby30:$(VERSION)
+	docker push $(NAME)-ruby31:latest
+	docker push $(NAME)-ruby31:$(VERSION)
 	docker push $(NAME)-jruby93:latest
 	docker push $(NAME)-jruby93:$(VERSION)
 	docker push $(NAME)-nodejs:latest
@@ -111,6 +124,7 @@ clean:
 	rm -rf ruby26_image
 	rm -rf ruby27_image
 	rm -rf ruby30_image
+	rm -rf ruby31_image
 	rm -rf jruby93_image
 	rm -rf nodejs_image
 	rm -rf full_image
@@ -120,6 +134,7 @@ clean_images:
 	docker rmi $(NAME)-ruby26:latest $(NAME)-ruby26:$(VERSION) || true
 	docker rmi $(NAME)-ruby27:latest $(NAME)-ruby27:$(VERSION) || true
 	docker rmi $(NAME)-ruby30:latest $(NAME)-ruby30:$(VERSION) || true
+	docker rmi $(NAME)-ruby31:latest $(NAME)-ruby31:$(VERSION) || true
 	docker rmi $(NAME)-jruby93:latest $(NAME)-jruby93:$(VERSION) || true
 	docker rmi $(NAME)-nodejs:latest $(NAME)-nodejs:$(VERSION) || true
 	docker rmi $(NAME)-full:latest $(NAME)-full:$(VERSION) || true
