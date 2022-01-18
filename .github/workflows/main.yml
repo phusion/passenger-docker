@@ -1,4 +1,4 @@
-name: Make
+name: Build all images
 
 on:
   push:
@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 jobs:
-  run-rspec:
+  build-all:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
