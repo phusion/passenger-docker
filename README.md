@@ -138,7 +138,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 14.
+ * `phusion/passenger-nodejs` - Node.js 16.
 
 **Other images**
 
@@ -433,11 +433,11 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 RUN bash -lc 'rvm --default use ruby-2.4.10'
 # Ruby 2.5.9
 RUN bash -lc 'rvm --default use ruby-2.5.9'
-# Ruby 2.6.8
+# Ruby 2.6.9
 RUN bash -lc 'rvm --default use ruby-2.6.9'
-# Ruby 2.7.4
+# Ruby 2.7.5
 RUN bash -lc 'rvm --default use ruby-2.7.5'
-# Ruby 3.0.2
+# Ruby 3.0.3
 RUN bash -lc 'rvm --default use ruby-3.0.3'
 # JRuby 9.3.0.0
 RUN bash -lc 'rvm --default use jruby-9.3.0.0'
