@@ -1,0 +1,25 @@
+name: Build all images
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Run make build_all
+        run: |
+          make build_all
