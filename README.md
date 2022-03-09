@@ -271,6 +271,10 @@ server {
     passenger_ruby /usr/bin/ruby2.5;
     # For Ruby 2.4
     passenger_ruby /usr/bin/ruby2.4;
+
+    # Nginx has a default limit of 1 MB for request bodies, which also applies
+    # to file uploads. The following line enables uploads of up to 50 MB:
+    client_max_body_size 50M;
 }
 ```
 
