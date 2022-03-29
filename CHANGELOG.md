@@ -1,4 +1,4 @@
-## 2.1.0 (not yet released)
+## 2.1.0 (release date: 2021-12-07)
  * Upgraded to Ruby 2.6.9
  * Upgraded to Ruby 2.7.5
  * Upgraded to Ruby 3.0.3
