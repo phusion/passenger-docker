@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.4.10, 2.5.9, 2.6.9, 2.7.5, 3.0.3 and JRuby 9.3.0.0.
+ * Ruby 2.6.9, 2.7.5, 3.0.3, 3.1.1 and JRuby 9.3.4.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.7.5 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -129,11 +129,10 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby24` - Ruby 2.4.
- * `phusion/passenger-ruby25` - Ruby 2.5.
  * `phusion/passenger-ruby26` - Ruby 2.6.
  * `phusion/passenger-ruby27` - Ruby 2.7.
  * `phusion/passenger-ruby30` - Ruby 3.0.
+ * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-jruby93` - JRuby 9.3.
 
 **Node.js and Meteor images**
@@ -143,7 +142,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 **Other images**
 
  * `phusion/passenger-full` - Contains everything in the above images. Ruby, Python, Node.js, all in a single image for your convenience.
- * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 2.4, Ruby 2.5 and Node.js.
+ * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 2.6, Ruby 2.7 and Node.js.
 
 In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use another image.
 
@@ -199,11 +198,10 @@ CMD ["/sbin/my_init"]
 # Uncomment the features you want:
 #
 #   Ruby support
-#RUN /pd_build/ruby-2.4.*.sh
-#RUN /pd_build/ruby-2.5.*.sh
 #RUN /pd_build/ruby-2.6.*.sh
 #RUN /pd_build/ruby-2.7.*.sh
 #RUN /pd_build/ruby-3.0.*.sh
+#RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
 #   Python support.
 #RUN /pd_build/python.sh
@@ -261,16 +259,14 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 3.1
+    passenger_ruby /usr/bin/ruby3.1;
     # For Ruby 3.0
     passenger_ruby /usr/bin/ruby3.0;
     # For Ruby 2.7
     passenger_ruby /usr/bin/ruby2.7;
     # For Ruby 2.6
     passenger_ruby /usr/bin/ruby2.6;
-    # For Ruby 2.5
-    passenger_ruby /usr/bin/ruby2.5;
-    # For Ruby 2.4
-    passenger_ruby /usr/bin/ruby2.4;
 
     # Nginx has a default limit of 1 MB for request bodies, which also applies
     # to file uploads. The following line enables uploads of up to 50 MB:
@@ -433,18 +429,16 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 2.4.10
-RUN bash -lc 'rvm --default use ruby-2.4.10'
-# Ruby 2.5.9
-RUN bash -lc 'rvm --default use ruby-2.5.9'
 # Ruby 2.6.9
 RUN bash -lc 'rvm --default use ruby-2.6.9'
 # Ruby 2.7.5
 RUN bash -lc 'rvm --default use ruby-2.7.5'
 # Ruby 3.0.3
 RUN bash -lc 'rvm --default use ruby-3.0.3'
-# JRuby 9.3.0.0
-RUN bash -lc 'rvm --default use jruby-9.3.0.0'
+# Ruby 3.1.1
+RUN bash -lc 'rvm --default use ruby-3.1.1'
+# JRuby 9.3.4.0
+RUN bash -lc 'rvm --default use jruby-9.3.4.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -455,20 +449,20 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 2.5.9 ruby -v
-ruby 2.5.9
-$ rvm-exec 2.4.10 ruby -v
-ruby 2.4.10
+$ rvm-exec 2.6.9 ruby -v
+ruby 2.6.9
+$ rvm-exec 2.7.5 ruby -v
+ruby 2.7.5
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 2.5.9
-rvm-exec 2.5.9 bundle install
+# This runs 'bundle install' using Ruby 2.6.9
+rvm-exec 2.6.9 bundle install
 
-# This runs 'bundle install' using Ruby 2.4.10
-rvm-exec 2.4.10 bundle install
+# This runs 'bundle install' using Ruby 2.7.5
+rvm-exec 2.7.5 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
