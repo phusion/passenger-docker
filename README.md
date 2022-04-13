@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.6.9, 2.7.5, 3.0.3, 3.1.1 and JRuby 9.3.4.0.
+ * Ruby 2.6.10, 2.7.6, 3.0.4, 3.1.2 and JRuby 9.3.4.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 2.7.5 is configured as the default.
+   * 2.7.6 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 14.
  * Python 2.7 and Python 3.8.
@@ -429,14 +429,14 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 2.6.9
-RUN bash -lc 'rvm --default use ruby-2.6.9'
-# Ruby 2.7.5
-RUN bash -lc 'rvm --default use ruby-2.7.5'
-# Ruby 3.0.3
-RUN bash -lc 'rvm --default use ruby-3.0.3'
-# Ruby 3.1.1
-RUN bash -lc 'rvm --default use ruby-3.1.1'
+# Ruby 2.6.10
+RUN bash -lc 'rvm --default use ruby-2.6.10'
+# Ruby 2.7.6
+RUN bash -lc 'rvm --default use ruby-2.7.6'
+# Ruby 3.0.4
+RUN bash -lc 'rvm --default use ruby-3.0.4'
+# Ruby 3.1.2
+RUN bash -lc 'rvm --default use ruby-3.1.2'
 # JRuby 9.3.4.0
 RUN bash -lc 'rvm --default use jruby-9.3.4.0'
 ```
@@ -449,20 +449,20 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 2.6.9 ruby -v
-ruby 2.6.9
-$ rvm-exec 2.7.5 ruby -v
-ruby 2.7.5
+$ rvm-exec 2.6.10 ruby -v
+ruby 2.6.10
+$ rvm-exec 2.7.6 ruby -v
+ruby 2.7.6
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 2.6.9
-rvm-exec 2.6.9 bundle install
+# This runs 'bundle install' using Ruby 2.6.10
+rvm-exec 2.6.10 bundle install
 
-# This runs 'bundle install' using Ruby 2.7.5
-rvm-exec 2.7.5 bundle install
+# This runs 'bundle install' using Ruby 2.7.6
+rvm-exec 2.7.6 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
