@@ -15,7 +15,7 @@ Not sure what you can help us out with? Check our [list of issues and feature re
 
 #### Is this your first contribution to Open Source?
 
-Working on your first Pull Request? You can learn how from this *free* series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+Working on your first Pull Request? You can learn how from this *free* series, [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
 
 At this point, you're ready to make your changes! Feel free to ask for help; everyone is a beginner at first :smile_cat:
 
