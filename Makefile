@@ -117,7 +117,9 @@ release: tag_latest
 	docker push $(NAME)-nodejs:$(VERSION)
 	docker push $(NAME)-full:latest
 	docker push $(NAME)-full:$(VERSION)
-	@echo "*** Don't forget to create a tag. git tag rel-$(VERSION) && git push origin rel-$(VERSION)"
+	test -z "$(git status --porcelain)" || git commit -am "$(VERSION)"
+	git tag "rel-$(VERSION)"
+	git push origin "rel-$(VERSION)"
 
 clean:
 	rm -rf customizable_image
