@@ -1,10 +1,10 @@
 NAME = phusion/passenger
-VERSION = 2.3.0
+VERSION = 2.3.1
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
 
-.PHONY: all release clean clean_images
+.PHONY: all release clean clean_images labels
 
 all: build_all
 
@@ -17,6 +17,16 @@ build_all: \
 	build_jruby93 \
 	build_nodejs \
 	build_full
+
+labels:
+	@echo $(NAME)-customizable:$(VERSION) $(NAME)-customizable:latest
+	@echo $(NAME)-ruby26:$(VERSION) $(NAME)-ruby26:latest
+	@echo $(NAME)-ruby27:$(VERSION) $(NAME)-ruby27:latest
+	@echo $(NAME)-ruby30:$(VERSION) $(NAME)-ruby30:latest
+	@echo $(NAME)-ruby31:$(VERSION) $(NAME)-ruby31:latest
+	@echo $(NAME)-jruby93:$(VERSION) $(NAME)-jruby93:latest
+	@echo $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:latest
+	@echo $(NAME)-full:$(VERSION) $(NAME)-full:latest
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
 # So we copy things around.
