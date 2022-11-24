@@ -51,10 +51,6 @@ if [[ -e /usr/bin/ruby2.7 ]]; then
 	run ruby2.7 -S passenger-config build-native-support
 	run setuser app ruby2.7 -S passenger-config build-native-support
 fi
-if [[ -e /usr/bin/ruby2.6 ]]; then
-	run ruby2.6 -S passenger-config build-native-support
-	run setuser app ruby2.6 -S passenger-config build-native-support
-fi
 if [[ -e /usr/bin/jruby ]]; then
 	run jruby --dev -S passenger-config build-native-support
 	run setuser app jruby -S passenger-config build-native-support

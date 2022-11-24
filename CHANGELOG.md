@@ -1,4 +1,5 @@
 ## 2.4.0 (release date: ????)
+ * Removed Ruby 2.6 (end of life was March 31, 2022)
  * Upgraded to Ruby 2.7.7
  * Upgraded to Ruby 3.0.5
  * Upgraded to Ruby 3.1.3

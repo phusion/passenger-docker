@@ -6,7 +6,6 @@ run /pd_build/enable_repos.sh
 run /pd_build/prepare.sh
 run /pd_build/utilities.sh
 
-if [[ "$ruby26" = 1 ]]; then run /pd_build/ruby-2.6.*.sh; fi
 if [[ "$ruby27" = 1 ]]; then run /pd_build/ruby-2.7.*.sh; fi
 if [[ "$ruby30" = 1 ]]; then run /pd_build/ruby-3.0.*.sh; fi
 if [[ "$ruby31" = 1 ]]; then run /pd_build/ruby-3.1.*.sh; fi
