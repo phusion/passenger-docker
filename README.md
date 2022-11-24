@@ -98,7 +98,7 @@ Language support:
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 2.7.7 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
-   * JRuby uses OpenJDK 14.
+   * JRuby uses OpenJDK 17.
  * Python 2.7 and Python 3.8.
  * Node.js 16.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
