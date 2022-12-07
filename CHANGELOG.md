@@ -1,3 +1,10 @@
+## 2.4.0 (release date: ????)
+ * Removed Ruby 2.6 (end of life was March 31, 2022)
+ * Upgraded to Ruby 2.7.7
+ * Upgraded to Ruby 3.0.5
+ * Upgraded to Ruby 3.1.3
+ * Upgraded to JRuby 9.3.9.0 (from 9.3.4.0)
+
 ## 2.3.1 (release date: 2022-09-19)
  * Upgraded to Phusion Passenger 6.0.15 (from 6.0.14).
 
