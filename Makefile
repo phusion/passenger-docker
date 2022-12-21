@@ -14,6 +14,7 @@ build_all: \
 	build_ruby30 \
 	build_ruby31 \
 	build_jruby93 \
+	build_jruby94 \
 	build_nodejs \
 	build_full
 
@@ -28,6 +29,8 @@ labels:
 	@echo $(NAME)-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:latest-arm64
 	@echo $(NAME)-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:latest-amd64
 	@echo $(NAME)-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:latest-arm64
+	@echo $(NAME)-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:latest-amd64
+	@echo $(NAME)-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:latest-arm64
 	@echo $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:latest-amd64
 	@echo $(NAME)-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:latest-arm64
 	@echo $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
@@ -73,6 +76,14 @@ build_jruby93:
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-amd64 --rm jruby93_image --no-cache
 
+build_jruby94:
+	rm -rf jruby94_image
+	cp -pR image jruby94_image
+	echo jruby94=1 >> jruby94_image/buildconfig
+	echo final=1 >> jruby94_image/buildconfig
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby94:$(VERSION)-arm64 --rm jruby94_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby94:$(VERSION)-amd64 --rm jruby94_image --no-cache
+
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
@@ -87,7 +98,7 @@ build_full:
 	echo ruby27=1 >> full_image/buildconfig
 	echo ruby30=1 >> full_image/buildconfig
 	echo ruby31=1 >> full_image/buildconfig
-	echo jruby93=1 >> full_image/buildconfig
+	echo jruby94=1 >> full_image/buildconfig
 	echo python=1 >> full_image/buildconfig
 	echo nodejs=1 >> full_image/buildconfig
 	echo redis=1 >> full_image/buildconfig
@@ -107,6 +118,8 @@ tag_latest:
 	@if ! docker images $(NAME)-ruby31 | awk '{ print $$2 }' | grep -q -F $(VERSION)-arm64; then echo "$(NAME)-ruby31 version $(VERSION)-arm64 is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-jruby93 | awk '{ print $$2 }' | grep -q -F $(VERSION)-amd64; then echo "$(NAME)-jruby93 version $(VERSION)-amd64 is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-jruby93 | awk '{ print $$2 }' | grep -q -F $(VERSION)-arm64; then echo "$(NAME)-jruby93 version $(VERSION)-arm64 is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-jruby94 | awk '{ print $$2 }' | grep -q -F $(VERSION)-amd64; then echo "$(NAME)-jruby94 version $(VERSION)-amd64 is not yet built. Please run 'make build'"; false; fi
+	@if ! docker images $(NAME)-jruby94 | awk '{ print $$2 }' | grep -q -F $(VERSION)-arm64; then echo "$(NAME)-jruby94 version $(VERSION)-arm64 is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION)-amd64; then echo "$(NAME)-nodejs version $(VERSION)-amd64 is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-nodejs | awk '{ print $$2 }' | grep -q -F $(VERSION)-arm64; then echo "$(NAME)-nodejs version $(VERSION)-arm64 is not yet built. Please run 'make build'"; false; fi
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION)-amd64; then echo "$(NAME)-full version $(VERSION)-amd64 is not yet built. Please run 'make build'"; false; fi
@@ -121,6 +134,8 @@ tag_latest:
 	docker tag $(NAME)-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:latest-arm64
 	docker tag $(NAME)-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:latest-amd64
 	docker tag $(NAME)-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:latest-arm64
+	docker tag $(NAME)-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:latest-amd64
+	docker tag $(NAME)-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:latest-arm64
 	docker tag $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:latest-amd64
 	docker tag $(NAME)-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:latest-arm64
 	docker tag $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
@@ -147,6 +162,10 @@ push: tag_latest
 	docker push $(NAME)-jruby93:latest-arm64
 	docker push $(NAME)-jruby93:$(VERSION)-amd64
 	docker push $(NAME)-jruby93:$(VERSION)-arm64
+	docker push $(NAME)-jruby94:latest-amd64
+	docker push $(NAME)-jruby94:latest-arm64
+	docker push $(NAME)-jruby94:$(VERSION)-amd64
+	docker push $(NAME)-jruby94:$(VERSION)-arm64
 	docker push $(NAME)-nodejs:latest-amd64
 	docker push $(NAME)-nodejs:latest-arm64
 	docker push $(NAME)-nodejs:$(VERSION)-amd64
@@ -172,6 +191,11 @@ release: push
 	docker manifest create $(NAME)-jruby93:latest	  $(NAME)-jruby93:latest-amd64	   $(NAME)-jruby93:latest-arm64
 	docker manifest push $(NAME)-jruby93:$(VERSION)
 	docker manifest push $(NAME)-jruby93:latest
+	docker manifest rm $(NAME)-jruby94:latest || true
+	docker manifest create $(NAME)-jruby94:$(VERSION) $(NAME)-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:$(VERSION)-arm64
+	docker manifest create $(NAME)-jruby94:latest	  $(NAME)-jruby94:latest-amd64	   $(NAME)-jruby94:latest-arm64
+	docker manifest push $(NAME)-jruby94:$(VERSION)
+	docker manifest push $(NAME)-jruby94:latest
 	docker manifest rm $(NAME)-nodejs:latest || true
 	docker manifest create $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:$(VERSION)-arm64
 	docker manifest create $(NAME)-nodejs:latest	 $(NAME)-nodejs:latest-amd64	 $(NAME)-nodejs:latest-arm64
@@ -200,6 +224,7 @@ clean:
 	rm -rf ruby30_image
 	rm -rf ruby31_image
 	rm -rf jruby93_image
+	rm -rf jruby94_image
 	rm -rf nodejs_image
 	rm -rf full_image
 
@@ -216,8 +241,9 @@ clean_images:
 	docker rmi $(NAME)-ruby31:latest-arm64 $(NAME)-ruby31:$(VERSION)-arm64 || true
 	docker rmi $(NAME)-jruby93:latest-amd64 $(NAME)-jruby93:$(VERSION)-amd64 || true
 	docker rmi $(NAME)-jruby93:latest-arm64 $(NAME)-jruby93:$(VERSION)-arm64 || true
+	docker rmi $(NAME)-jruby94:latest-amd64 $(NAME)-jruby94:$(VERSION)-amd64 || true
+	docker rmi $(NAME)-jruby94:latest-arm64 $(NAME)-jruby94:$(VERSION)-arm64 || true
 	docker rmi $(NAME)-nodejs:latest-amd64 $(NAME)-nodejs:$(VERSION)-amd64 || true
 	docker rmi $(NAME)-nodejs:latest-arm64 $(NAME)-nodejs:$(VERSION)-arm64 || true
 	docker rmi $(NAME)-full:latest-amd64 $(NAME)-full:$(VERSION)-amd64 || true
 	docker rmi $(NAME)-full:latest-arm64 $(NAME)-full:$(VERSION)-arm64 || true
-
