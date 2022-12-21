@@ -20,6 +20,9 @@ jobs:
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
 
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
       - name: Run make build_all
         run: |
           make build_all
