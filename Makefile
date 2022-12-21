@@ -1,5 +1,5 @@
 NAME = phusion/passenger
-VERSION = 2.4.0
+VERSION = 2.4.1
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
@@ -38,48 +38,48 @@ labels:
 build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
-	docker buildx build --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image --no-cache
-	docker buildx build --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-amd64 --rm customizable_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-amd64 --rm customizable_image --no-cache
 
 build_ruby27:
 	rm -rf ruby27_image
 	cp -pR image ruby27_image
 	echo ruby27=1 >> ruby27_image/buildconfig
 	echo final=1 >> ruby27_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-arm64 --rm ruby27_image --no-cache
-	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-amd64 --rm ruby27_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-arm64 --rm ruby27_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-amd64 --rm ruby27_image --no-cache
 
 build_ruby30:
 	rm -rf ruby30_image
 	cp -pR image ruby30_image
 	echo ruby30=1 >> ruby30_image/buildconfig
 	echo final=1 >> ruby30_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-arm64 --rm ruby30_image --no-cache
-	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-amd64 --rm ruby30_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-arm64 --rm ruby30_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-amd64 --rm ruby30_image --no-cache
 
 build_ruby31:
 	rm -rf ruby31_image
 	cp -pR image ruby31_image
 	echo ruby31=1 >> ruby31_image/buildconfig
 	echo final=1 >> ruby31_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-arm64 --rm ruby31_image --no-cache
-	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-amd64 --rm ruby31_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-arm64 --rm ruby31_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-amd64 --rm ruby31_image --no-cache
 
 build_jruby93:
 	rm -rf jruby93_image
 	cp -pR image jruby93_image
 	echo jruby93=1 >> jruby93_image/buildconfig
 	echo final=1 >> jruby93_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image --no-cache
-	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-amd64 --rm jruby93_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-amd64 --rm jruby93_image --no-cache
 
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
 	echo nodejs=1 >> nodejs_image/buildconfig
 	echo final=1 >> nodejs_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-arm64 --rm nodejs_image --no-cache
-	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-amd64 --rm nodejs_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-arm64 --rm nodejs_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-amd64 --rm nodejs_image --no-cache
 
 build_full:
 	rm -rf full_image
@@ -157,32 +157,39 @@ push: tag_latest
 	docker push $(NAME)-full:$(VERSION)-arm64
 
 release: push
+	docker manifest rm $(NAME)-full:latest || true
 	docker manifest create $(NAME)-full:$(VERSION) $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:$(VERSION)-arm64
 	docker manifest create $(NAME)-full:latest     $(NAME)-full:latest-amd64     $(NAME)-full:latest-arm64
 	docker manifest push $(NAME)-full:$(VERSION)
 	docker manifest push $(NAME)-full:latest
+	docker manifest rm $(NAME)-customizable:latest || true
 	docker manifest create $(NAME)-customizable:$(VERSION) $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:$(VERSION)-arm64
 	docker manifest create $(NAME)-customizable:latest     $(NAME)-customizable:latest-amd64     $(NAME)-customizable:latest-arm64
 	docker manifest push $(NAME)-customizable:$(VERSION)
 	docker manifest push $(NAME)-customizable:latest
+	docker manifest rm $(NAME)-jruby93:latest || true
 	docker manifest create $(NAME)-jruby93:$(VERSION) $(NAME)-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:$(VERSION)-arm64
-	docker manifest create $(NAME)-jruby93:latest     $(NAME)-jruby93:latest-amd64     $(NAME)-jruby93:latest-arm64
+	docker manifest create $(NAME)-jruby93:latest	  $(NAME)-jruby93:latest-amd64	   $(NAME)-jruby93:latest-arm64
 	docker manifest push $(NAME)-jruby93:$(VERSION)
 	docker manifest push $(NAME)-jruby93:latest
+	docker manifest rm $(NAME)-nodejs:latest || true
 	docker manifest create $(NAME)-nodejs:$(VERSION) $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:$(VERSION)-arm64
-	docker manifest create $(NAME)-nodejs:latest     $(NAME)-nodejs:latest-amd64     $(NAME)-nodejs:latest-arm64
+	docker manifest create $(NAME)-nodejs:latest	 $(NAME)-nodejs:latest-amd64	 $(NAME)-nodejs:latest-arm64
 	docker manifest push $(NAME)-nodejs:$(VERSION)
 	docker manifest push $(NAME)-nodejs:latest
+	docker manifest rm $(NAME)-ruby31:latest || true
 	docker manifest create $(NAME)-ruby31:$(VERSION) $(NAME)-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:$(VERSION)-arm64
-	docker manifest create $(NAME)-ruby31:latest     $(NAME)-ruby31:latest-amd64     $(NAME)-ruby31:latest-arm64
+	docker manifest create $(NAME)-ruby31:latest	 $(NAME)-ruby31:latest-amd64	 $(NAME)-ruby31:latest-arm64
 	docker manifest push $(NAME)-ruby31:$(VERSION)
 	docker manifest push $(NAME)-ruby31:latest
+	docker manifest rm $(NAME)-ruby30:latest || true
 	docker manifest create $(NAME)-ruby30:$(VERSION) $(NAME)-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:$(VERSION)-arm64
-	docker manifest create $(NAME)-ruby30:latest     $(NAME)-ruby30:latest-amd64     $(NAME)-ruby30:latest-arm64
+	docker manifest create $(NAME)-ruby30:latest	 $(NAME)-ruby30:latest-amd64	 $(NAME)-ruby30:latest-arm64
 	docker manifest push $(NAME)-ruby30:$(VERSION)
 	docker manifest push $(NAME)-ruby30:latest
+	docker manifest rm $(NAME)-ruby27:latest || true
 	docker manifest create $(NAME)-ruby27:$(VERSION) $(NAME)-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:$(VERSION)-arm64
-	docker manifest create $(NAME)-ruby27:latest     $(NAME)-ruby27:latest-amd64     $(NAME)-ruby27:latest-arm64
+	docker manifest create $(NAME)-ruby27:latest	 $(NAME)-ruby27:latest-amd64	 $(NAME)-ruby27:latest-arm64
 	docker manifest push $(NAME)-ruby27:$(VERSION)
 	docker manifest push $(NAME)-ruby27:latest
 	test -z "$$(git status --porcelain)" && git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
