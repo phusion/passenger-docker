@@ -1,4 +1,7 @@
-## 2.4.0 (release date: ????)
+## 2.4.1 (release date: 2022-12-20)
+ * Fix tmpdir issue with Passenger 6.0.16
+
+## 2.4.0 (release date: 2022-12-19)
  * Removed Ruby 2.6 (end of life was March 31, 2022)
  * Upgraded to Ruby 2.7.7
  * Upgraded to Ruby 3.0.5

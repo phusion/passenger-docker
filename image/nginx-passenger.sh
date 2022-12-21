@@ -35,6 +35,8 @@ run touch /etc/service/nginx/down
 run mkdir /etc/service/nginx-log-forwarder
 run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 
+run mkdir /var/run/passenger-instreg
+
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 run sed -i -e '/sv 1 nginx.*/a\' -e '		passenger-config reopen-logs >/dev/null 2>&1' /etc/logrotate.d/nginx
 
