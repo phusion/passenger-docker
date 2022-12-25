@@ -4,7 +4,7 @@ VERSION = 2.4.1
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
 
-.PHONY: all build_all release clean clean_images labels tag_latest push build_customizable build_ruby27 build_ruby30 build_ruby31 build_jruby93 build_nodejs build_full
+.PHONY: all build_all release clean clean_images labels tag_latest push build_customizable build_ruby27 build_ruby30 build_ruby31 build_jruby93 build_jruby94 build_nodejs build_full
 
 all: build_all
 
