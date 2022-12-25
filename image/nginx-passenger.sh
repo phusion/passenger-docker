@@ -41,6 +41,10 @@ run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 run sed -i -e '/sv 1 nginx.*/a\' -e '		passenger-config reopen-logs >/dev/null 2>&1' /etc/logrotate.d/nginx
 
 ## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby3.2 ]]; then
+	run ruby3.2 -S passenger-config build-native-support
+	run setuser app ruby3.2 -S passenger-config build-native-support
+fi
 if [[ -e /usr/bin/ruby3.1 ]]; then
 	run ruby3.1 -S passenger-config build-native-support
 	run setuser app ruby3.1 -S passenger-config build-native-support
