@@ -1,5 +1,6 @@
 ## unreleased
  * Added a Ruby 3.2.0 image
+ * Added a JRuby 9.4.0.0 image
 
 ## 2.4.1 (release date: 2022-12-20)
  * Fix tmpdir issue with Passenger 6.0.16
@@ -10,7 +11,6 @@
  * Upgraded to Ruby 3.0.5
  * Upgraded to Ruby 3.1.3
  * Upgraded to JRuby 9.3.9.0 (from 9.3.4.0)
- * Added JRuby 9.4.0.0 image
 
 ## 2.3.1 (release date: 2022-09-19)
  * Upgraded to Phusion Passenger 6.0.15 (from 6.0.14).
