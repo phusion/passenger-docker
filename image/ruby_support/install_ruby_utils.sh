@@ -4,7 +4,7 @@ source /pd_build/buildconfig
 
 ## The Rails asset compiler requires a Javascript runtime.
 if [[ ! -e /usr/bin/node ]]; then
-	run minimal_apt_get_install nodejs
+	/pd_build/nodejs.sh
 fi
 
 ## Ruby pretty much requires tzinfo
