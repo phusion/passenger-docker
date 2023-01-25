@@ -1,5 +1,6 @@
 ## unreleased
  * Added a Ruby 3.2.0 image
+ * Added a JRuby 9.4.0.0 image
 
 ## 2.4.1 (release date: 2022-12-20)
  * Fix tmpdir issue with Passenger 6.0.16

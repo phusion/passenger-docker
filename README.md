@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 2.7.7, 3.0.5, 3.1.3, 3.2.0 and JRuby 9.3.9.0.
+ * Ruby 2.7.7, 3.0.5, 3.1.3, 3.2.0 and JRuby 9.3.9.0 and 9.4.0.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.1.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -134,6 +134,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-jruby93` - JRuby 9.3.
+ * `phusion/passenger-jruby94` - JRuby 9.4.
 
 **Node.js and Meteor images**
 
@@ -177,6 +178,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-jruby93:<VERSION>
+#FROM phusion/passenger-jruby94:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
 
@@ -201,6 +203,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
+#RUN /pd_build/jruby-9.4.*.sh
 #   Python support.
 #RUN /pd_build/python.sh
 #   Node.js and Meteor standalone support.
@@ -437,6 +440,8 @@ RUN bash -lc 'rvm --default use ruby-3.1.3'
 RUN bash -lc 'rvm --default use ruby-3.2.0'
 # JRuby 9.3.9.0
 RUN bash -lc 'rvm --default use jruby-9.3.9.0'
+# JRuby 9.4.0.0
+RUN bash -lc 'rvm --default use jruby-9.4.0.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -828,6 +833,7 @@ Build one of the images:
     make build_ruby31
     make build_ruby32
     make build_jruby93
+    make build_jruby94
     make build_nodejs
     make build_customizable
     make build_full
