@@ -24,6 +24,8 @@ if ! [[ -e /tmp/ruby_native_libs_installed ]]; then
 	run minimal_apt_get_install libpq-dev
 	## For all kinds of stuff.
 	run minimal_apt_get_install zlib1g-dev
+	## For compiling Ruby with YJIT
+	run minimal_apt_get_install rustc
 
 	touch /tmp/ruby_native_libs_installed
 fi
