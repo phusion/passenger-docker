@@ -1,6 +1,8 @@
-## unreleased
+## 2.5.0 (release date: 2023-01-26)
+ * Upgraded to Phusion Passenger 6.0.17 (from 6.0.16).
  * Added a Ruby 3.2.0 image
  * Added a JRuby 9.4.0.0 image
+ * Change to installing Node via Node Source (in Ruby images) instead of using outdated distro version, Node images already did this.
 
 ## 2.4.1 (release date: 2022-12-20)
  * Fix tmpdir issue with Passenger 6.0.16
