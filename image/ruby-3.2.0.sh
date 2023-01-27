@@ -7,7 +7,7 @@ RVM_ID=$(basename "$0" | sed 's/.sh$//')
 header "Installing $RVM_ID"
 run /pd_build/ruby_support/prepare.sh
 
-## For compiling Ruby with YJIT
+# For compiling Ruby with YJIT
 run minimal_apt_get_install rustc
 
 run /usr/local/rvm/bin/rvm install $RVM_ID || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
