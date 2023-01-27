@@ -44,64 +44,64 @@ labels:
 build_customizable:
 	rm -rf customizable_image
 	cp -pR image customizable_image
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-amd64 --rm customizable_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image --no-cache
 
 build_ruby27:
 	rm -rf ruby27_image
 	cp -pR image ruby27_image
 	echo ruby27=1 >> ruby27_image/buildconfig
 	echo final=1 >> ruby27_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-arm64 --rm ruby27_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-amd64 --rm ruby27_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby27:$(VERSION)-arm64 --rm ruby27_image --no-cache
 
 build_ruby30:
 	rm -rf ruby30_image
 	cp -pR image ruby30_image
 	echo ruby30=1 >> ruby30_image/buildconfig
 	echo final=1 >> ruby30_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-arm64 --rm ruby30_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-amd64 --rm ruby30_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby30:$(VERSION)-arm64 --rm ruby30_image --no-cache
 
 build_ruby31:
 	rm -rf ruby31_image
 	cp -pR image ruby31_image
 	echo ruby31=1 >> ruby31_image/buildconfig
 	echo final=1 >> ruby31_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-arm64 --rm ruby31_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-amd64 --rm ruby31_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby31:$(VERSION)-arm64 --rm ruby31_image --no-cache
 
 build_ruby32:
 	rm -rf ruby32_image
 	cp -pR image ruby32_image
 	echo ruby32=1 >> ruby32_image/buildconfig
 	echo final=1 >> ruby32_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby32:$(VERSION)-arm64 --rm ruby32_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby32:$(VERSION)-amd64 --rm ruby32_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-ruby32:$(VERSION)-arm64 --rm ruby32_image --no-cache
 
 build_jruby93:
 	rm -rf jruby93_image
 	cp -pR image jruby93_image
 	echo jruby93=1 >> jruby93_image/buildconfig
 	echo final=1 >> jruby93_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-amd64 --rm jruby93_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image --no-cache
 
 build_jruby94:
 	rm -rf jruby94_image
 	cp -pR image jruby94_image
 	echo jruby94=1 >> jruby94_image/buildconfig
 	echo final=1 >> jruby94_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby94:$(VERSION)-arm64 --rm jruby94_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby94:$(VERSION)-amd64 --rm jruby94_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-jruby94:$(VERSION)-arm64 --rm jruby94_image --no-cache
 
 build_nodejs:
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
 	echo nodejs=1 >> nodejs_image/buildconfig
 	echo final=1 >> nodejs_image/buildconfig
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-arm64 --rm nodejs_image --no-cache
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-amd64 --rm nodejs_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-nodejs:$(VERSION)-arm64 --rm nodejs_image --no-cache
 
 build_full:
 	rm -rf full_image
@@ -117,8 +117,8 @@ build_full:
 	echo redis=1 >> full_image/buildconfig
 	echo memcached=1 >> full_image/buildconfig
 	echo final=1 >> full_image/buildconfig
-	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-full:$(VERSION)-arm64 --rm full_image --no-cache
 	docker buildx build  --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-full:$(VERSION)-amd64 --rm full_image --no-cache
+	docker buildx build  --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-full:$(VERSION)-arm64 --rm full_image --no-cache
 
 tag_latest:
 	@if ! docker images $(NAME)-customizable | awk '{ print $$2 }' | grep -q -F $(VERSION)-amd64; then echo "$(NAME)-customizable version $(VERSION)-amd64 is not yet built. Please run 'make build'"; false; fi

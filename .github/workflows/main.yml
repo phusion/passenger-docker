@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 jobs:
-  build-all:
+  build-customizable:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,6 +23,125 @@ jobs:
       - name: Enable docker multiarch
         run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
 
-      - name: Run make build_all
-        run: |
-          make build_all
+      - name: Run make build_customizable
+        run: make build_customizable
+
+  build-ruby27:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_ruby27
+        run: make build_ruby27
+
+  build-ruby30:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_ruby30
+        run: make build_ruby30
+
+  build-ruby31:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_ruby31
+        run: make build_ruby31
+
+  build-ruby32:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_ruby32
+        run: make build_ruby32
+
+  build-jruby93:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_jruby93
+        run: make build_jruby93
+
+  build-jruby94:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_jruby94
+        run: make build_jruby94
+
+  build-nodejs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_nodejs
+        run: make build_nodejs
+
+  build-full:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+
+      - name: Enable docker multiarch
+        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+
+      - name: Run make build_full
+        run: make build_full
