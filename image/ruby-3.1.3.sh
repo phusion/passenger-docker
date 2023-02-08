@@ -10,7 +10,7 @@ run /pd_build/ruby_support/prepare.sh
 # For compiling Ruby with YJIT
 run minimal_apt_get_install rustc
 
-run /usr/local/rvm/bin/rvm install $RVM_ID || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
+run /usr/local/rvm/bin/rvm install $RVM_ID --disable-binary || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
 run /usr/local/rvm/bin/rvm-exec $RVM_ID@global gem install $DEFAULT_RUBY_GEMS --no-document
 # Make passenger_system_ruby work.
 run create_rvm_wrapper_script ruby3.1 $RVM_ID ruby
