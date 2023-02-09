@@ -2,10 +2,8 @@
 set -e
 source /pd_build/buildconfig
 
-run /pd_build/enable_repos.sh
-run /pd_build/update_os.sh
-run /pd_build/prepare.sh
-run /pd_build/utilities.sh
+# base cleans up apt before here now
+run apt-get update
 
 if [[ "$ruby27" = 1 ]]; then run /pd_build/ruby-2.7.*.sh; fi
 if [[ "$ruby30" = 1 ]]; then run /pd_build/ruby-3.0.*.sh; fi
@@ -22,3 +20,5 @@ if [[ "$memcached" = 1 ]]; then run /pd_build/memcached.sh; fi
 run /pd_build/nginx-passenger.sh
 
 run /pd_build/finalize.sh
+
+cleanup_apt
