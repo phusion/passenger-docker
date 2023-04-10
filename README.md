@@ -100,7 +100,7 @@ Language support:
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 2.7 and Python 3.8.
- * Node.js 16.
+ * Node.js 18.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -138,7 +138,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 16.
+ * `phusion/passenger-nodejs` - Node.js 18.
 
 **Other images**
 
