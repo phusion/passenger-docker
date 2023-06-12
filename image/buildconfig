@@ -28,6 +28,12 @@ function minimal_apt_get_install()
 	apt-get install -y --no-install-recommends "$@"
 }
 
+function cleanup_apt()
+{
+	run apt-get -y clean
+	run rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/dpkg.log /var/log/apt/*
+}
+
 function header()
 {
 	local title="$1"
