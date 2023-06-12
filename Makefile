@@ -1,4 +1,8 @@
+ifeq ($(GITHUB_ACTIONS),"TRUE")
+NAME = ghcr.io/phusion/passenger
+else
 NAME = phusion/passenger
+endif
 VERSION = 2.5.1
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
