@@ -9,7 +9,6 @@ header "Installing Phusion Passenger..."
 ## so that the -customizable variant cannot end up having Ruby installed
 ## from both APT and RVM.
 if [[ ! -e /usr/bin/ruby ]]; then
-	run /pd_build/ruby_support/prepare.sh
 	run /usr/local/rvm/bin/rvm install ruby-3.1.4
 	# Make passenger_system_ruby work.
 	run create_rvm_wrapper_script ruby3.1 ruby-3.1.4 ruby
