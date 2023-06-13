@@ -8,7 +8,7 @@ if [[ -e /usr/local/rvm ]]; then
 	run /usr/local/rvm/bin/rvm cleanup all
 fi
 
-run apt-get remove -y autoconf automake
+run apt-get remove -y autoconf automake rustc
 run apt-get autoremove -y
 
 if [[ "$final" = 1 ]]; then

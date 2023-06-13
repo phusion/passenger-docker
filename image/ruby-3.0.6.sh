@@ -5,7 +5,19 @@ source /pd_build/buildconfig
 RVM_ID=$(basename "$0" | sed 's/.sh$//')
 
 header "Installing $RVM_ID"
-run /usr/local/rvm/bin/rvm install $RVM_ID || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
+
+run mkdir -p "/rvm_cache/${ARCH}"
+if [[ -e "/rvm_cache/${ARCH}/${RVM_ID}.tar.bz2" ]]; then
+	# use cached ruby if present
+	run /usr/local/rvm/bin/rvm mount "/rvm_cache/${ARCH}/${RVM_ID}.tar.bz2"
+else
+	# otherwise build one
+	MAKEFLAGS=-j$(nproc) run /usr/local/rvm/bin/rvm install $RVM_ID --disable-cache || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
+	run cd "/rvm_cache/${ARCH}"
+	run /usr/local/rvm/bin/rvm prepare "${RVM_ID}"
+	run cd /
+fi
+
 run /usr/local/rvm/bin/rvm-exec $RVM_ID@global gem install $DEFAULT_RUBY_GEMS --no-document
 # Make passenger_system_ruby work.
 run create_rvm_wrapper_script ruby3.0 $RVM_ID ruby
