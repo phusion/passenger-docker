@@ -3,5 +3,9 @@ MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
 
+ARG ARCH
+RUN --mount=type=cache,target=/rvm_cache \
+    rm -rf "/rvm_cache/${ARCH}"
+
 RUN /pd_build/install_base.sh && \
     rm -rf /pd_build
