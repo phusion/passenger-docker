@@ -5,3 +5,4 @@ ruby*_image
 jruby*_image
 nodejs_image
 full_image
+base_image

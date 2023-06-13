@@ -47,8 +47,11 @@ labels:
 build_base:
 	docker rmi $(NAME)-base:current-amd64 || true
 	docker rmi $(NAME)-base:current-arm64 || true
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+	rm -rf base_image
+	cp -pR image base_image
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+	rm -rf base_image
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
 # So we copy things around.
@@ -293,6 +296,7 @@ release_ruby27: push_ruby27
 	docker manifest push $(NAME)-ruby27:latest
 
 clean:
+	rm -rf base_image
 	rm -rf customizable_image
 	rm -rf ruby27_image
 	rm -rf ruby30_image
