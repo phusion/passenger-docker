@@ -8,7 +8,7 @@ ADD . /pd_build
 
 ARG ARCH
 RUN --mount=type=cache,target=/rvm_cache \
-    /pd_build/install_image.sh
+    /usr/bin/nice /pd_build/install_image.sh
 
 CMD ["/sbin/my_init"]
 EXPOSE 80 443
