@@ -1,4 +1,4 @@
-ifeq ($(GITHUB_ACTIONS),"TRUE")
+ifeq ($(GITHUB_ACTIONS),true)
 NAME = ghcr.io/phusion/passenger
 else
 NAME = phusion/passenger
