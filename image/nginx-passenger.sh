@@ -9,7 +9,7 @@ header "Installing Phusion Passenger..."
 ## Install it through RVM, not APT, so that the -customizable variant cannot end up
 ## having Ruby installed from both APT and RVM.
 if [[ ! -e /usr/bin/ruby ]]; then
-	RVM_ID="ruby-3.1.4"
+	RVM_ID="ruby-3.2.2"
 
 	run mkdir -p "/rvm_cache/${ARCH}"
 	if [[ -e "/rvm_cache/${ARCH}/${RVM_ID}.tar.bz2" ]]; then
@@ -25,7 +25,7 @@ if [[ ! -e /usr/bin/ruby ]]; then
 	fi
 
 	# Make passenger_system_ruby work.
-	run create_rvm_wrapper_script ruby3.1 ruby-3.1.4 ruby
+	run create_rvm_wrapper_script ruby3.2 ruby-3.2.2 ruby
 	run /pd_build/ruby_support/finalize.sh
 fi
 
