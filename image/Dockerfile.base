@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.2
 FROM phusion/baseimage:master
 MAINTAINER Phusion <info@phusion.nl>
 
