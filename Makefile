@@ -4,6 +4,7 @@ else
 REGISTRY = docker.io
 endif
 NAME = $(REGISTRY)/phusion/passenger
+
 VERSION = 2.5.1
 
 # Extra flags for docker build, usable via environment variable.
