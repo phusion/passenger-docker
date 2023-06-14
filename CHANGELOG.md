@@ -6,6 +6,7 @@
  * Upgraded to Ruby 3.2.2
  * Upgraded Node 16 LTS -> 18 LTS.
  * Upgraded to JRuby 9.3.10.0
+ * Upgraded to JRuby 9.4.3.0
 
 ## 2.5.0 (release date: 2023-01-26)
  * Upgraded to Phusion Passenger 6.0.17 (from 6.0.16).
