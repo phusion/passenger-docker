@@ -1,5 +1,6 @@
 ARG ARCH
-FROM phusion/passenger-base:current-$ARCH
+ARG REGISTRY
+FROM $REGISTRY/phusion/passenger-base:current-$ARCH
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
