@@ -1,4 +1,5 @@
-## 2.5.1 (release date: 2023-06-)
+## 2.5.1 (release date: 2023-06-14)
+ * Upgraded to Phusion Passenger 6.0.18 (from 6.0.17).
  * Upgraded to Ruby 2.7.8
  * Upgraded to Ruby 3.0.6
  * Upgraded to Ruby 3.1.4
