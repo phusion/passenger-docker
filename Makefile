@@ -6,8 +6,6 @@ endif
 NAME = $(REGISTRY)/phusion/passenger
 VERSION = 2.5.1
 
-.NOTPARALLEL:
-
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
@@ -16,15 +14,18 @@ EXTRA_BUILD_FLAGS?=
 
 all: build_all
 
+# waits are to ensure that we only compile each version of ruby once per arch
 build_all: \
 	build_customizable \
+	.WAIT \
+	build_jruby93 \
+	build_jruby94 \
+	build_nodejs \
 	build_ruby27 \
 	build_ruby30 \
 	build_ruby31 \
 	build_ruby32 \
-	build_jruby93 \
-	build_jruby94 \
-	build_nodejs \
+	.WAIT \
 	build_full
 
 labels:
