@@ -1,3 +1,7 @@
+## not released
+ * Compile all CRuby versions from source to ensure uniformity and YJIT capability in versions 3.1+
+ * Use Ruby 3.2.x by default
+
 ## 2.5.1 (release date: 2023-06-)
  * Upgraded to Ruby 2.7.8
  * Upgraded to Ruby 3.0.6
