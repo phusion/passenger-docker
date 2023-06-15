@@ -49,6 +49,26 @@ labels:
 	@echo $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
 	@echo $(NAME)-full:$(VERSION)-arm64 $(NAME)-full:latest-arm64
 
+pull:
+	docker pull $(NAME)-customizable:$(VERSION)-amd64
+	docker pull $(NAME)-customizable:$(VERSION)-arm64
+	docker pull $(NAME)-ruby27:$(VERSION)-amd64
+	docker pull $(NAME)-ruby27:$(VERSION)-arm64
+	docker pull $(NAME)-ruby30:$(VERSION)-amd64
+	docker pull $(NAME)-ruby30:$(VERSION)-arm64
+	docker pull $(NAME)-ruby31:$(VERSION)-amd64
+	docker pull $(NAME)-ruby31:$(VERSION)-arm64
+	docker pull $(NAME)-ruby32:$(VERSION)-amd64
+	docker pull $(NAME)-ruby32:$(VERSION)-arm64
+	docker pull $(NAME)-jruby93:$(VERSION)-amd64
+	docker pull $(NAME)-jruby93:$(VERSION)-arm64
+	docker pull $(NAME)-jruby94:$(VERSION)-amd64
+	docker pull $(NAME)-jruby94:$(VERSION)-arm64
+	docker pull $(NAME)-nodejs:$(VERSION)-amd64
+	docker pull $(NAME)-nodejs:$(VERSION)-arm64
+	docker pull $(NAME)-full:$(VERSION)-amd64
+	docker pull $(NAME)-full:$(VERSION)-arm64
+
 build_base:
 	docker rmi $(NAME)-base:current-amd64 || true
 	docker rmi $(NAME)-base:current-arm64 || true
@@ -141,6 +161,26 @@ build_full: build_base
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-full:$(VERSION)-arm64 --rm full_image
 
 tag_latest: tag_latest_customizable tag_latest_ruby27 tag_latest_ruby30 tag_latest_ruby31 tag_latest_ruby32 tag_latest_jruby93 tag_latest_jruby94 tag_latest_nodejs tag_latest_full
+
+cross_tag:
+	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-amd64 $(NAME)-customizable:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-arm64 $(NAME)-customizable:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-ruby27:$(VERSION)-arm64 $(NAME)-ruby27:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby32:$(VERSION)-amd64 $(NAME)-ruby32:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-full:$(VERSION)-amd64 $(NAME)-full:$(VERSION)-amd64
+	docker tag ghcr.io/phusion/passenger-full:$(VERSION)-arm64 $(NAME)-full:$(VERSION)-arm64
 
 tag_latest_customizable:
 	docker tag $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:latest-amd64
