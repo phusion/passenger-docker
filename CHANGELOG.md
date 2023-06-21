@@ -1,3 +1,7 @@
+## not released
+ * Upgraded to JRuby 9.3.10.0
+ * Upgraded to JRuby 9.4.3.0
+
 ## 2.5.1 (release date: 2023-06-14)
  * Upgraded to Phusion Passenger 6.0.18 (from 6.0.17).
  * Upgraded to Ruby 2.7.8
