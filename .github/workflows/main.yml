@@ -27,6 +27,7 @@ jobs:
         run: make build_customizable
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -34,6 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_customizable
 
   build-ruby27:
@@ -52,6 +54,7 @@ jobs:
         run: make build_ruby27
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -59,6 +62,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_ruby27
 
   build-ruby30:
@@ -77,6 +81,7 @@ jobs:
         run: make build_ruby30
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -84,6 +89,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_ruby30
 
   build-ruby31:
@@ -102,6 +108,7 @@ jobs:
         run: make build_ruby31
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -109,6 +116,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_ruby31
 
   build-ruby32:
@@ -127,6 +135,7 @@ jobs:
         run: make build_ruby32
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -134,6 +143,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_ruby32
 
   build-jruby93:
@@ -152,6 +162,7 @@ jobs:
         run: make build_jruby93
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -159,6 +170,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_jruby93
 
   build-jruby94:
@@ -177,6 +189,7 @@ jobs:
         run: make build_jruby94
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -184,6 +197,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_jruby94
 
   build-nodejs:
@@ -202,6 +216,7 @@ jobs:
         run: make build_nodejs
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -209,6 +224,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_nodejs
 
   build-full:
@@ -227,6 +243,7 @@ jobs:
         run: make build_full
 
       - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
@@ -234,4 +251,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to github container registry
+        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_full
