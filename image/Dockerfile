@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.2
 ARG ARCH
 ARG REGISTRY
 FROM $REGISTRY/phusion/passenger-base:current-$ARCH
@@ -5,7 +6,9 @@ MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
 
-RUN /pd_build/install_image.sh
+ARG ARCH
+RUN --mount=type=cache,target=/rvm_cache \
+    /usr/bin/nice /pd_build/install_image.sh
 
 CMD ["/sbin/my_init"]
 EXPOSE 80 443

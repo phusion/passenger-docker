@@ -8,7 +8,6 @@ run minimal_apt_get_install openjdk-17-jre-headless
 run dpkg-reconfigure ca-certificates-java
 
 header "Installing $RVM_ID"
-run /pd_build/ruby_support/prepare.sh
 run /usr/local/rvm/bin/rvm install $RVM_ID
 run /usr/local/rvm/bin/rvm-exec $RVM_ID@global gem install $DEFAULT_RUBY_GEMS --no-document
 run create_rvm_wrapper_script jruby9.4 $RVM_ID ruby

@@ -1,4 +1,6 @@
 ## not released
+ * Compile all CRuby versions from source to ensure uniformity and YJIT capability in versions 3.1+
+ * Use Ruby 3.2.x by default
  * Upgraded to JRuby 9.3.10.0
  * Upgraded to JRuby 9.4.3.0
 

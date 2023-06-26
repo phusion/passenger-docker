@@ -96,7 +96,7 @@ Language support:
 
  * Ruby 2.7.8, 3.0.6, 3.1.4, 3.2.2 and JRuby 9.3.10.0 and 9.4.3.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.1.4 is configured as the default.
+   * 3.2.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 2.7 and Python 3.8.
