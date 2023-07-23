@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.2
-FROM phusion/baseimage:master
+FROM phusion/baseimage:jammy-1.0.1
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
