@@ -1,4 +1,8 @@
 ## not released
+ * Switched image base to the baseimage-docker jammy-1.0.1 tag
+   * Upgraded to Ubuntu 22.04 LTS (Jammy)
+   * Default Python version is now 3.10, and Python 2.7 is no longer installed by default
+ * Updated Python install script to be able to more easily install from deadsnakes PPA versions not in Ubuntu default repos
  * Compile all CRuby versions from source to ensure uniformity and YJIT capability in versions 3.1+
  * Use Ruby 3.2.x by default
  * Upgraded to JRuby 9.3.10.0

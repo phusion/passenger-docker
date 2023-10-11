@@ -99,7 +99,7 @@ Language support:
    * 3.2.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
- * Python 2.7 and Python 3.8.
+ * Python 3.10.
  * Node.js 18.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -204,8 +204,9 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
-#   Python support.
-#RUN /pd_build/python.sh
+#   Python support
+#RUN /pd_build/python.sh VERSION
+## (eg: RUN /pd_build/python.sh 3.12)
 #   Node.js and Meteor standalone support.
 #   (not needed if you already have the above Ruby support)
 #RUN /pd_build/nodejs.sh

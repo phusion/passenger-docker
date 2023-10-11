@@ -28,6 +28,12 @@ function minimal_apt_get_install()
 	apt-get install -y --no-install-recommends "$@"
 }
 
+function apt_add_ppa()
+{
+    add-apt-repository -y $1
+    apt-get update
+}
+
 function cleanup_apt()
 {
 	run apt-get -y clean
