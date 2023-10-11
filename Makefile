@@ -11,7 +11,7 @@ VERSION = 2.5.1
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
 
-.PHONY: all build_all release clean clean_images labels tag_latest push build_customizable build_ruby27 build_ruby30 build_ruby31 build_ruby32 build_jruby93 build_jruby94 build_nodejs build_full
+.PHONY: all build_all release clean clean_images labels tag_latest push build_customizable build_ruby30 build_ruby31 build_ruby32 build_jruby93 build_jruby94 build_nodejs build_full
 
 all: build_all
 
@@ -22,7 +22,6 @@ build_all: \
 	build_jruby93 \
 	build_jruby94 \
 	build_nodejs \
-	build_ruby27 \
 	build_ruby30 \
 	build_ruby31 \
 	build_ruby32 \
@@ -32,8 +31,6 @@ build_all: \
 labels:
 	@echo $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:latest-amd64
 	@echo $(NAME)-customizable:$(VERSION)-arm64 $(NAME)-customizable:latest-arm64
-	@echo $(NAME)-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:latest-amd64
-	@echo $(NAME)-ruby27:$(VERSION)-arm64 $(NAME)-ruby27:latest-arm64
 	@echo $(NAME)-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:latest-amd64
 	@echo $(NAME)-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:latest-arm64
 	@echo $(NAME)-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:latest-amd64
@@ -52,8 +49,6 @@ labels:
 pull:
 	docker pull $(NAME)-customizable:$(VERSION)-amd64
 	docker pull $(NAME)-customizable:$(VERSION)-arm64
-	docker pull $(NAME)-ruby27:$(VERSION)-amd64
-	docker pull $(NAME)-ruby27:$(VERSION)-arm64
 	docker pull $(NAME)-ruby30:$(VERSION)-amd64
 	docker pull $(NAME)-ruby30:$(VERSION)-arm64
 	docker pull $(NAME)-ruby31:$(VERSION)-amd64
@@ -86,14 +81,6 @@ build_customizable: build_base
 	cp -pR image customizable_image
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-customizable:$(VERSION)-amd64 --rm customizable_image
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image
-
-build_ruby27: build_base
-	rm -rf ruby27_image
-	cp -pR image ruby27_image
-	echo ruby27=1 >> ruby27_image/buildconfig
-	echo final=1 >> ruby27_image/buildconfig
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-ruby27:$(VERSION)-amd64 --rm ruby27_image
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-ruby27:$(VERSION)-arm64 --rm ruby27_image
 
 build_ruby30: build_base
 	rm -rf ruby30_image
@@ -146,7 +133,6 @@ build_nodejs: build_base
 build_full: build_base
 	rm -rf full_image
 	cp -pR image full_image
-	echo ruby27=1 >> full_image/buildconfig
 	echo ruby30=1 >> full_image/buildconfig
 	echo ruby31=1 >> full_image/buildconfig
 	echo ruby32=1 >> full_image/buildconfig
@@ -160,13 +146,11 @@ build_full: build_base
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-full:$(VERSION)-amd64 --rm full_image
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-full:$(VERSION)-arm64 --rm full_image
 
-tag_latest: tag_latest_customizable tag_latest_ruby27 tag_latest_ruby30 tag_latest_ruby31 tag_latest_ruby32 tag_latest_jruby93 tag_latest_jruby94 tag_latest_nodejs tag_latest_full
+tag_latest: tag_latest_customizable tag_latest_ruby30 tag_latest_ruby31 tag_latest_ruby32 tag_latest_jruby93 tag_latest_jruby94 tag_latest_nodejs tag_latest_full
 
 cross_tag:
 	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-amd64 $(NAME)-customizable:$(VERSION)-amd64
 	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-arm64 $(NAME)-customizable:$(VERSION)-arm64
-	docker tag ghcr.io/phusion/passenger-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-ruby27:$(VERSION)-arm64 $(NAME)-ruby27:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:$(VERSION)-amd64
 	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:$(VERSION)-amd64
@@ -185,10 +169,6 @@ cross_tag:
 tag_latest_customizable:
 	docker tag $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:latest-amd64
 	docker tag $(NAME)-customizable:$(VERSION)-arm64 $(NAME)-customizable:latest-arm64
-
-tag_latest_ruby27:
-	docker tag $(NAME)-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:latest-amd64
-	docker tag $(NAME)-ruby27:$(VERSION)-arm64 $(NAME)-ruby27:latest-arm64
 
 tag_latest_ruby30:
 	docker tag $(NAME)-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:latest-amd64
@@ -218,19 +198,13 @@ tag_latest_full:
 	docker tag $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
 	docker tag $(NAME)-full:$(VERSION)-arm64 $(NAME)-full:latest-arm64
 
-push: push_customizable push_ruby27 push_ruby30 push_ruby31 push_ruby32 push_jruby93 push_jruby94 push_nodejs push_full
+push: push_customizable push_ruby30 push_ruby31 push_ruby32 push_jruby93 push_jruby94 push_nodejs push_full
 
 push_customizable: tag_latest_customizable
 	docker push $(NAME)-customizable:latest-amd64
 	docker push $(NAME)-customizable:latest-arm64
 	docker push $(NAME)-customizable:$(VERSION)-amd64
 	docker push $(NAME)-customizable:$(VERSION)-arm64
-
-push_ruby27: tag_latest_ruby27
-	docker push $(NAME)-ruby27:latest-amd64
-	docker push $(NAME)-ruby27:latest-arm64
-	docker push $(NAME)-ruby27:$(VERSION)-amd64
-	docker push $(NAME)-ruby27:$(VERSION)-arm64
 
 push_ruby30: tag_latest_ruby30
 	docker push $(NAME)-ruby30:latest-amd64
@@ -274,7 +248,7 @@ push_full: tag_latest_full
 	docker push $(NAME)-full:$(VERSION)-amd64
 	docker push $(NAME)-full:$(VERSION)-arm64
 
-release: release_full release_customizable release_jruby93 release_jruby94 release_nodejs release_ruby32 release_ruby31 release_ruby30 release_ruby27
+release: release_full release_customizable release_jruby93 release_jruby94 release_nodejs release_ruby32 release_ruby31 release_ruby30
 	test -z "$$(git status --porcelain)" && git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
 
 release_full: push_full
@@ -333,17 +307,9 @@ release_ruby30: push_ruby30
 	docker manifest push $(NAME)-ruby30:$(VERSION)
 	docker manifest push $(NAME)-ruby30:latest
 
-release_ruby27: push_ruby27
-	docker manifest rm $(NAME)-ruby27:latest || true
-	docker manifest create $(NAME)-ruby27:$(VERSION) $(NAME)-ruby27:$(VERSION)-amd64 $(NAME)-ruby27:$(VERSION)-arm64
-	docker manifest create $(NAME)-ruby27:latest	 $(NAME)-ruby27:latest-amd64	 $(NAME)-ruby27:latest-arm64
-	docker manifest push $(NAME)-ruby27:$(VERSION)
-	docker manifest push $(NAME)-ruby27:latest
-
 clean:
 	rm -rf base_image
 	rm -rf customizable_image
-	rm -rf ruby27_image
 	rm -rf ruby30_image
 	rm -rf ruby31_image
 	rm -rf ruby32_image
@@ -355,10 +321,6 @@ clean:
 clean_images:
 	docker rmi $(NAME)-customizable:latest-amd64 $(NAME)-customizable:$(VERSION)-amd64 || true
 	docker rmi $(NAME)-customizable:latest-arm64 $(NAME)-customizable:$(VERSION)-arm64 || true
-	docker rmi $(NAME)-ruby26:latest-amd64 $(NAME)-ruby26:$(VERSION)-amd64 || true
-	docker rmi $(NAME)-ruby26:latest-arm64 $(NAME)-ruby26:$(VERSION)-arm64 || true
-	docker rmi $(NAME)-ruby27:latest-amd64 $(NAME)-ruby27:$(VERSION)-amd64 || true
-	docker rmi $(NAME)-ruby27:latest-arm64 $(NAME)-ruby27:$(VERSION)-arm64 || true
 	docker rmi $(NAME)-ruby30:latest-amd64 $(NAME)-ruby30:$(VERSION)-amd64 || true
 	docker rmi $(NAME)-ruby30:latest-arm64 $(NAME)-ruby30:$(VERSION)-arm64 || true
 	docker rmi $(NAME)-ruby31:latest-amd64 $(NAME)-ruby31:$(VERSION)-amd64 || true
