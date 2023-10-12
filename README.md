@@ -10,7 +10,7 @@ Why is this image called "passenger"? It's to represent the ease: you just have 
  [Github](https://github.com/phusion/passenger-docker) |
  [Docker registry](https://registry.hub.docker.com/r/phusion/passenger-full/) |
  [Discussion forum](https://groups.google.com/d/forum/passenger-docker) |
- [Twitter](https://twitter.com/phusion_nl) |
+ [Twitter/X](https://twitter.com/phusion_nl) |
  [Blog](http://blog.phusion.nl/)
 
 ---------------------------------------
@@ -85,7 +85,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 20.04 LTS as base system.
+ * Ubuntu 22.04 LTS as base system.
  * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -99,7 +99,7 @@ Language support:
    * 3.2.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
- * Python 3.10.
+ * Python 2.7 and 3.8-3.12
  * Node.js 18.
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -114,7 +114,7 @@ Web server and application server:
 
 Auxiliary services and tools:
 
- * Redis 5.0. Not installed by default.
+ * Redis 6.0. Not installed by default.
  * Memcached. Not installed by default.
 
 <a name="memory_efficiency"></a>
@@ -142,7 +142,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
 **Other images**
 
  * `phusion/passenger-full` - Contains everything in the above images. Ruby, Python, Node.js, all in a single image for your convenience.
- * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 3.1 and Node.js.
+ * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 3.2 and Node.js.
 
 In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use another image.
 
@@ -203,7 +203,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/jruby-9.4.*.sh
 #   Python support
 #RUN /pd_build/python.sh VERSION
-## (eg: RUN /pd_build/python.sh 3.12)
+#(eg: RUN /pd_build/python.sh 3.12)
 #   Node.js and Meteor standalone support.
 #   (not needed if you already have the above Ruby support)
 #RUN /pd_build/nodejs.sh
@@ -264,6 +264,11 @@ server {
     passenger_ruby /usr/bin/ruby3.1;
     # For Ruby 3.0
     passenger_ruby /usr/bin/ruby3.0;
+
+    # For Python ie. Django
+    passenger_app_type wsgi;
+    passenger_startup_file passenger_wsgi.py; (contents example: https://gist.github.com/ajhodgson/96c51dba349697e5c7e46027cc530434)
+    passenger_base_uri /;
 
     # Nginx has a default limit of 1 MB for request bodies, which also applies
     # to file uploads. The following line enables uploads of up to 50 MB:
