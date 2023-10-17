@@ -11,15 +11,15 @@ header "Installing Phusion Passenger..."
 if [[ ! -e /usr/bin/ruby ]]; then
 	RVM_ID="ruby-3.2.2"
 
-	run mkdir -p "/rvm_cache/${ARCH}"
-	if [[ -e "/rvm_cache/${ARCH}/${RVM_ID}.tar.bz2" ]]; then
+	run mkdir -p "/build_cache/${ARCH}"
+	if [[ -e "/build_cache/${ARCH}/${RVM_ID}.tar.bz2" ]]; then
 		# use cached ruby if present
-		run /usr/local/rvm/bin/rvm mount "/rvm_cache/${ARCH}/${RVM_ID}.tar.bz2"
+		run /usr/local/rvm/bin/rvm mount "/build_cache/${ARCH}/${RVM_ID}.tar.bz2"
 	else
 		# otherwise build one
 		run minimal_apt_get_install rustc # For compiling Ruby with YJIT
 		MAKEFLAGS=-j$(nproc) run /usr/local/rvm/bin/rvm install $RVM_ID --disable-cache || ( cat /usr/local/rvm/log/*${RVM_ID}*/*.log && false )
-		run cd "/rvm_cache/${ARCH}"
+		run cd "/build_cache/${ARCH}"
 		run /usr/local/rvm/bin/rvm prepare "${RVM_ID}"
 		run cd /
 	fi
