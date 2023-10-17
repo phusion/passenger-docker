@@ -15,4 +15,9 @@ run usermod -L app
 run mkdir -p /home/app/.ssh
 run chmod 700 /home/app/.ssh
 run chown app:app /home/app/.ssh
+
+## Fix home dir permissions so nginx can enter it by default
 run chmod 755 /home/app
+
+## Create a /usr/bin/python for safety
+ln -s /usr/bin/python3.10 /usr/bin/python
