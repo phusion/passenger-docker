@@ -8,7 +8,7 @@
  * Removed Ruby 2.7 (EOL 2023-03-31)
  * Compile all CRuby versions from source to ensure uniformity and YJIT capability in versions 3.1+
  * Use Ruby 3.2.x by default
- * Upgraded to JRuby 9.3.10.0
+ * Upgraded to JRuby 9.3.11.0 (from 9.3.9.0)
  * Upgraded to JRuby 9.4.3.0
 
 ## 2.5.1 (release date: 2023-06-14)
