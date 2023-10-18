@@ -9,4 +9,5 @@ touch $PIDFILE
 chown redis:redis $RUNDIR $PIDFILE
 chmod 755 $RUNDIR
 
+echo "*** Running /usr/bin/redis-server /etc/redis/redis.conf"
 exec chpst -u redis /usr/bin/redis-server /etc/redis/redis.conf

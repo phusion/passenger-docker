@@ -2,4 +2,5 @@
 set -e
 # We ensure nginx-log-forwarder is running first so it catches the first log-lines
 sv restart /etc/service/nginx-log-forwarder
+echo "*** Running /usr/sbin/nginx"
 exec /usr/sbin/nginx
