@@ -38,33 +38,6 @@ jobs:
         if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
         run: make release_customizable
 
-  build-ruby27:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Purge containers
-        run: 'docker kill $(docker ps -q) || exit 0'
-
-      - name: Enable docker multiarch
-        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
-
-      - name: Run make build_ruby27
-        run: make build_ruby27
-
-      - name: Log in to the Container registry
-        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push to github container registry
-        if: ${{ github.event.pull_request.merged && github.ref == 'refs/heads/master' }}
-        run: make release_ruby27
-
   build-ruby30:
     runs-on: ubuntu-latest
     steps:
