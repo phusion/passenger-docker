@@ -1,15 +1,15 @@
 ## not released
- * Switched image base to the baseimage-docker jammy-1.0.1 tag
+ * Switched image base to phusion/baseimage:jammy-1.0.1
    * Upgraded to Ubuntu 22.04 LTS (Jammy)
    * Default Python version is now 3.10, and Python 2.7 is no longer installed by default
- * Updated Python install script to be able to more easily install from deadsnakes PPA versions not in Ubuntu default repos
- * Updated Node.js install script to be able to install any supported version from Nodesource
- * Create yarn and related executables whenever installing Node.js
+ * Updated Python install script to be able to install any supported version from base or the Deadsnakes PPA
+ * Updated Node.js install script to be able to install any supported version from Nodesource; default version is still 18
+ * Created yarn and related executables whenever installing Node.js
  * Removed Ruby 2.7 (EOL 2023-03-31)
  * Compile all CRuby versions from source to ensure uniformity and YJIT capability in versions 3.1+
  * Use Ruby 3.2.x by default
  * Upgraded to JRuby 9.3.11.0 (from 9.3.9.0)
- * Upgraded to JRuby 9.4.3.0
+ * Upgraded to JRuby 9.4.3.0 (from 9.4.0.0)
 
 ## 2.5.1 (release date: 2023-06-14)
  * Upgraded to Phusion Passenger 6.0.18 (from 6.0.17).
