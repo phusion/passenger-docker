@@ -99,8 +99,8 @@ Language support:
    * 3.2.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
- * Python 2.7 and 3.8-3.12
- * Node.js 18.
+ * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Node.js 18 by default, or any version provided by Nodesource (currently 16, 18, 20, 21; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -195,18 +195,18 @@ CMD ["/sbin/my_init"]
 #
 # Uncomment the features you want:
 #
+#   Node.js and Meteor standalone support (not needed if you will also be installing Ruby, unless you need a version other than the default)
+#RUN /pd_build/nodejs.sh 18
+#
 #   Ruby support
 #RUN /pd_build/ruby-3.0.*.sh
 #RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
+#
 #   Python support
-#RUN /pd_build/python.sh VERSION
-#(eg: RUN /pd_build/python.sh 3.12)
-#   Node.js and Meteor standalone support.
-#   (not needed if you already have the above Ruby support)
-#RUN /pd_build/nodejs.sh
+#RUN /pd_build/python.sh 3.10
 
 # ...put your own build instructions here...
 
@@ -268,7 +268,10 @@ server {
     # For Python ie. Django
     passenger_app_type wsgi;
     passenger_startup_file passenger_wsgi.py; (contents example: https://gist.github.com/ajhodgson/96c51dba349697e5c7e46027cc530434)
-    passenger_base_uri /;
+
+    # For Node.js
+    passenger_app_type node;
+    passenger_startup_file app.js;
 
     # Nginx has a default limit of 1 MB for request bodies, which also applies
     # to file uploads. The following line enables uploads of up to 50 MB:
