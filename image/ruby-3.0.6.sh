@@ -2,7 +2,6 @@
 set -e
 source /pd_build/buildconfig
 
-
 RVM_ID=$(basename "$0" | sed 's/.sh$//')
 
 run mkdir -p "/build_cache/${ARCH}"
@@ -18,7 +17,7 @@ else
 	run /pd_build/install_openssl1.1.sh
 	cd /usr/local
 	tar -czvf /build_cache/${ARCH}/openssl1.1.tar.gz ssl
-	cd 
+	cd
 fi
 
 header "Installing $RVM_ID"
