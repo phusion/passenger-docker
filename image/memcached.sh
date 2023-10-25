@@ -4,6 +4,7 @@ source /pd_build/buildconfig
 
 header "Installing memcached..."
 
+run apt-get update
 run apt-get install -y memcached
 run mkdir /etc/service/memcached
 run cp /pd_build/runit/memcached /etc/service/memcached/run

@@ -28,6 +28,12 @@ function minimal_apt_get_install()
 	apt-get install -y --no-install-recommends "$@"
 }
 
+function apt_add_ppa()
+{
+    add-apt-repository -y $1
+    apt-get update
+}
+
 function cleanup_apt()
 {
 	run apt-get -y clean
@@ -52,6 +58,9 @@ function create_rvm_wrapper_script()
 	local name="$1"
 	local rvm_id="$2"
 	local command="$3"
+
+        rm -f "/usr/bin/$name"
+
 	echo "+ Creating /usr/bin/$name"
 	echo '#!/bin/sh' >> "/usr/bin/$name"
 	echo exec "/usr/local/rvm/wrappers/$rvm_id/$command" '"$@"' >> "/usr/bin/$name"

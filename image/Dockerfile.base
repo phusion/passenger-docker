@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.2
-FROM phusion/baseimage:master
+FROM phusion/baseimage:jammy-1.0.1
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
 
 ARG ARCH
-RUN --mount=type=cache,target=/rvm_cache \
-    rm -rf "/rvm_cache/${ARCH}" && \
+RUN --mount=type=cache,target=/build_cache \
+    rm -rf "/build_cache/${ARCH}" && \
     /usr/bin/nice /pd_build/install_base.sh && \
     rm -rf /pd_build

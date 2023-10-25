@@ -7,7 +7,7 @@ MAINTAINER Phusion <info@phusion.nl>
 ADD . /pd_build
 
 ARG ARCH
-RUN --mount=type=cache,target=/rvm_cache \
+RUN --mount=type=cache,target=/build_cache \
     /usr/bin/nice /pd_build/install_image.sh
 
 CMD ["/sbin/my_init"]
