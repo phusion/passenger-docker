@@ -11,6 +11,18 @@ VERSION = 2.6.0
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
 EXTRA_BUILD_FLAGS?=
 
+# Allow conditionally building multiple architectures
+# example: BUILD_ARM64=0 make build_customizable ; only builds amd64 image
+# defaults to building for both amd64 and arm64
+_build_amd64 := 1
+ifeq (${BUILD_AMD64},0)
+undefine _build_amd64
+endif
+_build_arm64 := 1
+ifeq (${BUILD_ARM64},0)
+undefine _build_arm64
+endif
+
 .PHONY: all build_all release clean clean_images labels tag_latest push build_customizable build_ruby30 build_ruby31 build_ruby32 build_jruby93 build_jruby94 build_nodejs build_full
 
 all: build_all
@@ -29,48 +41,60 @@ build_all: \
 	build_full
 
 labels:
+ifdef _build_amd64
 	@echo $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:latest-amd64
-	@echo $(NAME)-customizable:$(VERSION)-arm64 $(NAME)-customizable:latest-arm64
 	@echo $(NAME)-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:latest-amd64
-	@echo $(NAME)-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:latest-arm64
 	@echo $(NAME)-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:latest-amd64
-	@echo $(NAME)-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:latest-arm64
 	@echo $(NAME)-ruby32:$(VERSION)-amd64 $(NAME)-ruby32:latest-amd64
-	@echo $(NAME)-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:latest-arm64
 	@echo $(NAME)-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:latest-amd64
-	@echo $(NAME)-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:latest-arm64
 	@echo $(NAME)-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:latest-amd64
-	@echo $(NAME)-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:latest-arm64
 	@echo $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:latest-amd64
-	@echo $(NAME)-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:latest-arm64
 	@echo $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
+endif
+ifdef _build_arm64
+	@echo $(NAME)-customizable:$(VERSION)-arm64 $(NAME)-customizable:latest-arm64
+	@echo $(NAME)-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:latest-arm64
+	@echo $(NAME)-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:latest-arm64
+	@echo $(NAME)-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:latest-arm64
+	@echo $(NAME)-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:latest-arm64
+	@echo $(NAME)-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:latest-arm64
+	@echo $(NAME)-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:latest-arm64
 	@echo $(NAME)-full:$(VERSION)-arm64 $(NAME)-full:latest-arm64
+endif
 
 pull:
+ifdef _build_amd64
 	docker pull $(NAME)-customizable:$(VERSION)-amd64
-	docker pull $(NAME)-customizable:$(VERSION)-arm64
 	docker pull $(NAME)-ruby30:$(VERSION)-amd64
-	docker pull $(NAME)-ruby30:$(VERSION)-arm64
 	docker pull $(NAME)-ruby31:$(VERSION)-amd64
-	docker pull $(NAME)-ruby31:$(VERSION)-arm64
 	docker pull $(NAME)-ruby32:$(VERSION)-amd64
-	docker pull $(NAME)-ruby32:$(VERSION)-arm64
 	docker pull $(NAME)-jruby93:$(VERSION)-amd64
-	docker pull $(NAME)-jruby93:$(VERSION)-arm64
 	docker pull $(NAME)-jruby94:$(VERSION)-amd64
-	docker pull $(NAME)-jruby94:$(VERSION)-arm64
 	docker pull $(NAME)-nodejs:$(VERSION)-amd64
-	docker pull $(NAME)-nodejs:$(VERSION)-arm64
 	docker pull $(NAME)-full:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker pull $(NAME)-customizable:$(VERSION)-arm64
+	docker pull $(NAME)-ruby30:$(VERSION)-arm64
+	docker pull $(NAME)-ruby31:$(VERSION)-arm64
+	docker pull $(NAME)-ruby32:$(VERSION)-arm64
+	docker pull $(NAME)-jruby93:$(VERSION)-arm64
+	docker pull $(NAME)-jruby94:$(VERSION)-arm64
+	docker pull $(NAME)-nodejs:$(VERSION)-arm64
 	docker pull $(NAME)-full:$(VERSION)-arm64
+endif
 
 build_base:
-	docker rmi $(NAME)-base:current-amd64 || true
-	docker rmi $(NAME)-base:current-arm64 || true
 	rm -rf base_image
 	cp -pR image base_image
+ifdef _build_amd64
+	docker rmi $(NAME)-base:current-amd64 || true
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
+endif
+ifdef _build_arm64
+	docker rmi $(NAME)-base:current-arm64 || true
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+endif
 	rm -rf base_image
 
 # Docker doesn't support sharing files between different Dockerfiles. -_-
@@ -79,56 +103,84 @@ build_base:
 build_customizable: build_base
 	rm -rf customizable_image
 	cp -pR image customizable_image
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-customizable:$(VERSION)-amd64 --rm customizable_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-customizable:$(VERSION)-arm64 --rm customizable_image
+endif
 
 build_ruby30: build_base
 	rm -rf ruby30_image
 	cp -pR image ruby30_image
 	echo ruby30=1 >> ruby30_image/buildconfig
 	echo final=1 >> ruby30_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-ruby30:$(VERSION)-amd64 --rm ruby30_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-ruby30:$(VERSION)-arm64 --rm ruby30_image
+endif
 
 build_ruby31: build_base
 	rm -rf ruby31_image
 	cp -pR image ruby31_image
 	echo ruby31=1 >> ruby31_image/buildconfig
 	echo final=1 >> ruby31_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-ruby31:$(VERSION)-amd64 --rm ruby31_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-ruby31:$(VERSION)-arm64 --rm ruby31_image
+endif
 
 build_ruby32: build_base
 	rm -rf ruby32_image
 	cp -pR image ruby32_image
 	echo ruby32=1 >> ruby32_image/buildconfig
 	echo final=1 >> ruby32_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-ruby32:$(VERSION)-amd64 --rm ruby32_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-ruby32:$(VERSION)-arm64 --rm ruby32_image
+endif
 
 build_jruby93: build_base
 	rm -rf jruby93_image
 	cp -pR image jruby93_image
 	echo jruby93=1 >> jruby93_image/buildconfig
 	echo final=1 >> jruby93_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-jruby93:$(VERSION)-amd64 --rm jruby93_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-jruby93:$(VERSION)-arm64 --rm jruby93_image
+endif
 
 build_jruby94: build_base
 	rm -rf jruby94_image
 	cp -pR image jruby94_image
 	echo jruby94=1 >> jruby94_image/buildconfig
 	echo final=1 >> jruby94_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-jruby94:$(VERSION)-amd64 --rm jruby94_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-jruby94:$(VERSION)-arm64 --rm jruby94_image
+endif
 
 build_nodejs: build_base
 	rm -rf nodejs_image
 	cp -pR image nodejs_image
 	echo nodejs=1 >> nodejs_image/buildconfig
 	echo final=1 >> nodejs_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-nodejs:$(VERSION)-amd64 --rm nodejs_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-nodejs:$(VERSION)-arm64 --rm nodejs_image
+endif
 
 build_full: build_base
 	rm -rf full_image
@@ -143,110 +195,182 @@ build_full: build_base
 	echo redis=1 >> full_image/buildconfig
 	echo memcached=1 >> full_image/buildconfig
 	echo final=1 >> full_image/buildconfig
+ifdef _build_amd64
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-full:$(VERSION)-amd64 --rm full_image
+endif
+ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-full:$(VERSION)-arm64 --rm full_image
+endif
 
 tag_latest: tag_latest_customizable tag_latest_ruby30 tag_latest_ruby31 tag_latest_ruby32 tag_latest_jruby93 tag_latest_jruby94 tag_latest_nodejs tag_latest_full
 
 cross_tag:
+ifdef _build_amd64
 	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-amd64 $(NAME)-customizable:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-arm64 $(NAME)-customizable:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-ruby32:$(VERSION)-amd64 $(NAME)-ruby32:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:$(VERSION)-amd64
-	docker tag ghcr.io/phusion/passenger-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-full:$(VERSION)-amd64 $(NAME)-full:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker tag ghcr.io/phusion/passenger-customizable:$(VERSION)-arm64 $(NAME)-customizable:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:$(VERSION)-arm64
+	docker tag ghcr.io/phusion/passenger-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:$(VERSION)-arm64
 	docker tag ghcr.io/phusion/passenger-full:$(VERSION)-arm64 $(NAME)-full:$(VERSION)-arm64
+endif
 
 tag_latest_customizable:
+ifdef _build_amd64
 	docker tag $(NAME)-customizable:$(VERSION)-amd64 $(NAME)-customizable:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-customizable:$(VERSION)-arm64 $(NAME)-customizable:latest-arm64
+endif
 
 tag_latest_ruby30:
+ifdef _build_amd64
 	docker tag $(NAME)-ruby30:$(VERSION)-amd64 $(NAME)-ruby30:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-ruby30:$(VERSION)-arm64 $(NAME)-ruby30:latest-arm64
+endif
 
 tag_latest_ruby31:
+ifdef _build_amd64
 	docker tag $(NAME)-ruby31:$(VERSION)-amd64 $(NAME)-ruby31:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-ruby31:$(VERSION)-arm64 $(NAME)-ruby31:latest-arm64
+endif
 
 tag_latest_ruby32:
+ifdef _build_amd64
 	docker tag $(NAME)-ruby32:$(VERSION)-amd64 $(NAME)-ruby32:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-ruby32:$(VERSION)-arm64 $(NAME)-ruby32:latest-arm64
+endif
 
 tag_latest_jruby93:
+ifdef _build_amd64
 	docker tag $(NAME)-jruby93:$(VERSION)-amd64 $(NAME)-jruby93:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-jruby93:$(VERSION)-arm64 $(NAME)-jruby93:latest-arm64
+endif
 
 tag_latest_jruby94:
+ifdef _build_amd64
 	docker tag $(NAME)-jruby94:$(VERSION)-amd64 $(NAME)-jruby94:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-jruby94:$(VERSION)-arm64 $(NAME)-jruby94:latest-arm64
+endif
 
 tag_latest_nodejs:
+ifdef _build_amd64
 	docker tag $(NAME)-nodejs:$(VERSION)-amd64 $(NAME)-nodejs:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-nodejs:$(VERSION)-arm64 $(NAME)-nodejs:latest-arm64
+endif
 
 tag_latest_full:
+ifdef _build_amd64
 	docker tag $(NAME)-full:$(VERSION)-amd64 $(NAME)-full:latest-amd64
+endif
+ifdef _build_arm64
 	docker tag $(NAME)-full:$(VERSION)-arm64 $(NAME)-full:latest-arm64
+endif
 
 push: push_customizable push_ruby30 push_ruby31 push_ruby32 push_jruby93 push_jruby94 push_nodejs push_full
 
 push_customizable: tag_latest_customizable
+ifdef _build_amd64
 	docker push $(NAME)-customizable:latest-amd64
-	docker push $(NAME)-customizable:latest-arm64
 	docker push $(NAME)-customizable:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-customizable:latest-arm64
 	docker push $(NAME)-customizable:$(VERSION)-arm64
+endif
 
 push_ruby30: tag_latest_ruby30
+ifdef _build_amd64
 	docker push $(NAME)-ruby30:latest-amd64
-	docker push $(NAME)-ruby30:latest-arm64
 	docker push $(NAME)-ruby30:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-ruby30:latest-arm64
 	docker push $(NAME)-ruby30:$(VERSION)-arm64
+endif
 
 push_ruby31: tag_latest_ruby31
+ifdef _build_amd64
 	docker push $(NAME)-ruby31:latest-amd64
-	docker push $(NAME)-ruby31:latest-arm64
 	docker push $(NAME)-ruby31:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-ruby31:latest-arm64
 	docker push $(NAME)-ruby31:$(VERSION)-arm64
+endif
 
 push_ruby32: tag_latest_ruby32
+ifdef _build_amd64
 	docker push $(NAME)-ruby32:latest-amd64
-	docker push $(NAME)-ruby32:latest-arm64
 	docker push $(NAME)-ruby32:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-ruby32:latest-arm64
 	docker push $(NAME)-ruby32:$(VERSION)-arm64
+endif
 
 push_jruby93: tag_latest_jruby93
+ifdef _build_amd64
 	docker push $(NAME)-jruby93:latest-amd64
-	docker push $(NAME)-jruby93:latest-arm64
 	docker push $(NAME)-jruby93:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-jruby93:latest-arm64
 	docker push $(NAME)-jruby93:$(VERSION)-arm64
+endif
 
 push_jruby94: tag_latest_jruby94
+ifdef _build_amd64
 	docker push $(NAME)-jruby94:latest-amd64
-	docker push $(NAME)-jruby94:latest-arm64
 	docker push $(NAME)-jruby94:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-jruby94:latest-arm64
 	docker push $(NAME)-jruby94:$(VERSION)-arm64
+endif
 
 push_nodejs: tag_latest_nodejs
+ifdef _build_amd64
 	docker push $(NAME)-nodejs:latest-amd64
-	docker push $(NAME)-nodejs:latest-arm64
 	docker push $(NAME)-nodejs:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-nodejs:latest-arm64
 	docker push $(NAME)-nodejs:$(VERSION)-arm64
+endif
 
 push_full: tag_latest_full
+ifdef _build_amd64
 	docker push $(NAME)-full:latest-amd64
-	docker push $(NAME)-full:latest-arm64
 	docker push $(NAME)-full:$(VERSION)-amd64
+endif
+ifdef _build_arm64
+	docker push $(NAME)-full:latest-arm64
 	docker push $(NAME)-full:$(VERSION)-arm64
+endif
 
 release: release_full release_customizable release_jruby93 release_jruby94 release_nodejs release_ruby32 release_ruby31 release_ruby30
 	test -z "$$(git status --porcelain)" && git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
