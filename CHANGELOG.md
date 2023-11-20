@@ -1,4 +1,5 @@
-## not released
+## 2.6.0 (release date: 2023-11-20)
+ * Upgraded to Phusion Passenger 6.0.19 (from 6.0.18).
  * Switched image base to phusion/baseimage:jammy-1.0.1
    * Upgraded to Ubuntu 22.04 LTS (Jammy)
    * Default Python version is now 3.10, and Python 2.7 is no longer installed by default
