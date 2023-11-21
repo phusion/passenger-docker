@@ -3,9 +3,16 @@ REGISTRY = ghcr.io
 else
 REGISTRY = docker.io
 endif
-NAME = $(REGISTRY)/phusion/passenger
 
-VERSION = 2.6.0
+NAME ?= $(REGISTRY)/phusion/passenger
+VERSION ?= 2.6.0
+
+# NAME and/or VERSION can be overriden during build if you are building locally to push to your own repository
+# example:
+#   login to your ECR repo, then
+#   NAME="YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger" VERSION=2.5.1.4 BUILD_ARM64=0 make -j1 build_ruby32 push_ruby32
+#     This will build and push YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby32:2.5.1.4-amd64
+#     and YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby32:2.5.1.4:latest-amd64
 
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
@@ -13,7 +20,7 @@ EXTRA_BUILD_FLAGS?=
 
 # Allow conditionally building multiple architectures
 # example: BUILD_ARM64=0 make build_customizable ; only builds amd64 image
-# defaults to building for both amd64 and arm64
+# defaults to building all specified images for both amd64 and arm64
 _build_amd64 := 1
 ifeq (${BUILD_AMD64},0)
 undefine _build_amd64
@@ -89,11 +96,11 @@ build_base:
 	cp -pR image base_image
 ifdef _build_amd64
 	docker rmi $(NAME)-base:current-amd64 || true
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(REGISTRY)/phusion/passenger-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
 endif
 ifdef _build_arm64
 	docker rmi $(NAME)-base:current-arm64 || true
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(REGISTRY)/phusion/passenger-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
 endif
 	rm -rf base_image
 
