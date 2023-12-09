@@ -34,8 +34,10 @@ endif
 
 FORCE:
 
-SPECIAL_IMAGES:= customizable full
+SPECIAL_IMAGES := customizable full
 SINGLE_VERSION_IMAGES := jruby93 jruby94 nodejs ruby30 ruby31 ruby32
+
+ALL_IMAGES := $(SPECIAL_IMAGES) $(SINGLE_VERSION_IMAGES)
 
 all: build_all
 
@@ -82,7 +84,7 @@ ifdef _build_arm64
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm $*_image
 endif
 
-labels: $(foreach image, $(SINGLE_VERSION_IMAGES), label_${image}) $(foreach image, $(SPECIAL_IMAGES), label_${image})
+labels: $(foreach image, $(ALL_IMAGES), label_${image})
 
 label_%: FORCE
 ifdef _build_amd64
@@ -92,7 +94,7 @@ ifdef _build_arm64
 	@echo $(NAME)-$*:$(VERSION)-arm64 $(NAME)-$*:latest-arm64
 endif
 
-pull: $(foreach image, $(SINGLE_VERSION_IMAGES), pull_${image}) $(foreach image, $(SPECIAL_IMAGES), pull_${image})
+pull: $(foreach image, $(ALL_IMAGES), pull_${image})
 
 pull_%: FORCE
 ifdef _build_amd64
@@ -102,7 +104,7 @@ ifdef _build_arm64
 	docker pull $(NAME)-$*:$(VERSION)-arm64
 endif
 
-cross_tag: $(foreach image, $(SINGLE_VERSION_IMAGES), cross_tag_${image}) $(foreach image, $(SPECIAL_IMAGES), cross_tag_${image})
+cross_tag: $(foreach image, $(ALL_IMAGES), cross_tag_${image})
 
 cross_tag_%: FORCE
 ifdef _build_amd64
@@ -112,7 +114,7 @@ ifdef _build_arm64
 	docker tag ghcr.io/phusion/passenger-$*:$(VERSION)-arm64 $(NAME)-$*:$(VERSION)-arm64
 endif
 
-tag_latest: $(foreach image, $(SINGLE_VERSION_IMAGES), tag_latest_${image}) $(foreach image, $(SPECIAL_IMAGES), tag_latest_${image})
+tag_latest: $(foreach image, $(ALL_IMAGES), tag_latest_${image})
 
 tag_latest_%: FORCE
 ifdef _build_amd64
@@ -122,7 +124,7 @@ ifdef _build_arm64
 	docker tag $(NAME)-$*:$(VERSION)-arm64 $(NAME)-$*:latest-arm64
 endif
 
-push: $(foreach image, $(SINGLE_VERSION_IMAGES), push_${image}) $(foreach image, $(SPECIAL_IMAGES), push_${image})
+push: $(foreach image, $(ALL_IMAGES), push_${image})
 
 push_%: tag_latest_%
 ifdef _build_amd64
@@ -134,7 +136,7 @@ ifdef _build_arm64
 	docker push $(NAME)-$*:$(VERSION)-arm64
 endif
 
-release: $(foreach image, $(SINGLE_VERSION_IMAGES), release_${image}) $(foreach image, $(SPECIAL_IMAGES), release_${image})
+release: $(foreach image, $(ALL_IMAGES), release_${image})
 	test -z "$$(git status --porcelain)" && git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
 
 release_%: push_%
@@ -147,7 +149,7 @@ release_%: push_%
 clean:
 	rm -rf *_image
 
-clean_images: $(foreach image, $(SINGLE_VERSION_IMAGES), clean_image_${image}) $(foreach image, $(SPECIAL_IMAGES), clean_image_${image}) FORCE
+clean_images: $(foreach image, $(ALL_IMAGES), clean_image_${image}) FORCE
 	docker rmi $(REGISTRY)/phusion/passenger-base:current-amd64 phusion/passenger-base:current-amd64 || true
 	docker rmi $(REGISTRY)/phusion/passenger-base:current-arm64 phusion/passenger-base:current-arm64 || true
 
