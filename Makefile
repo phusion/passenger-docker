@@ -41,7 +41,7 @@ ALL_IMAGES := $(SPECIAL_IMAGES) $(SINGLE_VERSION_IMAGES)
 
 all: build_all
 
-# waits are to ensure that we only compile each version of ruby once per arch when even if running parallel
+# waits are to ensure that we only compile each version of ruby once per arch even if running parallel
 build_all: \
 	build_customizable \
 	.WAIT \
