@@ -38,10 +38,11 @@ jobs:
       - name: Log in to the Container registry
         if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        id: login
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to github container registry
-        if: ${{ success() }}
+        if: ${{ success() && steps.login.conclusion != 'skipped' }}
         run: "make release_${{ matrix.img }}"
