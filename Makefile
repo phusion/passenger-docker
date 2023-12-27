@@ -5,7 +5,7 @@ REGISTRY = docker.io
 endif
 
 NAME ?= $(REGISTRY)/phusion/passenger
-VERSION ?= 2.6.1
+VERSION ?= 2.6.2
 
 # NAME and/or VERSION can be overriden during build if you are building locally to push to your own repository
 # example:
@@ -35,7 +35,7 @@ endif
 FORCE:
 
 SPECIAL_IMAGES := customizable full
-SINGLE_VERSION_IMAGES := jruby93 jruby94 nodejs ruby30 ruby31 ruby32
+SINGLE_VERSION_IMAGES := jruby93 jruby94 nodejs ruby30 ruby31 ruby32 ruby33
 
 ALL_IMAGES := $(SPECIAL_IMAGES) $(SINGLE_VERSION_IMAGES)
 
