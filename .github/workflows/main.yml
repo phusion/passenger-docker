@@ -23,12 +23,15 @@ jobs:
          - nodejs
          - jruby94
          - jruby93
-         - ruby32
-         - ruby31
-         - ruby30
+         # - ruby34 # REL: 2024-12-25
+         - ruby33 # EOL: 2027-03-31
+         - ruby32 # EOL: 2026-03-31
+         - ruby31 # EOL: 2025-03-31
+         - ruby30 # EOL: 2024-03-31
+         # https://www.ruby-lang.org/en/downloads/branches/
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
