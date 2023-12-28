@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.0.6, 3.1.4, 3.2.2 and JRuby 9.3.11.0 and 9.4.3.0.
+ * Ruby 3.0.6, 3.1.4, 3.2.2, 3.3.0 and JRuby 9.3.11.0 and 9.4.3.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.2.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -132,6 +132,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby30` - Ruby 3.0.
  * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-ruby32` - Ruby 3.2.
+ * `phusion/passenger-ruby33` - Ruby 3.3.
  * `phusion/passenger-jruby93` - JRuby 9.3.
  * `phusion/passenger-jruby94` - JRuby 9.4.
 
@@ -202,6 +203,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-3.0.*.sh
 #RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
+#RUN /pd_build/ruby-3.3.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
 #
@@ -258,6 +260,8 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 3.3
+    passenger_ruby /usr/bin/ruby3.3;
     # For Ruby 3.2
     passenger_ruby /usr/bin/ruby3.2;
     # For Ruby 3.1
@@ -440,10 +444,12 @@ RUN bash -lc 'rvm --default use ruby-3.0.6'
 RUN bash -lc 'rvm --default use ruby-3.1.4'
 # Ruby 3.2.2
 RUN bash -lc 'rvm --default use ruby-3.2.2'
-# JRuby 9.3.11.0
-RUN bash -lc 'rvm --default use jruby-9.3.11.0'
-# JRuby 9.4.3.0
-RUN bash -lc 'rvm --default use jruby-9.4.3.0'
+# Ruby 3.3.0
+RUN bash -lc 'rvm --default use ruby-3.3.0'
+# JRuby 9.3.13.0
+RUN bash -lc 'rvm --default use jruby-9.3.13.0'
+# JRuby 9.4.5.0
+RUN bash -lc 'rvm --default use jruby-9.4.5.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
