@@ -515,7 +515,7 @@ While we release passenger-docker images with the latest OS updates from time to
 
 To upgrade the OS in the image, run this in your Dockerfile:
 
-    RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+    RUN apt-get update && apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 
 <a name="upgrading_passenger"></a>
 ### Upgrading Passenger to the latest version
