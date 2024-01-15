@@ -48,6 +48,10 @@ run touch /etc/service/nginx/down
 run mkdir /etc/service/nginx-log-forwarder
 run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 
+## Use SIGQUIT instead of SIGTERM to shutdown nginx
+run mkdir -p /etc/service/nginx/control/
+run cp /pd_build/runit/nginx-term /etc/service/nginx/control/t
+
 run mkdir /var/run/passenger-instreg
 
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
