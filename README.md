@@ -136,6 +136,14 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-jruby93` - JRuby 9.3.
  * `phusion/passenger-jruby94` - JRuby 9.4.
 
+Python images
+
+ * `phusion/passenger-python38` - Python 3.8
+ * `phusion/passenger-python39` - Python 3.9
+ * `phusion/passenger-python310` - Python 3.10
+ * `phusion/passenger-python311` - Python 3.11
+ * `phusion/passenger-python312` - Python 3.12
+
 **Node.js and Meteor images**
 
  * `phusion/passenger-nodejs` - Node.js 18.
@@ -511,7 +519,7 @@ The following example shows how you can add a startup script. This script simply
 
 passenger-docker images contain an Ubuntu 20.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
 
-While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us.
+While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us. This is also especially important to upgrade any installed Python or Node packages to the latest minor version.
 
 To upgrade the OS in the image, run this in your Dockerfile:
 

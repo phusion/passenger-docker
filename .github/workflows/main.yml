@@ -29,6 +29,12 @@ jobs:
          - ruby31 # EOL: 2025-03-31
          - ruby30 # EOL: 2024-03-31
          # https://www.ruby-lang.org/en/downloads/branches/
+         - python312 # EOL: 2028-10-02
+         - python311 # EOL: 2027-10-24
+         - python310 # EOL: 2026-10-04
+         - python39 # EOL: 2025-10-05
+         - python38 # EOL: 2024-10-14
+         # https://devguide.python.org/versions/
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
