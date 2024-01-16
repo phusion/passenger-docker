@@ -7,6 +7,7 @@
  * Upgraded to Ruby 3.1.5
  * Upgraded to Ruby 3.2.4
  * Upgraded to Ruby 3.3.1
+ * Updated image base to phusion/baseimage:jammy-1.0.4
 
 ## 3.0.2 (release date: 2024-02-23)
  * Fixes an issue with passenger-full not having ruby 3.3 as default
