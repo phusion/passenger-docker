@@ -184,6 +184,12 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby30:<VERSION>
 #FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
+#FROM phusion/passenger-ruby33:<VERSION>
+#FROM phusion/passenger-python38:<VERSION>
+#FROM phusion/passenger-python39:<VERSION>
+#FROM phusion/passenger-python310:<VERSION>
+#FROM phusion/passenger-python311:<VERSION>
+#FROM phusion/passenger-python312:<VERSION>
 #FROM phusion/passenger-jruby93:<VERSION>
 #FROM phusion/passenger-jruby94:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
@@ -557,7 +563,7 @@ Passenger is installed through [the Passenger APT repository](https://www.phusio
 To upgrade to the latest Passenger version, run this to your Dockerfile:
 
 ```dockerfile
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+RUN apt-get update && apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 ```
 
 <a name="container_administration"></a>
@@ -840,6 +846,12 @@ Build one of the images:
     make build_ruby30
     make build_ruby31
     make build_ruby32
+    make build_ruby33
+    make build_python38
+    make build_python39
+    make build_python310
+    make build_python311
+    make build_python312
     make build_jruby93
     make build_jruby94
     make build_nodejs
@@ -848,7 +860,11 @@ Build one of the images:
 
 If you want to call the resulting image something else, pass the NAME variable, like this:
 
-    make build NAME=joe/passenger
+    NAME=joe/passenger make build_ruby32
+
+Make will build images for both AMD64 and ARM64 by default. If you only want to build for one CPU architecture (ie. AMD64), disable the other architecture like this:
+
+    BUILD_ARM64=0 make build_ruby32
 
 <a name="faq"></a>
 ## FAQ
