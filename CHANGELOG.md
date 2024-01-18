@@ -2,6 +2,7 @@
  * Added a Ruby 3.3.0 image
  * Upgraded to JRuby 9.3.13.0 (from 9.3.11.0)
  * Upgraded to JRuby 9.4.5.0 (from 9.4.3.0)
+ * Upgraded to Ruby 3.2.3
 
 ## 2.6.0 (release date: 2023-11-20)
  * Upgraded to Phusion Passenger 6.0.19 (from 6.0.18).
