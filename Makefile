@@ -35,18 +35,22 @@ endif
 FORCE:
 
 SPECIAL_IMAGES := customizable full
-SINGLE_VERSION_IMAGES := jruby93 jruby94 nodejs ruby30 ruby31 ruby32 ruby33
+CRUBY_IMAGES := ruby30 ruby31 ruby32 ruby33
+PYTHON_IMAGES := python38 python39 python310 python311 python312
+MISC_IMAGES := jruby93 jruby94 nodejs
 
-ALL_IMAGES := $(SPECIAL_IMAGES) $(SINGLE_VERSION_IMAGES)
+ALL_IMAGES := $(SPECIAL_IMAGES) $(MISC_IMAGES) $(CRUBY_IMAGES) $(PYTHON_IMAGES)
 
 all: build_all
 
-# waits are to ensure that we only compile each version of ruby once per arch even if running parallel
+# waits are to ensure that we only compile each version of ruby once per arch even if running in parallel
 build_all: \
 	build_customizable \
 	.WAIT \
-	$(foreach image, $(SINGLE_VERSION_IMAGES), build_${image}) \
+	$(foreach image, $(CRUBY_IMAGES), build_${image}) \
 	.WAIT \
+	$(foreach image, $(MISC_IMAGES), build_${image}) \
+	$(foreach image, $(PYTHON_IMAGES), build_${image}) \
 	build_full
 
 build_base:
@@ -69,8 +73,9 @@ build_%: build_base
 	    echo "${*}=1" >> ${*}_image/buildconfig; \
 	fi
 	@if [ "${*}" == "full" ]; then \
-	    for i in ${SINGLE_VERSION_IMAGES}; do echo "$${i}=1" >> ${*}_image/buildconfig; done; \
-	    echo python=1 >> ${*}_image/buildconfig; \
+	    for i in ${CRUBY_IMAGES}; do echo "$${i}=1" >> ${*}_image/buildconfig; done; \
+	    for i in ${MISC_IMAGES}; do echo "$${i}=1" >> ${*}_image/buildconfig; done; \
+	    echo python310=1 >> ${*}_image/buildconfig; \
 	    echo redis=1 >> ${*}_image/buildconfig; \
 	    echo memcached=1 >> ${*}_image/buildconfig; \
 	fi

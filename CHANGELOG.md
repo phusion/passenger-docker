@@ -2,6 +2,7 @@
  * Added a Ruby 3.3.0 image
  * Upgraded to JRuby 9.3.13.0 (from 9.3.11.0)
  * Upgraded to JRuby 9.4.5.0 (from 9.4.3.0)
+ * Added versioned Python images for Python versions 3.8 to 3.12
  * Upgraded to Ruby 3.2.3
 
 ## 2.6.0 (release date: 2023-11-20)
