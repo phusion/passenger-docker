@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.0.6, 3.1.4, 3.2.2, 3.3.0 and JRuby 9.3.13.0 and 9.4.5.0.
+ * Ruby 3.0.6, 3.1.4, 3.2.3, 3.3.0 and JRuby 9.3.13.0 and 9.4.5.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.2.2 is configured as the default.
+   * 3.2.3 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
@@ -442,8 +442,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 RUN bash -lc 'rvm --default use ruby-3.0.6'
 # Ruby 3.1.4
 RUN bash -lc 'rvm --default use ruby-3.1.4'
-# Ruby 3.2.2
-RUN bash -lc 'rvm --default use ruby-3.2.2'
+# Ruby 3.2.3
+RUN bash -lc 'rvm --default use ruby-3.2.3'
 # Ruby 3.3.0
 RUN bash -lc 'rvm --default use ruby-3.3.0'
 # JRuby 9.3.13.0
