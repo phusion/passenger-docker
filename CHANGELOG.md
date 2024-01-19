@@ -1,4 +1,4 @@
-## not released
+## 3.0.0 (release date: 2024-01-18)
  * Added a Ruby 3.3.0 image
  * Upgraded to JRuby 9.3.13.0 (from 9.3.11.0)
  * Upgraded to JRuby 9.4.5.0 (from 9.4.3.0)
