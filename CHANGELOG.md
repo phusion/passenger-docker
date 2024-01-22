@@ -1,3 +1,6 @@
+## 3.0.1 (release date: 2024-01-22)
+ * Upgraded to Phusion Passenger 6.0.20 (from 6.0.19).
+
 ## 3.0.0 (release date: 2024-01-18)
  * Added a Ruby 3.3.0 image
  * Upgraded to JRuby 9.3.13.0 (from 9.3.11.0)
