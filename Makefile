@@ -51,6 +51,7 @@ build_all: \
 	$(foreach image, $(CRUBY_IMAGES), build_${image}) \
 	.WAIT \
 	$(foreach image, $(MISC_IMAGES), build_${image}) \
+	.WAIT \
 	$(foreach image, $(PYTHON_IMAGES), build_${image}) \
 	build_full
 
