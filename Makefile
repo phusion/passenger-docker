@@ -34,6 +34,7 @@ endif
 
 FORCE:
 
+# when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby-support/finalize.sh
 SPECIAL_IMAGES := customizable full
 CRUBY_IMAGES := ruby30 ruby31 ruby32 ruby33
 PYTHON_IMAGES := python38 python39 python310 python311 python312
