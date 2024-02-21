@@ -7,21 +7,23 @@ rm -f /usr/local/rvm/rubies/*/lib/libruby-static.a
 
 ## Set the latest available Ruby as the default.
 
+known_rubies=`/usr/local/rvm/bin/rvm list strings`
+
 function set_rvm_default()
 {
 	local regex="$1"
 	local match
 
-	match=`/usr/local/rvm/bin/rvm list strings | grep "$regex" | head -n 1`
+	match=$(grep "$regex" <<< $known_rubies | head -n 1)
 	echo "+ Setting $match as default RVM Ruby"
 	bash -lc "rvm use $match --default"
 }
 
-known_rubies=`/usr/local/rvm/bin/rvm list strings`
-if [[ "$known_rubies" =~ ruby-3\.2 ]]; then
-	set_rvm_default ruby-3\.2
-elif [[ "$known_rubies" =~ ruby-3\.3 ]]; then
+# descending order is important, with jruby last
+if [[ "$known_rubies" =~ ruby-3\.3 ]]; then
 	set_rvm_default ruby-3\.3
+elif [[ "$known_rubies" =~ ruby-3\.2 ]]; then
+	set_rvm_default ruby-3\.2
 elif [[ "$known_rubies" =~ ruby-3\.1 ]]; then
 	set_rvm_default ruby-3\.1
 elif [[ "$known_rubies" =~ ruby-3\.0 ]]; then
