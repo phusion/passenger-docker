@@ -1,3 +1,7 @@
+## 3.0.2 (release date: 2024-02-23)
+ * Fixes an issue with passenger-full not having ruby 3.3 as default
+ * Bumps fallback ruby to 3.3.
+
 ## 3.0.1 (release date: 2024-01-22)
  * Upgraded to Phusion Passenger 6.0.20 (from 6.0.19).
 
