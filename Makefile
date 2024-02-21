@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 ifeq ($(GITHUB_ACTIONS),true)
 REGISTRY = ghcr.io
 else
@@ -21,13 +23,16 @@ EXTRA_BUILD_FLAGS?=
 # Allow conditionally building multiple architectures
 # example: BUILD_ARM64=0 make build_customizable ; only builds amd64 image
 # defaults to building all specified images for both amd64 and arm64
-_build_amd64 := 1
 ifeq (${BUILD_AMD64},0)
-undefine _build_amd64
+_build_amd64 := 0
+else
+_build_amd64 := 1
 endif
 _build_arm64 := 1
 ifeq (${BUILD_ARM64},0)
-undefine _build_arm64
+_build_arm64 := 0
+else
+_build_arm64 := 1
 endif
 
 .PHONY: all build_base build_all tag_latest cross_tag push release labels clean clean_images
@@ -58,11 +63,11 @@ build_all: \
 build_base:
 	rm -rf base_image
 	cp -pR image base_image
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker rmi $(NAME)-base:current-amd64 || true
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(REGISTRY)/phusion/passenger-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker rmi $(NAME)-base:current-arm64 || true
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(REGISTRY)/phusion/passenger-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
 endif
@@ -84,61 +89,61 @@ build_%: build_base
 	@if [ "${*}" != "customizable" ]; then \
 	    echo final=1 >> ${*}_image/buildconfig; \
 	fi
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-$*:$(VERSION)-amd64 --rm $*_image
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm $*_image
 endif
 
 labels: $(foreach image, $(ALL_IMAGES), label_${image})
 
 label_%: FORCE
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	@echo $(NAME)-$*:$(VERSION)-amd64 $(NAME)-$*:latest-amd64
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	@echo $(NAME)-$*:$(VERSION)-arm64 $(NAME)-$*:latest-arm64
 endif
 
 pull: $(foreach image, $(ALL_IMAGES), pull_${image})
 
 pull_%: FORCE
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker pull $(NAME)-$*:$(VERSION)-amd64
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker pull $(NAME)-$*:$(VERSION)-arm64
 endif
 
 cross_tag: $(foreach image, $(ALL_IMAGES), cross_tag_${image})
 
 cross_tag_%: FORCE
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker tag ghcr.io/phusion/passenger-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-amd64
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker tag ghcr.io/phusion/passenger-$*:$(VERSION)-arm64 $(NAME)-$*:$(VERSION)-arm64
 endif
 
 tag_latest: $(foreach image, $(ALL_IMAGES), tag_latest_${image})
 
 tag_latest_%: FORCE
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker tag $(NAME)-$*:$(VERSION)-amd64 $(NAME)-$*:latest-amd64
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker tag $(NAME)-$*:$(VERSION)-arm64 $(NAME)-$*:latest-arm64
 endif
 
 push: $(foreach image, $(ALL_IMAGES), push_${image})
 
 push_%: tag_latest_%
-ifdef _build_amd64
+ifeq ($(_build_amd64),1)
 	docker push $(NAME)-$*:latest-amd64
 	docker push $(NAME)-$*:$(VERSION)-amd64
 endif
-ifdef _build_arm64
+ifeq ($(_build_arm64),1)
 	docker push $(NAME)-$*:latest-arm64
 	docker push $(NAME)-$*:$(VERSION)-arm64
 endif
