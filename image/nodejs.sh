@@ -3,7 +3,7 @@ set -e
 source /pd_build/buildconfig
 set -x
 
-VERSION=${1:-18}
+VERSION=${1:-20}
 if ( ! egrep -q nodesource.gpg /etc/apt/sources.list.d/nodesource.list ); then
 	## Install Node.js (also needed for Rails asset compilation)
 
