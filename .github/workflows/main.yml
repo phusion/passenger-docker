@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   build:
-    name: "build-${{ matrix.img }}"
+    name: build ${{ matrix.img }} ${{ matrix.arch }}
     runs-on: [ ubuntu, linux, ${{ matrix.arch }} ]
     strategy:
       fail-fast: true
