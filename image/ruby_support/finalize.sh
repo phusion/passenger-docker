@@ -5,10 +5,14 @@ source /pd_build/buildconfig
 ## Remove useless files.
 rm -f /usr/local/rvm/rubies/*/lib/libruby-static.a
 
-## Set the latest available Ruby as the default.
-
 known_rubies=`/usr/local/rvm/bin/rvm list strings`
 
+## Fix https://github.com/rvm/rvm/issues/5449
+for ver in $known_rubies; do
+	sed -e 's/require/load/g' -i'' "/usr/local/rvm/rubies/$ver/.irbrc"
+done
+
+## Set the latest available Ruby as the default.
 function set_rvm_default()
 {
 	local regex="$1"
