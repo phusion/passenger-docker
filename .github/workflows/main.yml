@@ -47,9 +47,9 @@ jobs:
         run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
-        env:
-          BUILD_AMD64: ${{ fromJSON('[1, 0]')[matrix.arch == 'amd64'] }}
-          BUILD_ARM64: ${{ fromJSON('[1, 0]')[matrix.arch == 'arm64'] }}
+        # env:
+        #   BUILD_AMD64: ${{ fromJSON('[1, 0]')[matrix.arch == 'amd64'] }}
+        #   BUILD_ARM64: ${{ fromJSON('[1, 0]')[matrix.arch == 'arm64'] }}
       - name: Log in to the Container registry
         if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
         uses: docker/login-action@v3
@@ -61,6 +61,6 @@ jobs:
       - name: Push to github container registry
         if: ${{ success() && steps.login.conclusion != 'skipped' }}
         run: "make release_${{ matrix.img }}"
-        env:
-          BUILD_AMD64: ${{ fromJSON('[1, 0]')[matrix.arch == 'amd64'] }}
-          BUILD_ARM64: ${{ fromJSON('[1, 0]')[matrix.arch == 'arm64'] }}
+        # env:
+        #   BUILD_AMD64: ${{ fromJSON('[1, 0]')[matrix.arch == 'amd64'] }}
+        #   BUILD_ARM64: ${{ fromJSON('[1, 0]')[matrix.arch == 'arm64'] }}
