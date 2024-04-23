@@ -3,6 +3,10 @@
  * Upgraded to JRuby 9.4.6.0 (from 9.4.5.0)
  * Upgraded Node 18 LTS -> 20 LTS.
  * Fix https://github.com/rvm/rvm/issues/5449
+ * Upgraded to Ruby 3.0.7
+ * Upgraded to Ruby 3.1.5
+ * Upgraded to Ruby 3.2.4
+ * Upgraded to Ruby 3.3.1
 
 ## 3.0.2 (release date: 2024-02-23)
  * Fixes an issue with passenger-full not having ruby 3.3 as default

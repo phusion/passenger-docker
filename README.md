@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.0.6, 3.1.4, 3.2.3, 3.3.0 and JRuby 9.3.13.0 and 9.4.5.0.
+ * Ruby 3.0.7, 3.1.5, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.2.3 is configured as the default.
+   * 3.3.1 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
@@ -452,18 +452,18 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 3.0.6
-RUN bash -lc 'rvm --default use ruby-3.0.6'
-# Ruby 3.1.4
-RUN bash -lc 'rvm --default use ruby-3.1.4'
-# Ruby 3.2.3
-RUN bash -lc 'rvm --default use ruby-3.2.3'
-# Ruby 3.3.0
-RUN bash -lc 'rvm --default use ruby-3.3.0'
-# JRuby 9.3.13.0
-RUN bash -lc 'rvm --default use jruby-9.3.13.0'
-# JRuby 9.4.5.0
-RUN bash -lc 'rvm --default use jruby-9.4.5.0'
+# Ruby 3.0.7
+RUN bash -lc 'rvm --default use ruby-3.0.7'
+# Ruby 3.1.5
+RUN bash -lc 'rvm --default use ruby-3.1.5'
+# Ruby 3.2.4
+RUN bash -lc 'rvm --default use ruby-3.2.4'
+# Ruby 3.3.1
+RUN bash -lc 'rvm --default use ruby-3.3.1'
+# JRuby 9.3.14.0
+RUN bash -lc 'rvm --default use jruby-9.3.14.0'
+# JRuby 9.4.6.0
+RUN bash -lc 'rvm --default use jruby-9.4.6.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -474,16 +474,16 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 3.1.4 ruby -v
-Using /usr/local/rvm/gems/ruby-3.1.4
-ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81) [x86_64-linux]
+$ rvm-exec 3.1.5 ruby -v
+Using /usr/local/rvm/gems/ruby-3.1.5
+ruby 3.1.5p252 (2024-04-23 revision 1945f8dc0e) [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.1.4
-rvm-exec 3.1.4 bundle install
+# This runs 'bundle install' using Ruby 3.1.5
+rvm-exec 3.1.5 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
