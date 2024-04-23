@@ -13,7 +13,7 @@ defaults:
 jobs:
   build:
     name: build ${{ matrix.img }} ${{ matrix.arch }}
-    runs-on: [ ubuntu, linux, "${{ matrix.arch }}" ]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
