@@ -149,7 +149,7 @@ ifeq ($(_build_arm64),1)
 endif
 
 release: $(foreach image, $(ALL_IMAGES), release_${image})
-	test -z "$$(git status --porcelain)" && git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
+	test -z "$$(git status --porcelain)" || git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
 
 release_%: push_%
 	docker manifest rm $(NAME)-$*:latest || true
