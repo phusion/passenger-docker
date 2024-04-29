@@ -1,4 +1,4 @@
-## 3.0.3 (release date: --)
+## 3.0.3 (release date: 2024-04-26)
  * Upgraded to JRuby 9.3.14.0 (from 9.3.13.0)
  * Upgraded to JRuby 9.4.6.0 (from 9.4.5.0)
  * Upgraded Node 18 LTS -> 20 LTS.
