@@ -85,7 +85,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 22.04 LTS as base system.
+ * Ubuntu 24.04 LTS as base system.
  * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -99,13 +99,13 @@ Language support:
    * 3.3.4 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
- * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
- * Node.js 18 by default, or any version provided by Nodesource (currently 16, 18, 20, 21; see https://github.com/nodesource/distributions).
+ * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.8, 3.9, 3.10, and 3.11; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Node.js 20 by default, or any version provided by Nodesource (currently 18, 20, 21, 22; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
 
- * Nginx 1.18. Disabled by default.
+ * Nginx 1.24. Disabled by default.
  * [Phusion Passenger 6](https://www.phusionpassenger.com/). Disabled by default (because it starts along with Nginx).
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
@@ -219,7 +219,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/jruby-9.4.*.sh
 #
 #   Python support
-#RUN /pd_build/python.sh 3.10
+#RUN /pd_build/python.sh 3.12
 
 # ...put your own build instructions here...
 
@@ -280,7 +280,7 @@ server {
 
     # For Python ie. Django
     passenger_app_type wsgi;
-    passenger_startup_file passenger_wsgi.py; (contents example: https://gist.github.com/ajhodgson/96c51dba349697e5c7e46027cc530434)
+    passenger_startup_file passenger_wsgi.py; # (contents example: https://gist.github.com/ajhodgson/96c51dba349697e5c7e46027cc530434)
 
     # For Node.js
     passenger_app_type node;
@@ -520,7 +520,7 @@ The following example shows how you can add a startup script. This script simply
 <a name="upgrading_os"></a>
 ### Upgrading the operating system inside the container
 
-passenger-docker images contain an Ubuntu 22.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
+passenger-docker images contain an Ubuntu 24.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
 
 While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us. This is also especially important to upgrade any installed Python or Node packages to the latest minor version.
 

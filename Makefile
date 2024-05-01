@@ -82,7 +82,7 @@ build_%: build_base
 	@if [ "${*}" == "full" ]; then \
 	    for i in ${CRUBY_IMAGES}; do echo "$${i}=1" >> ${*}_image/buildconfig; done; \
 	    for i in ${MISC_IMAGES}; do echo "$${i}=1" >> ${*}_image/buildconfig; done; \
-	    echo python310=1 >> ${*}_image/buildconfig; \
+	    echo python312=1 >> ${*}_image/buildconfig; \
 	    echo redis=1 >> ${*}_image/buildconfig; \
 	    echo memcached=1 >> ${*}_image/buildconfig; \
 	fi

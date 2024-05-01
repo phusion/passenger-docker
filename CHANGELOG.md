@@ -1,4 +1,12 @@
-## 3.0.8 (release date: TBD)
+## 3.1.0 (release date: TBD)
+ * Upgraded image base to phusion/baseimage:noble-1.0.0
+   * Upgraded to Ubuntu 24.04 LTS (Noble)
+       - note updated compiler chain and all tools; please test your apps thoroughly
+   * Default Python version is now 3.12 (from 3.10)
+   * Nginx version is now 1.24 (from 1.18)
+       - changelog can be found at https://nginx.org/en/CHANGES-1.24
+       - if you provide your own nginx.conf, please define error_log at the root scope, not the http scope; see https://github.com/phusion/passenger/issues/2541
+       - a number of modules are no longer installed and enabled by default (mod-http-geoip2, mod-http-image-filter, mod-http-xslt-filter, mod-mail, mod-stream, mod-stream-geoip2)
 
 ## 3.0.7 (release date: 2024-07-30)
  * Upgraded to Ruby 3.3.4
