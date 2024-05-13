@@ -26,7 +26,7 @@ run usermod -a -G rvm app
 run install -o root /pd_build/ruby_support/system-rvm-exec.sh /usr/bin/rvm-exec
 
 # Ensure bash always loads the RVM environment.
-echo 'if [[ "$rvm_prefix" = "" ]]; then source /etc/profile.d/*rvm*; fi' >> /etc/bash.bashrc
+echo 'if [[ "$rvm_prefix" = "" ]]; then for file in /etc/profile.d/*rvm*; do source $file; done; fi' >> /etc/bash.bashrc
 
 ## Install fake DPKG entry so that Passenger doesn't install Ruby from APT.
 echo "+ In /tmp:"
