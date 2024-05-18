@@ -1,3 +1,6 @@
+## 3.0.5 (release date: 2024-05-18)
+ * Upgraded to Phusion Passenger 6.0.22 (from 6.0.21).
+
 ## 3.0.4 (release date: 2024-05-17)
  * Upgraded to Phusion Passenger 6.0.21 (from 6.0.20).
  * Upgraded to JRuby 9.4.7.0 (from 9.4.6.0).
