@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.1.5, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
+ * Ruby 3.1.6, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.3.1 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -447,8 +447,8 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 3.1.5
-RUN bash -lc 'rvm --default use ruby-3.1.5'
+# Ruby 3.1.6
+RUN bash -lc 'rvm --default use ruby-3.1.6'
 # Ruby 3.2.4
 RUN bash -lc 'rvm --default use ruby-3.2.4'
 # Ruby 3.3.1
@@ -467,16 +467,16 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 3.1.5 ruby -v
-Using /usr/local/rvm/gems/ruby-3.1.5
-ruby 3.1.5p252 (2024-04-23 revision 1945f8dc0e) [x86_64-linux]
+$ rvm-exec 3.1.6 ruby -v
+Using /usr/local/rvm/gems/ruby-3.1.6
+ruby 3.1.6p260 (2024-05-29 revision a777087be6) [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.1.5
-rvm-exec 3.1.5 bundle install
+# This runs 'bundle install' using Ruby 3.1.6
+rvm-exec 3.1.6 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
