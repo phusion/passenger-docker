@@ -1,3 +1,6 @@
+## not released
+ * Removed Ruby 3.0 (EOL: 2024-03-31)
+
 ## 3.0.5 (release date: 2024-05-18)
  * Upgraded to Phusion Passenger 6.0.22 (from 6.0.21).
 

@@ -71,10 +71,6 @@ if [[ -e /usr/bin/ruby3.1 ]]; then
 	run ruby3.1 -S passenger-config build-native-support
 	run setuser app ruby3.1 -S passenger-config build-native-support
 fi
-if [[ -e /usr/bin/ruby3.0 ]]; then
-	run ruby3.0 -S passenger-config build-native-support
-	run setuser app ruby3.0 -S passenger-config build-native-support
-fi
 if [[ -e /usr/bin/jruby9.4 ]]; then
 	run jruby9.4 --dev -S passenger-config build-native-support
 	run setuser app jruby9.4 -S passenger-config build-native-support

@@ -30,8 +30,6 @@ elif [[ "$known_rubies" =~ ruby-3\.2 ]]; then
 	set_rvm_default ruby-3\.2
 elif [[ "$known_rubies" =~ ruby-3\.1 ]]; then
 	set_rvm_default ruby-3\.1
-elif [[ "$known_rubies" =~ ruby-3\.0 ]]; then
-	set_rvm_default ruby-3\.0
 elif [[ "$known_rubies" =~ jruby ]]; then
 	set_rvm_default jruby
 fi
