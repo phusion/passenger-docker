@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.0.7, 3.1.5, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
+ * Ruby 3.1.5, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.3.1 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -129,7 +129,6 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby30` - Ruby 3.0.
  * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
@@ -181,7 +180,6 @@ So put the following in your Dockerfile:
 # a list of version numbers.
 FROM phusion/passenger-full:<VERSION>
 # Or, instead of the 'full' variant, use one of these:
-#FROM phusion/passenger-ruby30:<VERSION>
 #FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
@@ -214,7 +212,6 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/nodejs.sh 18
 #
 #   Ruby support
-#RUN /pd_build/ruby-3.0.*.sh
 #RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
@@ -280,8 +277,6 @@ server {
     passenger_ruby /usr/bin/ruby3.2;
     # For Ruby 3.1
     passenger_ruby /usr/bin/ruby3.1;
-    # For Ruby 3.0
-    passenger_ruby /usr/bin/ruby3.0;
 
     # For Python ie. Django
     passenger_app_type wsgi;
@@ -452,8 +447,6 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 3.0.7
-RUN bash -lc 'rvm --default use ruby-3.0.7'
 # Ruby 3.1.5
 RUN bash -lc 'rvm --default use ruby-3.1.5'
 # Ruby 3.2.4
@@ -843,7 +836,6 @@ Start a virtual machine with Docker in it. You can use the Vagrantfile that we'v
 
 Build one of the images:
 
-    make build_ruby30
     make build_ruby31
     make build_ruby32
     make build_ruby33
