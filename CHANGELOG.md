@@ -1,5 +1,6 @@
 ## 3.0.6 (release date: TBD)
   * Upgraded to Ruby 3.1.6
+  * Upgraded to Ruby 3.3.2
 
 ## 3.0.5 (release date: 2024-05-18)
  * Removed Ruby 3.0 (EOL: 2024-04-23)
