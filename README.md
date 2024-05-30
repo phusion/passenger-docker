@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.1.6, 3.2.4, 3.3.1 and JRuby 9.3.14.0 and 9.4.6.0.
+ * Ruby 3.1.6, 3.2.4, 3.3.2 and JRuby 9.3.14.0 and 9.4.6.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.3.1 is configured as the default.
+   * 3.3.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
@@ -451,8 +451,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 RUN bash -lc 'rvm --default use ruby-3.1.6'
 # Ruby 3.2.4
 RUN bash -lc 'rvm --default use ruby-3.2.4'
-# Ruby 3.3.1
-RUN bash -lc 'rvm --default use ruby-3.3.1'
+# Ruby 3.3.2
+RUN bash -lc 'rvm --default use ruby-3.3.2'
 # JRuby 9.3.14.0
 RUN bash -lc 'rvm --default use jruby-9.3.14.0'
 # JRuby 9.4.6.0
@@ -470,13 +470,17 @@ You can run any command with a specific Ruby version by prefixing it with `rvm-e
 $ rvm-exec 3.1.6 ruby -v
 Using /usr/local/rvm/gems/ruby-3.1.6
 ruby 3.1.6p260 (2024-05-29 revision a777087be6) [x86_64-linux]
+
+$ rvm-exec 3.3.2 ruby -v
+Using /usr/local/rvm/gems/ruby-3.3.2
+ruby 3.3.2 (2024-05-30 revision e5a195edf6) [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.1.6
-rvm-exec 3.1.6 bundle install
+# This runs 'bundle install' using Ruby 3.3.2
+rvm-exec 3.3.2 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
