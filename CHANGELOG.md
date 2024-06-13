@@ -1,4 +1,4 @@
-## 3.0.6 (release date: TBD)
+## 3.0.6 (release date: 2024-06-13)
   * Upgraded to Ruby 3.1.6
   * Upgraded to Ruby 3.3.3
 
