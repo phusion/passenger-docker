@@ -23,13 +23,13 @@ EXTRA_BUILD_FLAGS?=
 # Allow conditionally building multiple architectures
 # example: BUILD_ARM64=0 make build_customizable ; only builds amd64 image
 # defaults to building all specified images for both amd64 and arm64
-ifeq (${BUILD_AMD64},0)
+ifeq ($(BUILD_AMD64),0)
 _build_amd64 := 0
 else
 _build_amd64 := 1
 endif
-_build_arm64 := 1
-ifeq (${BUILD_ARM64},0)
+
+ifeq ($(BUILD_ARM64),0)
 _build_arm64 := 0
 else
 _build_arm64 := 1
