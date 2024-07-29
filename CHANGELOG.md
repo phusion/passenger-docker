@@ -1,5 +1,6 @@
 ## 3.0.7 (release date: TBD)
  * Upgraded to Ruby 3.3.4
+ * Upgraded to Phusion Passenger 6.0.23 (from 6.0.22).
 
 ## 3.0.6 (release date: 2024-06-13)
  * Upgraded to Ruby 3.1.6
