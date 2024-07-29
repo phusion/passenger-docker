@@ -2,6 +2,8 @@
  * Upgraded to Ruby 3.3.4
  * Upgraded to Phusion Passenger 6.0.23 (from 6.0.22).
  * Upgraded to Ruby 3.2.5
+ * Upgraded to JRuby 9.4.8.0 (from 9.4.7.0).
+ * Upgraded to JRuby 9.3.15.0 (from 9.3.14.0).
 
 ## 3.0.6 (release date: 2024-06-13)
  * Upgraded to Ruby 3.1.6
