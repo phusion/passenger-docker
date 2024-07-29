@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.1.6, 3.2.5, 3.3.4 and JRuby 9.3.14.0 and 9.4.6.0.
+ * Ruby 3.1.6, 3.2.5, 3.3.4 and JRuby 9.3.15.0 and 9.4.8.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.3.4 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -453,10 +453,10 @@ RUN bash -lc 'rvm --default use ruby-3.1.6'
 RUN bash -lc 'rvm --default use ruby-3.2.5'
 # Ruby 3.3.4
 RUN bash -lc 'rvm --default use ruby-3.3.4'
-# JRuby 9.3.14.0
-RUN bash -lc 'rvm --default use jruby-9.3.14.0'
-# JRuby 9.4.6.0
-RUN bash -lc 'rvm --default use jruby-9.4.6.0'
+# JRuby 9.3.15.0
+RUN bash -lc 'rvm --default use jruby-9.3.15.0'
+# JRuby 9.4.8.0
+RUN bash -lc 'rvm --default use jruby-9.4.8.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
