@@ -4,6 +4,9 @@ source /pd_build/buildconfig
 
 RVM_ID=$(basename "$0" | sed 's/.sh$//')
 
+## For readline (rvm doesn't always get current package names)
+run minimal_apt_get_install libncurses6 libncursesw6 ncurses-base libncurses-dev
+
 header "Installing $RVM_ID"
 
 run mkdir -p "/build_cache/${ARCH}"
