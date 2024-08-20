@@ -5,6 +5,7 @@ MAINTAINER Phusion <info@phusion.nl>
 ADD . /pd_build
 
 ARG ARCH
+ARG http_proxy
 RUN --mount=type=cache,target=/build_cache \
     rm -rf "/build_cache/${ARCH}" && \
     /usr/bin/nice /pd_build/install_base.sh && \
