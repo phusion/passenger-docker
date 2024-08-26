@@ -250,7 +250,7 @@ RUN rm -f /etc/service/nginx/down
 <a name="adding_web_app"></a>
 #### Adding your web app to the image
 
-Passenger works like a `mod_ruby`, `mod_nodejs`, etc. It changes Nginx into an application server and runs your app from Nginx. So to get your web app up and running, you just have to add a virtual host entry to Nginx which describes where you app is, and Passenger will take care of the rest.
+Passenger works like a `mod_ruby`, `mod_nodejs`, etc. It changes Nginx into an application server and runs your app from Nginx. So to get your web app up and running, you just have to add a virtual host entry to Nginx which describes where your app is, and Passenger will take care of the rest.
 
 You can add a virtual host entry (`server` block) by placing a .conf file in the directory `/etc/nginx/sites-enabled`. For example:
 
@@ -876,7 +876,7 @@ In summary:
 
 Rbenv and chruby's main value proposition is that they are "simple". Indeed, they are simpler in implementation (fewer lines of code) than RVM, but they are not simpler to use. Rbenv and chruby are built on the Unix "do one thing only" philosophy. While this is sound, it is not necessarily the behavior that users want: I have seen many users struggling with basic rbenv/chruby usage because of lack of understanding of environment variables, or not having installed the right dependencies. Many users do not understand how the system is supposed to function and what all the different parts are, so doing one thing only may not be what they need. In such a case the simplicity ends up being more of a liability than an asset. It's like selling a car engine, frame and interior separately, while most consumers want an entire car.
 
-RVM is built around a more "holistic" philosophy, if you will. It tries harder to be friendly to users who may not necessarily understand how everything works, for example by automatically installing a bash profile entry, by automatically installing necessary dependencies.
+RVM is built around a more "holistic" philosophy, if you will. It tries harder to be friendly to users who may not necessarily understand how everything works, for example, by automatically installing a bash profile entry and necessary dependencies.
 
 Another critique of RVM is that it is complicated and causes problems. This has not been our experience: perhaps this was the case in the past, but we have found RVM to be quite stable.
 
