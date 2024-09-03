@@ -1,4 +1,5 @@
 ## 3.0.8 (release date: TBD)
+ * Upgraded to Ruby 3.3.5
 
 ## 3.0.7 (release date: 2024-07-30)
  * Upgraded to Ruby 3.3.4
