@@ -10,6 +10,9 @@
        - a number of modules are no longer installed and enabled by default (mod-http-geoip2, mod-http-image-filter, mod-http-xslt-filter, mod-mail, mod-stream, mod-stream-geoip2)
     * Redis version is now 7.0.15 (from 6.0.16)
 
+## 3.0.8 (release date: TBD)
+ * Upgraded to Ruby 3.3.5
+
 ## 3.0.7 (release date: 2024-07-30)
  * Upgraded to Ruby 3.3.4
  * Upgraded to Phusion Passenger 6.0.23 (from 6.0.22).
