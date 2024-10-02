@@ -20,4 +20,4 @@ run chown app:app /home/app/.ssh
 run chmod 755 /home/app
 
 ## Create a /usr/bin/python for safety
-ln -s /usr/bin/python3.10 /usr/bin/python
+ln -s /usr/bin/python3.12 /usr/bin/python
