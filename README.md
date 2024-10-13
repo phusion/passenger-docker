@@ -99,7 +99,7 @@ Language support:
    * 3.3.5 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
- * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, and 3.12; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Python 2.7 or 3.10, or any version provided by the Deadsnakes PPA (currently 3.7, 3.8, 3.9, 3.11, 3.12, and 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 18 by default, or any version provided by Nodesource (currently 16, 18, 20, 21; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -142,6 +142,7 @@ Python images
  * `phusion/passenger-python310` - Python 3.10
  * `phusion/passenger-python311` - Python 3.11
  * `phusion/passenger-python312` - Python 3.12
+ * `phusion/passenger-python312` - Python 3.13
 
 **Node.js and Meteor images**
 
