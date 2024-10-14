@@ -137,7 +137,6 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 Python images
 
- * `phusion/passenger-python38` - Python 3.8
  * `phusion/passenger-python39` - Python 3.9
  * `phusion/passenger-python310` - Python 3.10
  * `phusion/passenger-python311` - Python 3.11
@@ -184,11 +183,11 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
-#FROM phusion/passenger-python38:<VERSION>
 #FROM phusion/passenger-python39:<VERSION>
 #FROM phusion/passenger-python310:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
 #FROM phusion/passenger-python312:<VERSION>
+#FROM phusion/passenger-python313:<VERSION>
 #FROM phusion/passenger-jruby93:<VERSION>
 #FROM phusion/passenger-jruby94:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
@@ -844,11 +843,11 @@ Build one of the images:
     make build_ruby31
     make build_ruby32
     make build_ruby33
-    make build_python38
     make build_python39
     make build_python310
     make build_python311
     make build_python312
+    make build_python313
     make build_jruby93
     make build_jruby94
     make build_nodejs
