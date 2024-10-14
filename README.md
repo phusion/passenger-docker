@@ -142,6 +142,7 @@ Python images
  * `phusion/passenger-python310` - Python 3.10
  * `phusion/passenger-python311` - Python 3.11
  * `phusion/passenger-python312` - Python 3.12
+ * `phusion/passenger-python312` - Python 3.13
 
 **Node.js and Meteor images**
 
