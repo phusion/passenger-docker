@@ -1,10 +1,11 @@
 # syntax=docker/dockerfile:1.2
-FROM phusion/baseimage:jammy-1.0.4
+FROM phusion/baseimage:noble-1.0.0
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
 
 ARG ARCH
+ARG http_proxy
 RUN --mount=type=cache,target=/build_cache \
     rm -rf "/build_cache/${ARCH}" && \
     /usr/bin/nice /pd_build/install_base.sh && \

@@ -4,6 +4,9 @@ source /pd_build/buildconfig
 
 RVM_ID=$(basename "$0" | sed 's/.sh$//')
 
+## For readline (rvm doesn't always get current package names)
+run minimal_apt_get_install libncurses6 libncursesw6 ncurses-base libncurses-dev
+
 header "Installing $RVM_ID"
 
 run mkdir -p "/build_cache/${ARCH}"
@@ -20,6 +23,7 @@ else
 fi
 
 run /usr/local/rvm/bin/rvm-exec $RVM_ID@global gem install $DEFAULT_RUBY_GEMS --no-document
+
 # Make passenger_system_ruby work.
 run create_rvm_wrapper_script ruby3.1 $RVM_ID ruby
 run /pd_build/ruby_support/install_ruby_utils.sh

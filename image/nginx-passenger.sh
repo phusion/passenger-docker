@@ -52,7 +52,7 @@ run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
 run mkdir -p /etc/service/nginx/control/
 run cp /pd_build/runit/nginx-term /etc/service/nginx/control/t
 
-run mkdir /var/run/passenger-instreg
+run mkdir -p /var/run/passenger-instreg
 
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 run sed -i -e '/sv 1 nginx.*/a\' -e '		passenger-config reopen-logs >/dev/null 2>&1' /etc/logrotate.d/nginx
