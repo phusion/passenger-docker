@@ -141,11 +141,11 @@ Python images
  * `phusion/passenger-python310` - Python 3.10
  * `phusion/passenger-python311` - Python 3.11
  * `phusion/passenger-python312` - Python 3.12
- * `phusion/passenger-python312` - Python 3.13
+ * `phusion/passenger-python313` - Python 3.13
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 18.
+ * `phusion/passenger-nodejs` - Node.js 20.
 
 **Other images**
 
@@ -209,7 +209,7 @@ CMD ["/sbin/my_init"]
 # Uncomment the features you want:
 #
 #   Node.js and Meteor standalone support (not needed if you will also be installing Ruby, unless you need a version other than the default)
-#RUN /pd_build/nodejs.sh 18
+#RUN /pd_build/nodejs.sh 20
 #
 #   Ruby support
 #RUN /pd_build/ruby-3.1.*.sh
