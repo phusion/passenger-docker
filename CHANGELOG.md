@@ -9,8 +9,6 @@
        - if you provide your own nginx.conf, please define error_log at the root scope, not the http scope; see https://github.com/phusion/passenger/issues/2541
        - a number of modules are no longer installed and enabled by default (mod-http-geoip2, mod-http-image-filter, mod-http-xslt-filter, mod-mail, mod-stream, mod-stream-geoip2)
     * Redis version is now 7.0.15 (from 6.0.16)
-
-## 3.0.8 (release date: TBD)
  * Upgraded to Ruby 3.3.5
  * Added a Python 3.13 image
  * Dropped Python 3.8 image
