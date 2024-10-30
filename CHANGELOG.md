@@ -12,6 +12,7 @@
  * Upgraded to Ruby 3.3.5
  * Added a Python 3.13 image
  * Dropped Python 3.8 image
+ * Upgraded to Ruby 3.2.6
 
 ## 3.0.7 (release date: 2024-07-30)
  * Upgraded to Ruby 3.3.4
