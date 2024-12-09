@@ -65,11 +65,11 @@ build_base:
 	cp -pR image base_image
 ifeq ($(_build_amd64),1)
 	docker rmi $(NAME)-base:current-amd64 || true
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(REGISTRY)/phusion/passenger-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
 endif
 ifeq ($(_build_arm64),1)
 	docker rmi $(NAME)-base:current-arm64 || true
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(REGISTRY)/phusion/passenger-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
 endif
 	rm -rf base_image
 
@@ -162,8 +162,8 @@ clean:
 	rm -rf *_image
 
 clean_images: $(foreach image, $(ALL_IMAGES), clean_image_${image}) FORCE
-	docker rmi $(REGISTRY)/phusion/passenger-base:current-amd64 phusion/passenger-base:current-amd64 || true
-	docker rmi $(REGISTRY)/phusion/passenger-base:current-arm64 phusion/passenger-base:current-arm64 || true
+	docker rmi $(NAME)-base:current-amd64 phusion/passenger-base:current-amd64 || true
+	docker rmi $(NAME)-base:current-arm64 phusion/passenger-base:current-arm64 || true
 
 clean_image_%: FORCE
 	docker rmi $(NAME)-$*:latest-amd64 $(NAME)-$*:$(VERSION)-amd64 || true
