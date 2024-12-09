@@ -1,4 +1,4 @@
-## 3.1.0 (release date: TBD)
+## 3.1.0 (release date: 2024-12-09)
  * Upgraded image base to phusion/baseimage:noble-1.0.0
    * Upgraded to Ubuntu 24.04 LTS (Noble)
        - note updated compiler chain and all tools; please test your apps thoroughly
@@ -13,6 +13,7 @@
  * Dropped Python 3.8 image
  * Upgraded to Ruby 3.2.6
  * Upgraded to Ruby 3.3.6
+ * Upgraded to Phusion Passenger 6.0.24 (from 6.0.23).
 
 ## 3.0.7 (release date: 2024-07-30)
  * Upgraded to Ruby 3.3.4
