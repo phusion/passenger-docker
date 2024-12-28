@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.2
 ARG ARCH
-ARG REGISTRY
-FROM $REGISTRY/phusion/passenger-base:current-$ARCH
+ARG NAME
+FROM $NAME-base:current-$ARCH
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
