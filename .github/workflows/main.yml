@@ -27,6 +27,7 @@ jobs:
          - jruby94
          - jruby93
          # - ruby34 # REL: 2024-12-25
+         - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
          - ruby32 # EOL: 2026-03-31
          - ruby31 # EOL: 2025-03-31

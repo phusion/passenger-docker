@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.1.6, 3.2.6, 3.3.6 and JRuby 9.3.15.0 and 9.4.8.0.
+ * Ruby 3.1.6, 3.2.6, 3.3.6, 3.4.1 and JRuby 9.3.15.0 and 9.4.8.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.3.6 is configured as the default.
+   * 3.4.1 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
    * JRuby uses OpenJDK 17.
  * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.8, 3.9, 3.10, and 3.11; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
@@ -132,6 +132,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
+ * `phusion/passenger-ruby34` - Ruby 3.4.
  * `phusion/passenger-jruby93` - JRuby 9.3.
  * `phusion/passenger-jruby94` - JRuby 9.4.
 
@@ -183,6 +184,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
+#FROM phusion/passenger-ruby34:<VERSION>
 #FROM phusion/passenger-python39:<VERSION>
 #FROM phusion/passenger-python310:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
@@ -215,6 +217,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
+#RUN /pd_build/ruby-3.4.*.sh
 #RUN /pd_build/jruby-9.3.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
 #
@@ -271,6 +274,8 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 3.4
+    passenger_ruby /usr/bin/ruby3.4;
     # For Ruby 3.3
     passenger_ruby /usr/bin/ruby3.3;
     # For Ruby 3.2
@@ -453,6 +458,8 @@ RUN bash -lc 'rvm --default use ruby-3.1.6'
 RUN bash -lc 'rvm --default use ruby-3.2.6'
 # Ruby 3.3.6
 RUN bash -lc 'rvm --default use ruby-3.3.6'
+# Ruby 3.4.1
+RUN bash -lc 'rvm --default use ruby-3.4.1'
 # JRuby 9.3.15.0
 RUN bash -lc 'rvm --default use jruby-9.3.15.0'
 # JRuby 9.4.8.0
@@ -467,20 +474,20 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 3.1.6 ruby -v
-Using /usr/local/rvm/gems/ruby-3.1.6
-ruby 3.1.6p260 (2024-05-29 revision a777087be6) [x86_64-linux]
-
 $ rvm-exec 3.3.6 ruby -v
 Using /usr/local/rvm/gems/ruby-3.3.6
 ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [x86_64-linux]
+
+$ rvm-exec 3.4.1 ruby -v
+Using /usr/local/rvm/gems/ruby-3.4.1
+ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +PRISM [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.3.6
-rvm-exec 3.3.6 bundle install
+# This runs 'bundle install' using Ruby 3.4.1
+rvm-exec 3.4.1 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
@@ -843,6 +850,7 @@ Build one of the images:
     make build_ruby31
     make build_ruby32
     make build_ruby33
+    make build_ruby34
     make build_python39
     make build_python310
     make build_python311

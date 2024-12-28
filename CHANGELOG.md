@@ -1,3 +1,7 @@
+## 3.1.1 (not released)
+ * Added a Ruby 3.4 image (Ruby 3.4.1)
+ * Default Ruby version is now 3.4.1
+
 ## 3.1.0 (release date: 2024-12-09)
  * Upgraded image base to phusion/baseimage:noble-1.0.0
    * Upgraded to Ubuntu 24.04 LTS (Noble)
