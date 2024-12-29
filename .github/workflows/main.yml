@@ -11,22 +11,55 @@ defaults:
     shell: bash
 
 jobs:
-  build:
-    name: build ${{ matrix.img }} ${{ matrix.arch }}
-    runs-on: ubuntu-latest
+  pre_build:
+    name: build base_image ${{ matrix.arch }}
     strategy:
       fail-fast: true
       matrix:
         arch:
-         - arm64
-         - amd64
+          - name: amd64
+            runner: ubuntu-24.04
+          - name: arm64
+            runner: passenger-ubuntu-24.04-arm64-4cpu
+    runs-on: ${{ matrix.arch.runner }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Purge containers
+        run: 'docker kill $(docker ps -q) || exit 0'
+      - name: Enable docker multiarch
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: "Run make build_base
+        run: "make build_base
+        env:
+          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
+          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
+      - name: Export
+        run: "make build_base
+        env:
+          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
+          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: base_${{ matrix.arch.name }}
+          path: passenger-base-a*64.tar.gz
+
+  build:
+    needs: pre_build
+    name: build ${{ matrix.img }} ${{ matrix.arch }}
+    strategy:
+      fail-fast: true
+      matrix:
         img:
          - full
          - customizable
          - nodejs
          - jruby94
          - jruby93
-         # - ruby34 # REL: 2024-12-25
+         # - ruby35 # REL: 2025-12-25
          - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
          - ruby32 # EOL: 2026-03-31
@@ -37,20 +70,34 @@ jobs:
          - python311 # EOL: 2027-10-24
          - python310 # EOL: 2026-10-04
          - python39 # EOL: 2025-10-05
-         - python38 # EOL: 2024-10-14
          # https://devguide.python.org/versions/
+        arch:
+          - name: amd64
+            runner: ubuntu-24.04
+          - name: arm64
+            runner: passenger-ubuntu-24.04-arm64-4cpu
+    runs-on: ${{ matrix.arch.runner }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
-        run: 'docker run --privileged --rm tonistiigi/binfmt --install all'
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: base_${{ matrix.arch.name }}
+          path: /tmp
+      - name: Load image
+        run: docker load --input /tmp/passenger-base-${{ matrix.arch.name }}.tar.gz
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
-          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch == 'amd64'] }}
-          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch == 'arm64'] }}
+          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
+          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
       - name: Log in to the Container registry
         if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
         uses: docker/login-action@v3
@@ -63,5 +110,5 @@ jobs:
         if: ${{ success() && steps.login.conclusion != 'skipped' }}
         run: "make push_${{ matrix.img }}"
         env:
-          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch == 'amd64'] }}
-          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch == 'arm64'] }}
+          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
+          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}

@@ -73,7 +73,15 @@ ifeq ($(_build_arm64),1)
 endif
 	rm -rf base_image
 
-build_%: build_base
+export_base:
+ifeq ($(_build_amd64),1)
+	docker export $(NAME)-base:current-amd64 | gzip > passenger-base-amd64.tar.gz
+endif
+ifeq ($(_build_arm64),1)
+	docker export $(NAME)-base:current-amd64 | gzip > passenger-base-arm64.tar.gz
+endif
+
+build_%:
 	rm -rf $*_image
 	cp -pR image $*_image
 	@if [ "${*}" != "full" ] && [ "${*}" != "customizable" ]; then \
