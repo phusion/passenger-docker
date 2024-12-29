@@ -12,7 +12,7 @@ defaults:
 
 jobs:
   pre_build:
-    name: build base_image ${{ matrix.arch }}
+    name: build base_image ${{ matrix.arch.name }}
     strategy:
       fail-fast: true
       matrix:
@@ -37,7 +37,7 @@ jobs:
           BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
       - name: Export
-        run: make build_base
+        run: make export_base
         env:
           BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
@@ -49,7 +49,7 @@ jobs:
 
   build:
     needs: pre_build
-    name: build ${{ matrix.img }} ${{ matrix.arch }}
+    name: build ${{ matrix.img }} ${{ matrix.arch.name }}
     strategy:
       fail-fast: true
       matrix:
