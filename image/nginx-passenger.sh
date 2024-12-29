@@ -9,7 +9,7 @@ header "Installing Phusion Passenger..."
 ## Install it through RVM, not APT, so that the -customizable variant cannot end up
 ## having Ruby installed from both APT and RVM.
 if [[ ! -e /usr/bin/ruby ]]; then
-	RVM_ID="ruby-3.3.6"
+	RVM_ID="ruby-3.4.1"
 
 	run mkdir -p "/build_cache/${ARCH}"
 	if [[ -e "/build_cache/${ARCH}/${RVM_ID}.tar.bz2" ]]; then
@@ -59,6 +59,10 @@ run sed -i -e '/sv 1 nginx.*/a\' -e '		passenger-config reopen-logs >/dev/null 2
 run rm -f /var/log/nginx/error.log
 
 ## Precompile Ruby extensions.
+if [[ -e /usr/bin/ruby3.4 ]]; then
+	run ruby3.4 -S passenger-config build-native-support
+	run setuser app ruby3.4 -S passenger-config build-native-support
+fi
 if [[ -e /usr/bin/ruby3.3 ]]; then
 	run ruby3.3 -S passenger-config build-native-support
 	run setuser app ruby3.3 -S passenger-config build-native-support

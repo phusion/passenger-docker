@@ -41,7 +41,7 @@ FORCE:
 
 # when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby-support/finalize.sh
 SPECIAL_IMAGES := customizable full
-CRUBY_IMAGES := ruby31 ruby32 ruby33
+CRUBY_IMAGES := ruby31 ruby32 ruby33 ruby34
 PYTHON_IMAGES := python39 python310 python311 python312 python313
 MISC_IMAGES := jruby93 jruby94 nodejs
 
@@ -90,10 +90,10 @@ build_%: build_base
 	    echo final=1 >> ${*}_image/buildconfig; \
 	fi
 ifeq ($(_build_amd64),1)
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=amd64 -t $(NAME)-$*:$(VERSION)-amd64 --rm $*_image
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=amd64 -t $(NAME)-$*:$(VERSION)-amd64 --rm $*_image
 endif
 ifeq ($(_build_arm64),1)
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg REGISTRY=$(REGISTRY) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm $*_image
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm $*_image
 endif
 
 labels: $(foreach image, $(ALL_IMAGES), label_${image})

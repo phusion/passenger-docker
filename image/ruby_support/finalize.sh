@@ -24,7 +24,9 @@ function set_rvm_default()
 }
 
 # descending order is important, with jruby last
-if [[ "$known_rubies" =~ ruby-3\.3 ]]; then
+if [[ "$known_rubies" =~ ruby-3\.4 ]]; then
+	set_rvm_default ruby-3\.4
+elif [[ "$known_rubies" =~ ruby-3\.3 ]]; then
 	set_rvm_default ruby-3\.3
 elif [[ "$known_rubies" =~ ruby-3\.2 ]]; then
 	set_rvm_default ruby-3\.2
