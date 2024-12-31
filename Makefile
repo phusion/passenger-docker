@@ -65,11 +65,11 @@ build_base:
 	cp -pR image base_image
 ifeq ($(_build_amd64),1)
 	docker rmi $(NAME)-base:current-amd64 || true
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache --load
 endif
 ifeq ($(_build_arm64),1)
 	docker rmi $(NAME)-base:current-arm64 || true
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache --load
 endif
 	rm -rf base_image
 
@@ -78,7 +78,7 @@ ifeq ($(_build_amd64),1)
 	docker export $(NAME)-base:current-amd64 | gzip > passenger-base-amd64.tar.gz
 endif
 ifeq ($(_build_arm64),1)
-	docker export $(NAME)-base:current-amd64 | gzip > passenger-base-arm64.tar.gz
+	docker export $(NAME)-base:current-arm64 | gzip > passenger-base-arm64.tar.gz
 endif
 
 build_%:
