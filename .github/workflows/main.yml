@@ -91,7 +91,6 @@ jobs:
         with:
           name: base_${{ matrix.arch.name }}
           path: /tmp
-      - run: ls -lhR /tmp/
       - name: Load image
         run: docker load --input /tmp/passenger-base-${{ matrix.arch.name }}.tar.gz
       - name: "Run make build_${{ matrix.img }}"
