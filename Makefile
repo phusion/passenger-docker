@@ -75,10 +75,10 @@ endif
 
 export_base:
 ifeq ($(_build_amd64),1)
-	docker export $(NAME)-base:current-amd64 | gzip > passenger-base-amd64.tar.gz
+	docker save $(NAME)-base:current-amd64 | gzip > passenger-base-amd64.tar.gz
 endif
 ifeq ($(_build_arm64),1)
-	docker export $(NAME)-base:current-arm64 | gzip > passenger-base-arm64.tar.gz
+	docker save $(NAME)-base:current-arm64 | gzip > passenger-base-arm64.tar.gz
 endif
 
 build_%:
