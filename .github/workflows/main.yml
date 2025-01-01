@@ -92,6 +92,7 @@ jobs:
           name: base_${{ matrix.arch.name }}
           path: /tmp
       - run: gunzip /tmp/passenger-base-${{ matrix.arch.name }}.tar.gz
+      - run: ls /tmp/
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
