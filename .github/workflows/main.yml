@@ -90,9 +90,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: base_${{ matrix.arch.name }}
-          path: /tmp
+          path: /tmp/passenger-base-${{ matrix.arch.name }}
       - name: Extract base image
-        run: tar -xvf /tmp/passenger-base-${{ matrix.arch.name }}.tar.gz
+        run: tar -xvf /tmp/passenger-base-${{ matrix.arch.name }}/passenger-base-${{ matrix.arch.name }}.tar.gz
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
