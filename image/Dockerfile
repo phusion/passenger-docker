@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.2
+# syntax=docker/dockerfile:1.4
 ARG ARCH
 ARG NAME
 FROM $NAME-base:current-$ARCH
