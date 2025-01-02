@@ -98,10 +98,10 @@ build_%:
 	    echo final=1 >> ${*}_image/buildconfig; \
 	fi
 ifeq ($(_build_amd64),1)
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=amd64 -t $(NAME)-$*:$(VERSION)-amd64 --rm --build-context $(NAME)-base:current-amd64=/tmp/passenger-base-amd64 $*_image
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=amd64 -t $(NAME)-$*:$(VERSION)-amd64 --rm --build-context $(NAME)-base:current-amd64=oci-layout:///tmp/passenger-base-amd64 $*_image
 endif
 ifeq ($(_build_arm64),1)
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm --build-context $(NAME)-base:current-arm64=/tmp/passenger-base-arm64 $*_image
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg NAME=$(NAME) --build-arg ARCH=arm64 -t $(NAME)-$*:$(VERSION)-arm64 --rm --build-context $(NAME)-base:current-arm64=oci-layout:///tmp/passenger-base-arm64 $*_image
 endif
 
 labels: $(foreach image, $(ALL_IMAGES), label_${image})
