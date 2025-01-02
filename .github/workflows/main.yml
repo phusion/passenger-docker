@@ -93,6 +93,7 @@ jobs:
           path: /tmp/passenger-base-${{ matrix.arch.name }}
       - name: Extract base image
         run: tar -xvf /tmp/passenger-base-${{ matrix.arch.name }}/passenger-base-${{ matrix.arch.name }}.tar.gz
+      - run: ls /tmp/passenger-base-${{ matrix.arch.name }}/
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
