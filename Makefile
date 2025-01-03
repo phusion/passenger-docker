@@ -146,14 +146,18 @@ endif
 
 push: $(foreach image, $(ALL_IMAGES), push_${image})
 
-push_%: tag_latest_%
+push_%: FORCE
 ifeq ($(_build_amd64),1)
 	docker push $(NAME)-$*:latest-amd64
+ifneq ($*,base)
 	docker push $(NAME)-$*:$(VERSION)-amd64
+endif
 endif
 ifeq ($(_build_arm64),1)
 	docker push $(NAME)-$*:latest-arm64
+ifneq ($*,base)
 	docker push $(NAME)-$*:$(VERSION)-arm64
+endif
 endif
 
 release: $(foreach image, $(ALL_IMAGES), release_${image})
