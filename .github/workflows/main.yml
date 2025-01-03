@@ -41,11 +41,21 @@ jobs:
         env:
           BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Log in to the Container registry
+        if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
+        uses: docker/login-action@v3
+        id: login
         with:
-          name: base_${{ matrix.arch.name }}
-          path: passenger-base-a*64.tar.gz
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to github container registry
+        if: ${{ success() && steps.login.conclusion != 'skipped' }}
+        run: make push_base
+        env:
+          BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
+          BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
+
 
   build:
     needs: pre_build
@@ -86,14 +96,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: base_${{ matrix.arch.name }}
-          path: /tmp/passenger-base-${{ matrix.arch.name }}
-      - name: Extract base image
-        run: tar -xf ./passenger-base-${{ matrix.arch.name }}.tar.gz
-        working-directory: /tmp/passenger-base-${{ matrix.arch.name }}
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
