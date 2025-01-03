@@ -64,21 +64,21 @@ build_base:
 	rm -rf base_image
 	cp -pR image base_image
 ifeq ($(_build_amd64),1)
-	docker rmi $(NAME)-base:current-amd64 || true
-	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:current-amd64 -f image/Dockerfile.base base_image --no-cache --load
+	docker rmi $(NAME)-base:latest-amd64 || true
+	docker buildx build --progress=plain --platform linux/amd64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=amd64 -t $(NAME)-base:latest-amd64 -f image/Dockerfile.base base_image --no-cache --load
 endif
 ifeq ($(_build_arm64),1)
-	docker rmi $(NAME)-base:current-arm64 || true
-	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:current-arm64 -f image/Dockerfile.base base_image --no-cache --load
+	docker rmi $(NAME)-base:latest-arm64 || true
+	docker buildx build --progress=plain --platform linux/arm64 $(EXTRA_BUILD_FLAGS) --build-arg ARCH=arm64 -t $(NAME)-base:latest-arm64 -f image/Dockerfile.base base_image --no-cache --load
 endif
 	rm -rf base_image
 
 export_base:
 ifeq ($(_build_amd64),1)
-	docker save $(NAME)-base:current-amd64 | gzip > passenger-base-amd64.tar.gz
+	docker save $(NAME)-base:latest-amd64 | gzip > passenger-base-amd64.tar.gz
 endif
 ifeq ($(_build_arm64),1)
-	docker save $(NAME)-base:current-arm64 | gzip > passenger-base-arm64.tar.gz
+	docker save $(NAME)-base:latest-arm64 | gzip > passenger-base-arm64.tar.gz
 endif
 
 build_%:
@@ -174,8 +174,8 @@ clean:
 	rm -rf *_image
 
 clean_images: $(foreach image, $(ALL_IMAGES), clean_image_${image}) FORCE
-	docker rmi $(NAME)-base:current-amd64 phusion/passenger-base:current-amd64 || true
-	docker rmi $(NAME)-base:current-arm64 phusion/passenger-base:current-arm64 || true
+	docker rmi $(NAME)-base:latest-amd64 phusion/passenger-base:latest-amd64 || true
+	docker rmi $(NAME)-base:latest-arm64 phusion/passenger-base:latest-arm64 || true
 
 clean_image_%: FORCE
 	docker rmi $(NAME)-$*:latest-amd64 $(NAME)-$*:$(VERSION)-amd64 || true

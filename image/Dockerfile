@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.4
 ARG ARCH
 ARG NAME
-FROM $NAME-base:current-$ARCH
+FROM $NAME-base:latest-$ARCH
 MAINTAINER Phusion <info@phusion.nl>
 
 ADD . /pd_build
