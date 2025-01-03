@@ -149,15 +149,11 @@ push: $(foreach image, $(ALL_IMAGES), push_${image})
 push_%: FORCE
 ifeq ($(_build_amd64),1)
 	docker push $(NAME)-$*:latest-amd64
-ifneq ($*,base)
-	docker push $(NAME)-$*:$(VERSION)-amd64
-endif
+	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-amd64; fi
 endif
 ifeq ($(_build_arm64),1)
 	docker push $(NAME)-$*:latest-arm64
-ifneq ($*,base)
-	docker push $(NAME)-$*:$(VERSION)-arm64
-endif
+	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-arm64; fi
 endif
 
 release: $(foreach image, $(ALL_IMAGES), release_${image})
