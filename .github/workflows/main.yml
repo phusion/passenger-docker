@@ -49,6 +49,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker image ls
       - name: Push to github container registry
         if: ${{ success() && steps.login.conclusion != 'skipped' }}
         run: make push_base
