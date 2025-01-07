@@ -35,6 +35,9 @@ else
 _build_arm64 := 1
 endif
 
+# test if we're running in an interactive shell (vs gh actions)
+INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
+
 .PHONY: all build_base build_all tag_latest cross_tag push release labels clean clean_images
 
 FORCE:
@@ -82,6 +85,9 @@ ifeq ($(_build_arm64),1)
 endif
 
 build_%:
+ifeq ($(INTERACTIVE),1)
+build_%: build_base
+endif
 	rm -rf $*_image
 	cp -pR image $*_image
 	@if [ "${*}" != "full" ] && [ "${*}" != "customizable" ]; then \
