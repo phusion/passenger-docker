@@ -3,6 +3,7 @@
  * Default Ruby version is now 3.4.1
  * Upgraded to JRuby 9.4.9.0 (from 9.4.8.0).
  * Upgraded to Ruby 3.3.7
+ * Upgraded to Ruby 3.2.7
 
 ## 3.1.0 (release date: 2024-12-09)
  * Upgraded image base to phusion/baseimage:noble-1.0.0
