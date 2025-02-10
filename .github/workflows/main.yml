@@ -115,7 +115,6 @@ jobs:
         env:
           BUILD_AMD64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'amd64'] }}
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
-      - run: docker image ls
       - name: Push to github container registry
         if: ${{ success() && steps.login.conclusion != 'skipped' }}
         run: "make push_${{ matrix.img }}"
