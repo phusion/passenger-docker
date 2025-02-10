@@ -1,9 +1,10 @@
-## 3.1.1 (not released)
+## 3.1.1 (release date: 2025-02-12)
  * Added a Ruby 3.4 image (Ruby 3.4.1)
  * Default Ruby version is now 3.4.1
  * Upgraded to JRuby 9.4.9.0 (from 9.4.8.0).
- * Upgraded to Ruby 3.3.7
- * Upgraded to Ruby 3.2.7
+ * Upgraded to Ruby 3.3.7 (from 3.3.6).
+ * Upgraded to Ruby 3.2.7 (from 3.2.6).
+ * Upgraded to Phusion Passenger 6.0.25 (from 6.0.24).
 
 ## 3.1.0 (release date: 2024-12-09)
  * Upgraded image base to phusion/baseimage:noble-1.0.0
