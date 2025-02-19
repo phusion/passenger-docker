@@ -1,5 +1,9 @@
-## 3.1.2 (not released)
+## 3.1.3 (not yet released)
+ * 
+
+## 3.1.2 (release date: 2025-02-19)
  * Upgraded to Ruby 3.4.2 (from 3.4.1).
+ * Upgraded to Phusion Passenger 6.0.26 (from 6.0.25).
 
 ## 3.1.1 (release date: 2025-02-12)
  * Added a Ruby 3.4 image (Ruby 3.4.1)
