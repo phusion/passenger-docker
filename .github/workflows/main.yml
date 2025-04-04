@@ -73,7 +73,6 @@ jobs:
          - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
          - ruby32 # EOL: 2026-03-31
-         - ruby31 # EOL: 2025-03-31
          # https://www.ruby-lang.org/en/downloads/branches/
          # - python314 # REL: 2025-10-01
          - python313 # EOL: 2029-10-07
