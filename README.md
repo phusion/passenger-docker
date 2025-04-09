@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.1.7, 3.2.8, 3.3.7, 3.4.2 and JRuby 9.3.15.0 and 9.4.9.0.
+ * Ruby 3.2.8, 3.3.7, 3.4.2 and JRuby 9.3.15.0 and 9.4.9.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.4.2 is configured as the default.
    * JRuby is installed from source, but we register an APT entry for it.
@@ -129,7 +129,6 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby31` - Ruby 3.1.
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
  * `phusion/passenger-ruby34` - Ruby 3.4.
@@ -214,7 +213,6 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/nodejs.sh 20
 #
 #   Ruby support
-#RUN /pd_build/ruby-3.1.*.sh
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
 #RUN /pd_build/ruby-3.4.*.sh
@@ -280,8 +278,6 @@ server {
     passenger_ruby /usr/bin/ruby3.3;
     # For Ruby 3.2
     passenger_ruby /usr/bin/ruby3.2;
-    # For Ruby 3.1
-    passenger_ruby /usr/bin/ruby3.1;
 
     # For Python ie. Django
     passenger_app_type wsgi;
@@ -452,8 +448,6 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 3.1.7
-RUN bash -lc 'rvm --default use ruby-3.1.7'
 # Ruby 3.2.8
 RUN bash -lc 'rvm --default use ruby-3.2.8'
 # Ruby 3.3.7
