@@ -1,6 +1,7 @@
 ## 3.1.4 (release date: not yet released)
  * Removed Ruby 3.1 (EOL: 2024-03-26)
  * Upgraded Node 20 LTS -> 22 LTS.
+ * Updated baseimage to noble-1.0.2
  * Upgraded image base to phusion/baseimage:noble-1.0.1
  * Upgraded to Ruby 3.3.8 (from 3.3.7)
  * Upgraded to Ruby 3.4.4 (from 3.4.2)
