@@ -4,7 +4,7 @@
  * Upgraded image base to phusion/baseimage:noble-1.0.1
  * Upgraded to Ruby 3.3.8 (from 3.3.7)
  * Upgraded to Ruby 3.4.5 (from 3.4.2)
- * 
+ * Upgraded to Ruby 3.2.9 (from 3.2.8)
 
 ## 3.1.3 (release date: 2025-04-04)
  * Upgraded to Ruby 3.1.7 (from 3.1.6).
