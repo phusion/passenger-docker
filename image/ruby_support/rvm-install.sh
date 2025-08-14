@@ -3,6 +3,7 @@
 shopt -s extglob
 set -o errtrace
 set -o errexit
+set -o pipefail
 
 rvm_install_initialize()
 {
@@ -26,7 +27,9 @@ rvm_install_initialize()
 
 log()  { printf "%b\n" "$*"; }
 debug(){ [[ ${rvm_debug_flag:-0} -eq 0 ]] || printf "%b\n" "$*" >&2; }
-fail() { log "\nERROR: $*\n" >&2 ; exit 1 ; }
+warn() { log "WARN: $*" >&2 ; }
+fail() { fail_with_code 1 "$*" ; }
+fail_with_code() { code="$1" ; shift ; log "\nERROR: $*\n" >&2 ; exit "$code" ; }
 
 rvm_install_commands_setup()
 {
@@ -256,9 +259,10 @@ fetch_version()
       return 0
     fi
   done
+  fail_with_code 4 "Exhausted all sources trying to fetch version '$version' of RVM!"
 }
 
-# Returns a sorted list of all version tags from a repository
+# Returns a sorted list of most recent tags from a repository
 fetch_versions()
 {
   typeset _account _domain _repo _url
@@ -267,7 +271,7 @@ fetch_versions()
   _repo=$3
   case ${_domain} in
     (bitbucket.org)
-      _url=https://${_domain}/api/1.0/repositories/${_account}/${_repo}/branches-tags
+      _url="https://api.${_domain}/2.0/repositories/${_account}/${_repo}/refs/tags?sort=-name&pagelen=20"
       ;;
     (github.com)
       _url=https://api.${_domain}/repos/${_account}/${_repo}/tags
@@ -277,8 +281,9 @@ fetch_versions()
       _url=https://${_domain}/api/v3/repos/${_account}/${_repo}/tags
       ;;
   esac
-  __rvm_curl -s ${_url} |
-    \awk -v RS=',' -v FS='"' '$2=="name"{print $4}' |
+
+  { __rvm_curl -sS "${_url}" || warn "...the preceeding error with code $? occurred while fetching $_url" ; } |
+    \awk -v RS=',|values":' -v FS='"' '$2=="name"&&$4!="rvm"{print $4}' |
     sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n -k 5,5n
 }
 
@@ -408,28 +413,22 @@ verify_package_pgp()
   then
     log "GPG verified '$1'"
   else
-    typeset _ret=$?
-    log "\
-Warning, RVM 1.26.0 introduces signed releases and automated check of signatures when GPG software found. \
-Assuming you trust Michal Papis import the mpapis public key (downloading the signatures).
+    typeset _return=$?
 
+    log "\
 GPG signature verification failed for '$1' - '$3'! Try to install GPG v2 and then fetch the public key:
 
-    ${SUDO_USER:+sudo }gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    ${SUDO_USER:+sudo }${rvm_gpg_command##*/} --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 
 or if it fails:
 
     command curl -sSL https://rvm.io/mpapis.asc | ${SUDO_USER:+sudo }${rvm_gpg_command##*/} --import -
+    command curl -sSL https://rvm.io/pkuczynski.asc | ${SUDO_USER:+sudo }${rvm_gpg_command##*/} --import -
 
-the key can be compared with:
-
-    https://rvm.io/mpapis.asc
-    https://keybase.io/mpapis
-
-NOTE: GPG version 2.1.17 have a bug which cause failures during fetching keys from remote server. Please downgrade \
-or upgrade to newer version (if available) or use the second method described above.
+In case of further problems with validation please refer to https://rvm.io/rvm/security
 "
-    exit $_ret
+
+    exit ${_return}
   fi
 }
 
@@ -832,7 +831,7 @@ and re-mount partition ${partition} without the noexec option."
 
 rvm_install_select_and_get_version()
 {
-  typeset _version_release
+  typeset dir _version_release _version
 
   for dir in "$rvm_src_path" "$rvm_archives_path"
   do
@@ -843,24 +842,27 @@ rvm_install_select_and_get_version()
   case "${version}" in
     (head)
       _version_release="${branch}"
-      install_head sources[@] ${branch:-master} || exit $?
+      install_head sources[@] ${branch:-master}
       ;;
 
     (latest)
-      install_release sources[@] $(fetch_version sources[@]) || exit $?
+      _version=$(fetch_version sources[@])
+      install_release sources[@] "$_version"
       ;;
 
     (latest-minor)
-      version="$(\cat "$rvm_path/VERSION")"
-      install_release sources[@] $(fetch_version sources[@] ${version%.*}) || exit $?
+      version="$(<"$rvm_path/VERSION")"
+      _version=$(fetch_version sources[@] ${version%.*})
+      install_release sources[@] "$_version"
       ;;
 
     (latest-*)
-      install_release sources[@] $(fetch_version sources[@] ${version#latest-}) || exit $?
+      _version=$(fetch_version sources[@] ${version#latest-})
+      install_release sources[@] "$_version"
       ;;
 
     (+([[:digit:]]).+([[:digit:]]).+([[:digit:]])) # x.y.z
-      install_release sources[@] ${version} || exit $?
+      install_release sources[@] ${version}
       ;;
 
     (*)
@@ -893,7 +895,7 @@ rvm_install_ruby_and_gems()
     __rvm_print_headline
 
     for _ruby in ${install_rubies[@]}
-    do command rvm "${forwarded_flags[@]}" install ${_ruby} -j 2
+    do command rvm "${forwarded_flags[@]}" install ${_ruby}
     done
     # set the first one as default, skip rest
     for _ruby in ${install_rubies[@]}
