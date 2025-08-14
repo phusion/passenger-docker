@@ -9,7 +9,6 @@ if [[ "$ruby32"		= 1 ]]; then run /pd_build/ruby-3.2.*.sh;	fi
 if [[ "$ruby33"		= 1 ]]; then run /pd_build/ruby-3.3.*.sh;	fi
 if [[ "$ruby34"		= 1 ]]; then run /pd_build/ruby-3.4.*.sh;	fi
 if [[ "$ruby35"		= 1 ]]; then run /pd_build/ruby-3.5.*.sh;	fi
-if [[ "$jruby93"	= 1 ]]; then run /pd_build/jruby-9.3.*.sh;	fi
 if [[ "$jruby94"	= 1 ]]; then run /pd_build/jruby-9.4.*.sh;	fi
 if [[ "$jruby100"	= 1 ]]; then run /pd_build/jruby-10.0.*.sh;	fi
 if [[ "$nodejs"		= 1 ]]; then run /pd_build/nodejs.sh;		fi
