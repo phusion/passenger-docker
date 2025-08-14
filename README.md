@@ -94,13 +94,12 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.2.9, 3.3.9, 3.4.5 and JRuby 9.3.15.0 and 9.4.9.0.
+ * Ruby 3.2.9, 3.3.9, 3.4.5 and JRuby 10.0.0.0 and 9.4.9.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.4.5 is configured as the default.
-   * JRuby is installed from source, but we register an APT entry for it.
-   * JRuby uses OpenJDK 17.
- * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.8, 3.9, 3.10, and 3.11; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
- * Node.js 20 by default, or any version provided by Nodesource (currently 18, 20, 21, 22; see https://github.com/nodesource/distributions).
+   * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
+ * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.9, 3.10, 3.11, 3.12, 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Node.js 22 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -132,8 +131,8 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
  * `phusion/passenger-ruby34` - Ruby 3.4.
- * `phusion/passenger-jruby93` - JRuby 9.3.
  * `phusion/passenger-jruby94` - JRuby 9.4.
+ * `phusion/passenger-jruby100` - JRuby 10.0.
 
 Python images
 
@@ -145,7 +144,7 @@ Python images
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 20.
+ * `phusion/passenger-nodejs` - Node.js 22.
 
 **Other images**
 
@@ -180,7 +179,6 @@ So put the following in your Dockerfile:
 # a list of version numbers.
 FROM phusion/passenger-full:<VERSION>
 # Or, instead of the 'full' variant, use one of these:
-#FROM phusion/passenger-ruby31:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
 #FROM phusion/passenger-ruby34:<VERSION>
@@ -189,8 +187,8 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
 #FROM phusion/passenger-python312:<VERSION>
 #FROM phusion/passenger-python313:<VERSION>
-#FROM phusion/passenger-jruby93:<VERSION>
 #FROM phusion/passenger-jruby94:<VERSION>
+#FROM phusion/passenger-jruby100:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
 
@@ -210,14 +208,14 @@ CMD ["/sbin/my_init"]
 # Uncomment the features you want:
 #
 #   Node.js and Meteor standalone support (not needed if you will also be installing Ruby, unless you need a version other than the default)
-#RUN /pd_build/nodejs.sh 20
+#RUN /pd_build/nodejs.sh 22
 #
 #   Ruby support
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
 #RUN /pd_build/ruby-3.4.*.sh
-#RUN /pd_build/jruby-9.3.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
+#RUN /pd_build/jruby-10.0.*.sh
 #
 #   Python support
 #RUN /pd_build/python.sh 3.12
@@ -454,10 +452,10 @@ RUN bash -lc 'rvm --default use ruby-3.2.9'
 RUN bash -lc 'rvm --default use ruby-3.3.9'
 # Ruby 3.4.5
 RUN bash -lc 'rvm --default use ruby-3.4.5'
-# JRuby 9.3.15.0
-RUN bash -lc 'rvm --default use jruby-9.3.15.0'
 # JRuby 9.4.9.0
 RUN bash -lc 'rvm --default use jruby-9.4.9.0'
+# JRuby 10.0.0.0
+RUN bash -lc 'rvm --default use jruby-10.0.0.0'
 ```
 
 Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
@@ -475,7 +473,6 @@ ruby 3.3.9 (2025-07-24 revision f5c772fc7c) [x86_64-linux]
 $ rvm-exec 3.4.5 ruby -v
 Using /usr/local/rvm/gems/ruby-3.4.5
 ruby 3.4.5 (2025-07-16 revision 20cda200d3) +PRISM [x86_64-linux]
-
 ```
 
 More examples, but with Bundler instead:
@@ -827,22 +824,15 @@ RUN apt-get update && apt-get install -y -o Dpkg::Options::="--force-confold" li
 <a name="building"></a>
 ## Building the image yourself
 
-If for whatever reason you want to build the image yourself instead of downloading it from the Docker registry, follow these instructions.
+If you want to build the image yourself instead of downloading it from the Docker registry, follow these instructions.
 
 Clone this repository:
 
     git clone https://github.com/phusion/passenger-docker.git
     cd passenger-docker
 
-Start a virtual machine with Docker in it. You can use the Vagrantfile that we've already provided.
-
-    vagrant up
-    vagrant ssh
-    cd /vagrant
-
 Build one of the images:
 
-    make build_ruby31
     make build_ruby32
     make build_ruby33
     make build_ruby34
@@ -851,19 +841,19 @@ Build one of the images:
     make build_python311
     make build_python312
     make build_python313
-    make build_jruby93
     make build_jruby94
+    make build_jruby100
     make build_nodejs
     make build_customizable
     make build_full
 
 If you want to call the resulting image something else, pass the NAME variable, like this:
 
-    NAME=joe/passenger make build_ruby32
+     make NAME=joe/passenger build_ruby32
 
 Make will build images for both AMD64 and ARM64 by default. If you only want to build for one CPU architecture (ie. AMD64), disable the other architecture like this:
 
-    BUILD_ARM64=0 make build_ruby32
+     make BUILD_ARM64=0 build_ruby32
 
 <a name="faq"></a>
 ## FAQ
