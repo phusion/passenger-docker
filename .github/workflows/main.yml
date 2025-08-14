@@ -67,8 +67,8 @@ jobs:
          - full
          - customizable
          - nodejs
+         - jruby100
          - jruby94
-         - jruby93
          # - ruby35 # REL: 2025-12-25
          - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
