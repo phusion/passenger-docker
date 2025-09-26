@@ -1,4 +1,4 @@
-## 3.1.4 (release date: not yet released)
+## 3.1.4 (release date: 2025-09-25)
  * Removed JRuby 9.3 (EOL: 2023-12-31)
  * Removed Ruby 3.1 (EOL: 2024-03-26)
  * Added a JRuby 10.0.0.0 image
