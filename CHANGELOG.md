@@ -1,3 +1,6 @@
+## 3.1.5 (not yet released)
+ * Dropped Python 3.9 image (EOL: 2025-10)
+
 ## 3.1.4 (release date: 2025-09-25)
  * Removed JRuby 9.3 (EOL: 2023-12-31)
  * Removed Ruby 3.1 (EOL: 2024-03-26)

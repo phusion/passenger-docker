@@ -14,7 +14,6 @@ if [[ "$jruby100"	= 1 ]]; then run /pd_build/jruby-10.0.*.sh;	fi
 if [[ "$nodejs"		= 1 ]]; then run /pd_build/nodejs.sh;		fi
 if [[ "$redis"		= 1 ]]; then run /pd_build/redis.sh;		fi
 if [[ "$memcached"	= 1 ]]; then run /pd_build/memcached.sh;	fi
-if [[ "$python39"	= 1 ]]; then run /pd_build/python.sh 3.9;	fi
 if [[ "$python310"	= 1 ]]; then run /pd_build/python.sh 3.10;	fi
 if [[ "$python311"	= 1 ]]; then run /pd_build/python.sh 3.11;	fi
 if [[ "$python312"	= 1 ]]; then run /pd_build/python.sh 3.12;	fi
