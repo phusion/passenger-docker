@@ -124,20 +124,12 @@ pull: $(foreach image, $(ALL_IMAGES), pull_${image})
 
 pull_%: FORCE
 ifeq ($(_build_amd64),1)
-	docker pull $(NAME)-$*:$(VERSION)-amd64
+	docker pull ghcr.io/phusion/passenger-$*:$(VERSION)-amd64
+	docker tag  ghcr.io/phusion/passenger-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-amd64
 endif
 ifeq ($(_build_arm64),1)
-	docker pull $(NAME)-$*:$(VERSION)-arm64
-endif
-
-cross_tag: $(foreach image, $(ALL_IMAGES), cross_tag_${image})
-
-cross_tag_%: FORCE
-ifeq ($(_build_amd64),1)
-	docker tag ghcr.io/phusion/passenger-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-amd64
-endif
-ifeq ($(_build_arm64),1)
-	docker tag ghcr.io/phusion/passenger-$*:$(VERSION)-arm64 $(NAME)-$*:$(VERSION)-arm64
+	docker pull ghcr.io/phusion/passenger-$*:$(VERSION)-arm64
+	docker tag  ghcr.io/phusion/passenger-$*:$(VERSION)-arm64 $(NAME)-$*:$(VERSION)-arm64
 endif
 
 tag_latest: $(foreach image, $(ALL_IMAGES), tag_latest_${image})
@@ -166,11 +158,8 @@ release: $(foreach image, $(ALL_IMAGES), release_${image})
 	test -z "$$(git status --porcelain)" || git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
 
 release_%: push_%
-	docker manifest rm $(NAME)-$*:latest || true
-	docker manifest create $(NAME)-$*:$(VERSION) $(NAME)-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-arm64
-	docker manifest create $(NAME)-$*:latest     $(NAME)-$*:latest-amd64     $(NAME)-$*:latest-arm64
-	docker manifest push $(NAME)-$*:$(VERSION)
-	docker manifest push $(NAME)-$*:latest
+	docker buildx imagetools create --tag $(NAME)-$*:$(VERSION) $(NAME)-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-arm64
+	docker buildx imagetools create --tag $(NAME)-$*:latest     $(NAME)-$*:latest-amd64     $(NAME)-$*:latest-arm64
 
 clean:
 	rm -rf *_image
