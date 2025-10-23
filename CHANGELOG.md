@@ -1,5 +1,7 @@
-## 3.1.5 (not yet released)
+## 3.1.5 (not released)
  * Dropped Python 3.9 image (EOL: 2025-10)
+ * Upgraded to Ruby 3.4.7 (from 3.4.6)
+ * Upgraded to Ruby 3.3.10 (from 3.3.9)
 
 ## 3.1.4 (release date: 2025-09-25)
  * Removed JRuby 9.3 (EOL: 2023-12-31)

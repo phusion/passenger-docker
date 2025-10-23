@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.2.9, 3.3.9, 3.4.6 and JRuby 10.0.0.0 and 9.4.9.0.
+ * Ruby 3.2.9, 3.3.10, 3.4.7 and JRuby 10.0.0.0 and 9.4.9.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.4.6 is configured as the default.
+   * 3.4.7 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
  * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.9, 3.10, 3.11, 3.12, 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 22 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
@@ -446,10 +446,10 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 ```dockerfile
 # Ruby 3.2.9
 RUN bash -lc 'rvm --default use ruby-3.2.9'
-# Ruby 3.3.9
-RUN bash -lc 'rvm --default use ruby-3.3.9'
-# Ruby 3.4.6
-RUN bash -lc 'rvm --default use ruby-3.4.6'
+# Ruby 3.3.10
+RUN bash -lc 'rvm --default use ruby-3.3.10'
+# Ruby 3.4.7
+RUN bash -lc 'rvm --default use ruby-3.4.7'
 # JRuby 9.4.9.0
 RUN bash -lc 'rvm --default use jruby-9.4.9.0'
 # JRuby 10.0.0.0
@@ -464,20 +464,20 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 3.3.9 ruby -v
-Using /usr/local/rvm/gems/ruby-3.3.9
-ruby 3.3.9 (2025-07-24 revision f5c772fc7c) [x86_64-linux]
+$ rvm-exec 3.3.10 ruby -v
+Using /usr/local/rvm/gems/ruby-3.3.10
+ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux]
 
-$ rvm-exec 3.4.6 ruby -v
-Using /usr/local/rvm/gems/ruby-3.4.6
-ruby 3.4.6 (2025-09-16 revision dbd83256b1) +PRISM [x86_64-linux]
+$ rvm-exec 3.4.7 ruby -v
+Using /usr/local/rvm/gems/ruby-3.4.7
+ruby 3.4.7 (2025-10-08 revision 7a5688e2a2) +PRISM [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.4.6
-rvm-exec 3.4.6 bundle install
+# This runs 'bundle install' using Ruby 3.4.7
+rvm-exec 3.4.7 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
