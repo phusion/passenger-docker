@@ -45,7 +45,7 @@ FORCE:
 # when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby-support/finalize.sh
 SPECIAL_IMAGES := customizable full
 CRUBY_IMAGES := ruby32 ruby33 ruby34
-PYTHON_IMAGES := python310 python311 python312 python313
+PYTHON_IMAGES := python310 python311 python312 python313 python314
 MISC_IMAGES := jruby94 jruby100 nodejs
 
 ALL_IMAGES := $(SPECIAL_IMAGES) $(MISC_IMAGES) $(CRUBY_IMAGES) $(PYTHON_IMAGES)
