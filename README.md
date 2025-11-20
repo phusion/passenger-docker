@@ -98,7 +98,7 @@ Language support:
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 3.4.7 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
- * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.9, 3.10, 3.11, 3.12, 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13, 3,14; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 22 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -140,6 +140,7 @@ Python images
  * `phusion/passenger-python311` - Python 3.11
  * `phusion/passenger-python312` - Python 3.12
  * `phusion/passenger-python313` - Python 3.13
+ * `phusion/passenger-python314` - Python 3.14
 
 **Node.js and Meteor images**
 
@@ -185,6 +186,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
 #FROM phusion/passenger-python312:<VERSION>
 #FROM phusion/passenger-python313:<VERSION>
+#FROM phusion/passenger-python314:<VERSION>
 #FROM phusion/passenger-jruby94:<VERSION>
 #FROM phusion/passenger-jruby100:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
@@ -838,6 +840,7 @@ Build one of the images:
     make build_python311
     make build_python312
     make build_python313
+    make build_python314
     make build_jruby94
     make build_jruby100
     make build_nodejs
