@@ -3,6 +3,8 @@
  * Added a Python 3.14 image
  * Upgraded to Ruby 3.4.7 (from 3.4.6)
  * Upgraded to Ruby 3.3.10 (from 3.3.9)
+ * Upgraded to JRuby 9.4.14 (from 9.4.12)
+ * Upgraded to JRuby 10.0.2 (from 10.0.0)
 
 ## 3.1.4 (release date: 2025-09-25)
  * Removed JRuby 9.3 (EOL: 2023-12-31)
@@ -306,7 +308,7 @@
  * Upgraded to Phusion Passenger 5.2.1 (from 5.2.0).
  * Hints about app permission in container. Thanks to contribution by skunkworker (PR 206)
  * Thanks to contribution by ledermann (PR 204):
-   - Added build for Ruby 2.5 (2.5.0). 
+   - Added build for Ruby 2.5 (2.5.0).
    - Upgraded to Ruby 2.4.3 (from 2.4.2).
    - Upgraded to Ruby 2.3.6 (from 2.3.5).
    - Upgraded to Ruby 2.2.9 (from 2.2.8).
