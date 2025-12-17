@@ -1,7 +1,7 @@
 ## 3.1.5 (not released)
  * Dropped Python 3.9 image (EOL: 2025-10)
  * Added a Python 3.14 image
- * Upgraded to Ruby 3.4.7 (from 3.4.6)
+ * Upgraded to Ruby 3.4.8 (from 3.4.6)
  * Upgraded to Ruby 3.3.10 (from 3.3.9)
  * Upgraded to JRuby 9.4.14 (from 9.4.12)
  * Upgraded to JRuby 10.0.2 (from 10.0.0)
