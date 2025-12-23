@@ -1,4 +1,5 @@
-## 3.1.5 (not released)
+## 3.1.5 (release date: 2025-12-23)
+ * Upgraded to Phusion Passenger 6.1.1 (was 6.1.0)
  * Dropped Python 3.9 image (EOL: 2025-10)
  * Added a Python 3.14 image
  * Upgraded to Ruby 3.4.8 (from 3.4.6)
@@ -7,6 +8,7 @@
  * Upgraded to JRuby 10.0.2 (from 10.0.0)
 
 ## 3.1.4 (release date: 2025-09-25)
+ * Upgraded to Phusion Passenger 6.1.0 (was 6.0.27)
  * Removed JRuby 9.3 (EOL: 2023-12-31)
  * Removed Ruby 3.1 (EOL: 2024-03-26)
  * Added a JRuby 10.0.0.0 image

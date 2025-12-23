@@ -7,7 +7,7 @@ REGISTRY = docker.io
 endif
 
 NAME ?= $(REGISTRY)/phusion/passenger
-VERSION ?= 3.1.4
+VERSION ?= 3.1.5
 
 # NAME and/or VERSION can be overriden during build if you are building locally to push to your own repository
 # example:
@@ -38,7 +38,7 @@ endif
 # test if we're running in an interactive shell (vs gh actions)
 INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 
-.PHONY: all build_base build_all tag_latest cross_tag push release labels clean clean_images
+.PHONY: all build_base build_all tag_latest push release labels clean clean_images
 
 FORCE:
 
