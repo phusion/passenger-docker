@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.arch.runner }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
@@ -89,7 +89,7 @@ jobs:
     runs-on: ${{ matrix.arch.runner }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
