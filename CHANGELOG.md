@@ -1,3 +1,6 @@
+## 3.1.6 (not yet released)
+ * 
+
 ## 3.1.5 (release date: 2025-12-23)
  * Upgraded to Phusion Passenger 6.1.1 (was 6.1.0)
  * Dropped Python 3.9 image (EOL: 2025-10)
