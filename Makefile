@@ -154,7 +154,10 @@ endif
 
 push: $(foreach image, $(ALL_IMAGES), push_${image})
 
+push_%: FORCE
+ifeq ($(REGISTRY),docker.io)
 push_%: check_%
+endif
 ifeq ($(_build_amd64),1)
 	docker push $(NAME)-$*:latest-amd64
 	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-amd64; fi
