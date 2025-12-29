@@ -69,7 +69,7 @@ jobs:
          - nodejs
          - jruby100
          - jruby94
-         # - ruby35 # REL: 2025-12-25
+         - ruby40 # EOL: 2029-03-31
          - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
          - ruby32 # EOL: 2026-03-31
@@ -79,7 +79,6 @@ jobs:
          - python312 # EOL: 2028-10-02
          - python311 # EOL: 2027-10-24
          - python310 # EOL: 2026-10-04
-         - python39  # EOL: 2025-10-05
          # https://devguide.python.org/versions/
         arch:
           - name: amd64

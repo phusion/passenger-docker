@@ -42,9 +42,9 @@ INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 
 FORCE:
 
-# when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby-support/finalize.sh
+# when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby_support/finalize.sh
 SPECIAL_IMAGES := customizable full
-CRUBY_IMAGES := ruby32 ruby33 ruby34
+CRUBY_IMAGES := ruby32 ruby33 ruby34 ruby40
 PYTHON_IMAGES := python310 python311 python312 python313 python314
 MISC_IMAGES := jruby94 jruby100 nodejs
 
