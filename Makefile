@@ -142,16 +142,24 @@ ifeq ($(_build_arm64),1)
 	docker tag $(NAME)-$*:$(VERSION)-arm64 $(NAME)-$*:latest-arm64
 endif
 
+check: $(foreach image, $(ALL_IMAGES), check_${image})
+
+check_%: FORCE
+ifeq ($(_build_amd64),1)
+	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-amd64 > /dev/null 2>/dev/null
+endif
+ifeq ($(_build_arm64),1)
+	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-arm64 > /dev/null 2>/dev/null
+endif
+
 push: $(foreach image, $(ALL_IMAGES), push_${image})
 
-push_%: FORCE
+push_%: check_%
 ifeq ($(_build_amd64),1)
-	! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-amd64 > /dev/null
 	docker push $(NAME)-$*:latest-amd64
 	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-amd64; fi
 endif
 ifeq ($(_build_arm64),1)
-	! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-arm64 > /dev/null
 	docker push $(NAME)-$*:latest-arm64
 	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-arm64; fi
 endif
