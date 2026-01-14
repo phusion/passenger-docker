@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.2.9, 3.3.10, 3.4.8 and JRuby 10.0.2.0 and 9.4.14.0.
+ * Ruby 3.2.9, 3.3.10, 3.4.8, 4.0.1 and JRuby 10.0.2.0 and 9.4.14.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 3.4.8 is configured as the default.
+   * 4.0.1 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
  * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13, 3,14; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 22 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
@@ -131,6 +131,7 @@ Passenger-docker consists of several images, each one tailor made for a specific
  * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
  * `phusion/passenger-ruby34` - Ruby 3.4.
+ * `phusion/passenger-ruby40` - Ruby 4.0.
  * `phusion/passenger-jruby94` - JRuby 9.4.
  * `phusion/passenger-jruby100` - JRuby 10.0.
 
@@ -182,6 +183,7 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
 #FROM phusion/passenger-ruby34:<VERSION>
+#FROM phusion/passenger-ruby40:<VERSION>
 #FROM phusion/passenger-python310:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
 #FROM phusion/passenger-python312:<VERSION>
@@ -214,6 +216,7 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
 #RUN /pd_build/ruby-3.4.*.sh
+#RUN /pd_build/ruby-4.0.*.sh
 #RUN /pd_build/jruby-9.4.*.sh
 #RUN /pd_build/jruby-10.0.*.sh
 #
@@ -270,6 +273,8 @@ server {
     passenger_user app;
 
     # If this is a Ruby app, specify a Ruby version:
+    # For Ruby 4.0
+    passenger_ruby /usr/bin/ruby4.0;
     # For Ruby 3.4
     passenger_ruby /usr/bin/ruby3.4;
     # For Ruby 3.3
@@ -452,6 +457,8 @@ RUN bash -lc 'rvm --default use ruby-3.2.9'
 RUN bash -lc 'rvm --default use ruby-3.3.10'
 # Ruby 3.4.8
 RUN bash -lc 'rvm --default use ruby-3.4.8'
+# Ruby 4.0.1
+RUN bash -lc 'rvm --default use ruby-4.0.1'
 # JRuby 9.4.9.0
 RUN bash -lc 'rvm --default use jruby-9.4.9.0'
 # JRuby 10.0.0.0
@@ -836,6 +843,7 @@ Build one of the images:
     make build_ruby32
     make build_ruby33
     make build_ruby34
+    make build_ruby40
     make build_python310
     make build_python311
     make build_python312
