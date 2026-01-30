@@ -5,7 +5,7 @@ source /pd_build/buildconfig
 header "Preparing APT repositories"
 
 ## Phusion Passenger
-run apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+run apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D870AB033FB45BD1
 if [[ "$PASSENGER_ENTERPRISE" ]]; then
 	echo "+ Enabling Passenger Enterprise APT repo"
 	echo deb https://download:$PASSENGER_ENTERPRISE_DOWNLOAD_TOKEN@www.phusionpassenger.com/enterprise_apt $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list
