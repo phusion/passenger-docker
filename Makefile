@@ -124,11 +124,11 @@ pull: $(foreach image, $(ALL_IMAGES), pull_${image})
 
 pull_%: FORCE
 ifeq ($(_build_amd64),1)
-	docker pull ghcr.io/phusion/passenger-$*:$(VERSION)-amd64
+	docker pull --platform linux/amd64 ghcr.io/phusion/passenger-$*:$(VERSION)-amd64
 	docker tag  ghcr.io/phusion/passenger-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-amd64
 endif
 ifeq ($(_build_arm64),1)
-	docker pull ghcr.io/phusion/passenger-$*:$(VERSION)-arm64
+	docker pull --platform linux/arm64 ghcr.io/phusion/passenger-$*:$(VERSION)-arm64
 	docker tag  ghcr.io/phusion/passenger-$*:$(VERSION)-arm64 $(NAME)-$*:$(VERSION)-arm64
 endif
 
@@ -159,11 +159,11 @@ ifeq ($(REGISTRY),docker.io)
 push_%: check_%
 endif
 ifeq ($(_build_amd64),1)
-	docker push $(NAME)-$*:latest-amd64
+	docker push --platform linux/amd64 $(NAME)-$*:latest-amd64
 	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-amd64; fi
 endif
 ifeq ($(_build_arm64),1)
-	docker push $(NAME)-$*:latest-arm64
+	docker push --platform linux/arm64 $(NAME)-$*:latest-arm64
 	if [ base != $* ]; then docker push $(NAME)-$*:$(VERSION)-arm64; fi
 endif
 
