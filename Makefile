@@ -146,10 +146,10 @@ check: $(foreach image, $(ALL_IMAGES), check_${image})
 
 check_%: FORCE
 ifeq ($(_build_amd64),1)
-	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-amd64 > /dev/null 2>/dev/null
+	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-amd64 >/dev/null 2>/dev/null
 endif
 ifeq ($(_build_arm64),1)
-	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-arm64 > /dev/null 2>/dev/null
+	@ ! DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $(NAME)-$*:$(VERSION)-arm64 >/dev/null 2>/dev/null
 endif
 
 push: $(foreach image, $(ALL_IMAGES), push_${image})
@@ -170,7 +170,7 @@ endif
 release: $(foreach image, $(ALL_IMAGES), release_${image})
 	test -z "$$(git status --porcelain)" || git commit -am "$(VERSION)" && git tag "rel-$(VERSION)" && git push origin "rel-$(VERSION)"
 
-release_%: push_%
+release_%:
 	docker buildx imagetools create --tag $(NAME)-$*:$(VERSION) $(NAME)-$*:$(VERSION)-amd64 $(NAME)-$*:$(VERSION)-arm64
 	docker buildx imagetools create --tag $(NAME)-$*:latest     $(NAME)-$*:latest-amd64     $(NAME)-$*:latest-arm64
 
