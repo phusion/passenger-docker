@@ -3,7 +3,7 @@ SHELL := /bin/bash
 ifeq ($(GITHUB_ACTIONS),true)
 REGISTRY = ghcr.io
 else
-REGISTRY = docker.io
+REGISTRY ?= docker.io
 endif
 
 NAME ?= $(REGISTRY)/phusion/passenger
