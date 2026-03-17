@@ -1,5 +1,5 @@
 ## 3.1.6 (not yet released)
- * Added a Ruby 4.0 image (Ruby 4.0.1)
+ * Added a Ruby 4.0 image (Ruby 4.0.2)
  * Upgraded to Ruby 3.2.10 (from 3.2.9)
  * Upgraded to Phusion Passenger 6.1.2 (was 6.1.1)
  * Upgraded to Ruby 3.4.9 (from 3.4.8)
