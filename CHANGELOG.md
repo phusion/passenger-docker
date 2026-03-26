@@ -3,6 +3,7 @@
  * Upgraded to Ruby 3.2.10 (from 3.2.9)
  * Upgraded to Phusion Passenger 6.1.2 (was 6.1.1)
  * Upgraded to Ruby 3.4.9 (from 3.4.8)
+ * Upgraded to Ruby 3.3.11 (from 3.3.10)
 
 ## 3.1.5 (release date: 2025-12-23)
  * Upgraded to Phusion Passenger 6.1.1 (was 6.1.0)

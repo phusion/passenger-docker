@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.2.10, 3.3.10, 3.4.9, 4.0.2 and JRuby 10.0.2.0 and 9.4.14.0.
+ * Ruby 3.2.10, 3.3.11, 3.4.9, 4.0.2 and JRuby 10.0.2.0 and 9.4.14.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 4.0.2 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
@@ -453,8 +453,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 ```dockerfile
 # Ruby 3.2.10
 RUN bash -lc 'rvm --default use ruby-3.2.10'
-# Ruby 3.3.10
-RUN bash -lc 'rvm --default use ruby-3.3.10'
+# Ruby 3.3.11
+RUN bash -lc 'rvm --default use ruby-3.3.11'
 # Ruby 3.4.9
 RUN bash -lc 'rvm --default use ruby-3.4.9'
 # Ruby 4.0.2
@@ -473,9 +473,9 @@ Learn more: [RVM: Setting the default Ruby](https://rvm.io/rubies/default).
 You can run any command with a specific Ruby version by prefixing it with `rvm-exec <IDENTIFIER>`. For example:
 
 ```bash
-$ rvm-exec 3.3.10 ruby -v
-Using /usr/local/rvm/gems/ruby-3.3.10
-ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux]
+$ rvm-exec 3.3.11 ruby -v
+Using /usr/local/rvm/gems/ruby-3.3.11
+ruby 3.3.11 (2026-03-26 revision 1f2d15125a) [x86_64-linux]
 
 $ rvm-exec 3.4.9 ruby -v
 Using /usr/local/rvm/gems/ruby-3.4.9
