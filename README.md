@@ -99,7 +99,7 @@ Language support:
    * 4.0.2 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
  * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13, 3,14; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
- * Node.js 22 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
+ * Node.js 24 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
 Web server and application server:
@@ -145,7 +145,7 @@ Python images
 
 **Node.js and Meteor images**
 
- * `phusion/passenger-nodejs` - Node.js 22.
+ * `phusion/passenger-nodejs` - Node.js 24.
 
 **Other images**
 
@@ -210,7 +210,7 @@ CMD ["/sbin/my_init"]
 # Uncomment the features you want:
 #
 #   Node.js and Meteor standalone support (not needed if you will also be installing Ruby, unless you need a version other than the default)
-#RUN /pd_build/nodejs.sh 22
+#RUN /pd_build/nodejs.sh 24
 #
 #   Ruby support
 #RUN /pd_build/ruby-3.2.*.sh
