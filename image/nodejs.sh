@@ -17,6 +17,11 @@ if ( ! egrep -q nodesource.gpg /etc/apt/sources.list.d/nodesource.list ); then
 	minimal_apt_get_install nodejs
 
 	echo "+ Updating npm"
+	run npm i -g npm@^10 || ( cat /root/.npm/_logs/*-debug*.log && false )
+	run npm i -g npm@~11.10 || ( cat /root/.npm/_logs/*-debug*.log && false )
+	run npm i -g npm@~11.11 || ( cat /root/.npm/_logs/*-debug*.log && false )
+	run npm i -g npm@~11.12 || ( cat /root/.npm/_logs/*-debug*.log && false )
+	run npm i -g npm@latest || ( cat /root/.npm/_logs/*-debug*.log && false )
 	run npm update npm -g || ( cat /root/.npm/_logs/*-debug*.log && false )
 	if [[ ! -e /usr/bin/node ]]; then
 		ln -s /usr/bin/nodejs /usr/bin/node
