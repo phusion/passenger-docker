@@ -1,6 +1,7 @@
 ## 3.1.7 (not yet released)
 * Upgraded to Ruby 3.2.11 (from 3.2.10)
 * Upgraded to Ruby 3.3.11 (from 3.3.10)
+* Upgraded Node 22 LTS -> 24 LTS
 
 ## 3.1.6 (release date: 2026-01-31)
  * Added a Ruby 4.0 image (Ruby 4.0.2)
