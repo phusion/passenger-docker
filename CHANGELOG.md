@@ -1,13 +1,13 @@
 ## 3.1.7 (not yet released)
-* Upgraded to Ruby 3.2.11 (from 3.2.10)
-* Upgraded to Ruby 3.3.11 (from 3.3.10)
-* Upgraded Node 22 LTS -> 24 LTS
+ * Upgraded Node 22 LTS -> 24 LTS
+ * Upgraded to Ruby 3.3.11 (from 3.3.10)
+ * Upgraded to Ruby 3.2.11 (from 3.2.10)
+ * Upgraded to Ruby 3.4.9 (from 3.4.8)
 
 ## 3.1.6 (release date: 2026-01-31)
  * Added a Ruby 4.0 image (Ruby 4.0.2)
  * Upgraded to Ruby 3.2.10 (from 3.2.9)
  * Upgraded to Phusion Passenger 6.1.2 (was 6.1.1)
- * Upgraded to Ruby 3.4.9 (from 3.4.8)
 
 ## 3.1.5 (release date: 2025-12-23)
  * Upgraded to Phusion Passenger 6.1.1 (was 6.1.0)
