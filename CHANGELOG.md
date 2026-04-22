@@ -3,6 +3,7 @@
  * Upgraded to Ruby 3.3.11 (from 3.3.10)
  * Upgraded to Ruby 3.2.11 (from 3.2.10)
  * Upgraded to Ruby 3.4.9 (from 3.4.8)
+ * Upgraded to Ruby 4.0.3 (from 4.0.2)
 
 ## 3.1.6 (release date: 2026-01-31)
  * Added a Ruby 4.0 image (Ruby 4.0.2)
