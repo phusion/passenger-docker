@@ -3,6 +3,7 @@ set -e
 source /pd_build/buildconfig
 
 RVM_ID=$(basename "$0" | sed 's/.sh$//')
+RUBY_VERS=$(echo "${RVM_ID}" | sed 's/ruby\-//')
 
 header "Installing $RVM_ID"
 
@@ -20,6 +21,10 @@ else
 fi
 
 run /usr/local/rvm/bin/rvm-exec $RVM_ID@global gem install $DEFAULT_RUBY_GEMS --no-document
+
+
+run /usr/local/rvm/bin/rvm alias create "${RUBY_VERS}" "${RVM_ID}"
+
 # Make passenger_system_ruby work.
 run create_rvm_wrapper_script ruby4.0 $RVM_ID ruby
 run /pd_build/ruby_support/install_ruby_utils.sh
