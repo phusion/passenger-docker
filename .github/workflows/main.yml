@@ -24,13 +24,13 @@ jobs:
     runs-on: ${{ matrix.arch.runner }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
       - name: Run make build_base
         run: make build_base
         env:
@@ -43,7 +43,7 @@ jobs:
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
       - name: Log in to the Container registry
         if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121
         id: login
         with:
           registry: ghcr.io
@@ -88,13 +88,13 @@ jobs:
     runs-on: ${{ matrix.arch.runner }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - name: Purge containers
         run: 'docker kill $(docker ps -q) || exit 0'
       - name: Enable docker multiarch
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
       - name: "Run make build_${{ matrix.img }}"
         run: "make build_${{ matrix.img }}"
         env:
@@ -102,7 +102,7 @@ jobs:
           BUILD_ARM64: ${{ fromJSON('[0, 1]')[matrix.arch.name == 'arm64'] }}
       - name: Log in to the Container registry
         if: ${{ github.event.pull_request.merged || github.actor == 'CamJN' }}
-        uses: docker/login-action@v3
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121
         id: login
         with:
           registry: ghcr.io
