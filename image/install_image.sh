@@ -5,7 +5,6 @@ source /pd_build/buildconfig
 # base cleans up apt before here now
 run apt-get update
 
-if [[ "$ruby32"		= 1 ]]; then run /pd_build/ruby-3.2.*.sh;	fi
 if [[ "$ruby33"		= 1 ]]; then run /pd_build/ruby-3.3.*.sh;	fi
 if [[ "$ruby34"		= 1 ]]; then run /pd_build/ruby-3.4.*.sh;	fi
 if [[ "$ruby40"		= 1 ]]; then run /pd_build/ruby-4.0.*.sh;	fi

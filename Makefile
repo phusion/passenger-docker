@@ -12,9 +12,9 @@ VERSION ?= 3.1.6
 # NAME and/or VERSION can be overriden during build if you are building locally to push to your own repository
 # example:
 #   login to your ECR repo, then
-#   NAME="YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger" VERSION=2.5.1.4 BUILD_ARM64=0 make -j1 build_ruby32 push_ruby32
-#     This will build and push YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby32:2.5.1.4-amd64
-#     and YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby32:2.5.1.4:latest-amd64
+#   NAME="YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger" VERSION=2.5.1.4 BUILD_ARM64=0 make -j1 build_ruby34 push_ruby34
+#     This will build and push YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby34:2.5.1.4-amd64
+#     and YOURID.dkr.ecr.us-west-2.amazonaws.com/passenger-ruby34:2.5.1.4:latest-amd64
 
 # Extra flags for docker build, usable via environment variable.
 # Example: `export EXTRA_BUILD_FLAGS=--no-cache; make build_all`
@@ -44,7 +44,7 @@ FORCE:
 
 # when adding a cRuby image, also update image/nginx-passenger.sh and image/ruby_support/finalize.sh
 SPECIAL_IMAGES := customizable full
-CRUBY_IMAGES := ruby32 ruby33 ruby34 ruby40
+CRUBY_IMAGES := ruby33 ruby34 ruby40
 PYTHON_IMAGES := python310 python311 python312 python313 python314
 MISC_IMAGES := jruby94 jruby100 nodejs
 
