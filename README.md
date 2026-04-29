@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.2.11, 3.3.11, 3.4.9, 4.0.3 and JRuby 10.0.2.0 and 9.4.14.0.
+ * Ruby 3.3.11, 3.4.9, 4.0.3 and JRuby 10.0.2.0 and 9.4.14.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 4.0.3 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
@@ -128,7 +128,6 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 **Ruby images**
 
- * `phusion/passenger-ruby32` - Ruby 3.2.
  * `phusion/passenger-ruby33` - Ruby 3.3.
  * `phusion/passenger-ruby34` - Ruby 3.4.
  * `phusion/passenger-ruby40` - Ruby 4.0.
@@ -150,7 +149,7 @@ Python images
 **Other images**
 
  * `phusion/passenger-full` - Contains everything in the above images. Ruby, Python, Node.js, all in a single image for your convenience.
- * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 3.2 and Node.js.
+ * `phusion/passenger-customizable` - Contains only the base system, as described in ["What's included?"](#whats_included). Specific Ruby, Python, and Node.js versions are not preinstalled beyond what is needed for the image to run, or which are inherited from the baseimage. This image is meant to be further customized through your Dockerfile. For example, using this image you can create a custom image that contains Ruby 3.4 and Node.js.
 
 In the rest of this document we're going to assume that the reader will be using `phusion/passenger-full`, unless otherwise stated. Simply substitute the name if you wish to use another image.
 
@@ -169,7 +168,7 @@ You don't have to download anything manually. The above command will automatical
 <a name="getting_started"></a>
 ### Getting started
 
-There are several images, e.g. `phusion/passenger-ruby32` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
+There are several images, e.g. `phusion/passenger-ruby34` and `phusion/passenger-nodejs`. Choose the one you want. See [Image variants](#image_variants).
 
 So put the following in your Dockerfile:
 
@@ -180,7 +179,6 @@ So put the following in your Dockerfile:
 # a list of version numbers.
 FROM phusion/passenger-full:<VERSION>
 # Or, instead of the 'full' variant, use one of these:
-#FROM phusion/passenger-ruby32:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
 #FROM phusion/passenger-ruby34:<VERSION>
 #FROM phusion/passenger-ruby40:<VERSION>
@@ -213,7 +211,6 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/nodejs.sh 24
 #
 #   Ruby support
-#RUN /pd_build/ruby-3.2.*.sh
 #RUN /pd_build/ruby-3.3.*.sh
 #RUN /pd_build/ruby-3.4.*.sh
 #RUN /pd_build/ruby-4.0.*.sh
@@ -279,8 +276,6 @@ server {
     passenger_ruby /usr/bin/ruby3.4;
     # For Ruby 3.3
     passenger_ruby /usr/bin/ruby3.3;
-    # For Ruby 3.2
-    passenger_ruby /usr/bin/ruby3.2;
 
     # For Python ie. Django
     passenger_app_type wsgi;
@@ -451,8 +446,6 @@ We use [RVM](https://rvm.io/) to install and to manage Ruby interpreters. Becaus
 The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby version that you've chosen to install. You can use RVM select a different version as default.
 
 ```dockerfile
-# Ruby 3.2.11
-RUN bash -lc 'rvm --default use ruby-3.2.11'
 # Ruby 3.3.11
 RUN bash -lc 'rvm --default use ruby-3.3.11'
 # Ruby 3.4.9
@@ -844,7 +837,6 @@ Clone this repository:
 
 Build one of the images:
 
-    make build_ruby32
     make build_ruby33
     make build_ruby34
     make build_ruby40
@@ -861,11 +853,11 @@ Build one of the images:
 
 If you want to call the resulting image something else, pass the NAME variable, like this:
 
-     make NAME=joe/passenger build_ruby32
+     make NAME=joe/passenger build_ruby34
 
 Make will build images for both AMD64 and ARM64 by default. If you only want to build for one CPU architecture (ie. AMD64), disable the other architecture like this:
 
-     make BUILD_ARM64=0 build_ruby32
+     make BUILD_ARM64=0 build_ruby34
 
 <a name="faq"></a>
 ## FAQ
