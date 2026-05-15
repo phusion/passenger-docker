@@ -2,7 +2,7 @@
  * Upgraded Node 22 LTS -> 24 LTS
  * Upgraded to Ruby 3.3.11 (from 3.3.10)
  * Upgraded to Ruby 3.4.9 (from 3.4.8)
- * Upgraded to Ruby 4.0.3 (from 4.0.1)
+ * Upgraded to Ruby 4.0.4 (from 4.0.1)
  * Removed Ruby 3.2 (EOL: 2026-03-31)
  * Upgraded to Phusion Passenger 6.1.3 (was 6.1.2)
 
