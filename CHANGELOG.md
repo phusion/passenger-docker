@@ -1,4 +1,7 @@
-## 3.1.7 (not yet released)
+## 3.1.8 (not yet released)
+ * 
+
+## 3.1.7 (release date: 2026-05-19)
  * Upgraded Node 22 LTS -> 24 LTS
  * Upgraded to Ruby 3.3.11 (from 3.3.10)
  * Upgraded to Ruby 3.4.9 (from 3.4.8)
