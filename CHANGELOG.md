@@ -1,5 +1,6 @@
-## 3.1.8 (not yet released)
+## 3.1.8 (release date: 2026-06-02)
  * Upgraded to Ruby 4.0.5 (from 4.0.4)
+ * Upgraded to Phusion Passenger 6.1.4 (was 6.1.3)
 
 ## 3.1.7 (release date: 2026-05-19)
  * Upgraded Node 22 LTS -> 24 LTS
