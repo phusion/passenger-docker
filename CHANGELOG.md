@@ -1,6 +1,6 @@
 ## 3.1.10 (not yet released)
 
-## 3.1.9 (release date: 2026-06-02)
+## 3.1.9 (release date: 2026-06-09)
  * Upgraded to Phusion Passenger 6.1.5 (was 6.1.4)
 
 ## 3.1.8 (release date: 2026-06-02)
