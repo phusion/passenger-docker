@@ -1,5 +1,5 @@
 ## 3.1.11 (not yet released)
- * 
+ * Upgraded to Ruby 3.4.10 (from 3.4.9)
 
 ## 3.1.10 (release date: 2026-06-26)
  * Upgraded to Phusion Passenger 6.1.6 (was 6.1.5)

@@ -94,7 +94,7 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.3.11, 3.4.9, 4.0.5 and JRuby 10.0.2.0 and 9.4.14.0.
+ * Ruby 3.3.11, 3.4.10, 4.0.5 and JRuby 10.0.2.0 and 9.4.14.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 4.0.5 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
@@ -448,8 +448,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 ```dockerfile
 # Ruby 3.3.11
 RUN bash -lc 'rvm --default use ruby-3.3.11'
-# Ruby 3.4.9
-RUN bash -lc 'rvm --default use ruby-3.4.9'
+# Ruby 3.4.10
+RUN bash -lc 'rvm --default use ruby-3.4.10'
 # Ruby 4.0.5
 RUN bash -lc 'rvm --default use ruby-4.0.5'
 # JRuby 9.4.9.0
@@ -470,9 +470,9 @@ $ rvm-exec 3.3.11 ruby -v
 Using /usr/local/rvm/gems/ruby-3.3.11
 ruby 3.3.11 (2026-03-26 revision 1f2d15125a) [x86_64-linux]
 
-$ rvm-exec 3.4.9 ruby -v
-Using /usr/local/rvm/gems/ruby-3.4.9
-ruby 3.4.9 (2026-03-11 revision 76cca827ab) +PRISM [x86_64-linux]
+$ rvm-exec 3.4.10 ruby -v
+Using /usr/local/rvm/gems/ruby-3.4.10
+ruby 3.4.10 (2026-06-30 revision 2b0b7728dc) +PRISM [x86_64-linux]
 
 $ rvm-exec 4.0.5 ruby -v
 Using /usr/local/rvm/gems/ruby-4.0.5
@@ -482,8 +482,8 @@ ruby 4.0.5 (2026-05-20 revision 64336ffd0e) +PRISM [x86_64-linux]
 More examples, but with Bundler instead:
 
 ```bash
-# This runs 'bundle install' using Ruby 3.4.9
-rvm-exec 3.4.9 bundle install
+# This runs 'bundle install' using Ruby 3.4.10
+rvm-exec 3.4.10 bundle install
 ```
 
 <a name="default_ruby_wrapper_scripts"></a>
