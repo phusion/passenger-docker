@@ -474,9 +474,9 @@ $ rvm-exec 3.4.10 ruby -v
 Using /usr/local/rvm/gems/ruby-3.4.10
 ruby 3.4.10 (2026-06-30 revision 2b0b7728dc) +PRISM [x86_64-linux]
 
-$ rvm-exec 4.0.5 ruby -v
-Using /usr/local/rvm/gems/ruby-4.0.5
-ruby 4.0.5 (2026-05-20 revision 64336ffd0e) +PRISM [x86_64-linux]
+$ rvm-exec 4.0.6 ruby -v
+Using /usr/local/rvm/gems/ruby-4.0.6
+ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
