@@ -246,6 +246,15 @@ Nginx and Passenger are disabled by default. Enable them like so:
 RUN rm -f /etc/service/nginx/down
 ```
 
+Nginx logs are sent to STDOUT by default. If you wish to restore this container's legacy behaviour of storing logs in the container and forwarding the nginx error log only to STDOUT, do:
+
+```dockerfile
+RUN rm -f /etc/service/nginx-log-forwarder/down && \
+    sed -i "s/# sv restart/sv restart/" /etc/service/nginx/run && \
+    rm -f /var/log/nginx/access.log /var/log/nginx/error.log && \
+    touch /var/log/nginx/access.log /var/log/nginx/error.log
+```
+
 <a name="adding_web_app"></a>
 #### Adding your web app to the image
 
@@ -804,9 +813,9 @@ If you use Passenger to deploy your web app, run:
 
 If anything goes wrong, consult the log files in /var/log. The following log files are especially important:
 
- * /var/log/nginx/error.log
  * /var/log/syslog
  * Your app's log file in /home/app.
+ * nginx logs forwarded to STDOUT/STDERR
 
 <a name="enterprise"></a>
 ### Switching to Phusion Passenger Enterprise
