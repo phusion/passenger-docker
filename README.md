@@ -85,7 +85,7 @@ Why use passenger-docker instead of doing everything yourself in Dockerfile?
 
 Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-docker/)):
 
- * Ubuntu 24.04 LTS as base system.
+ * Ubuntu 26.04 LTS (Resolute) as base system.
  * A **correct** init process ([learn more](http://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/)).
  * Fixes APT incompatibilities with Docker.
  * syslog-ng.
@@ -98,7 +98,7 @@ Language support:
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 4.0.6 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
- * Python 3.12, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13, 3,14; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Python 3.14, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 24 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -523,7 +523,7 @@ The following example shows how you can add a startup script. This script simply
 <a name="upgrading_os"></a>
 ### Upgrading the operating system inside the container
 
-passenger-docker images contain an Ubuntu 24.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
+passenger-docker images contain an Ubuntu 26.04 operating system. You may want to update this OS from time to time, for example to pull in the latest security updates. OpenSSL is a notorious example. Vulnerabilities are discovered in OpenSSL on a regular basis, so you should keep OpenSSL up-to-date as much as you can.
 
 While we release passenger-docker images with the latest OS updates from time to time, you do not have to rely on us. You can update the OS inside passenger-docker images yourself, and it is recommend that you do this instead of waiting for us. This is also especially important to upgrade any installed Python or Node packages to the latest minor version.
 
