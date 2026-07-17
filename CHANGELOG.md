@@ -5,6 +5,7 @@
    * Default Python version is now 3.14 (from 3.12)
    * Nginx version is now 1.28 (from 1.24)
        - changelog can be found at https://nginx.org/en/CHANGES-1.28
+ * Redis now logs to STDOUT by default
 
 ## 3.1.11 (release date: 2026-07-20)
  * Upgraded to Ruby 3.4.10 (from 3.4.9)
