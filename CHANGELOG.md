@@ -1,7 +1,11 @@
-## 3.1.11 (not yet released)
+## 3.1.12 (not yet released)
+
+
+## 3.1.11 (release date: 2026-07-20)
  * Upgraded to Ruby 3.4.10 (from 3.4.9)
  * Upgraded to Ruby 4.0.6 (from 4.0.5)
  * Upgraded to Ruby 3.3.12 (from 3.3.11)
+ * Upgraded to Phusion Passenger 6.1.8 (was 6.1.6)
 
 ## 3.1.10 (release date: 2026-06-26)
  * Upgraded to Phusion Passenger 6.1.6 (was 6.1.5)
