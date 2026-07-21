@@ -45,8 +45,10 @@ run mkdir /etc/service/nginx
 run cp /pd_build/runit/nginx /etc/service/nginx/run
 run touch /etc/service/nginx/down
 
+## Install nginx-log-forwarder service, disabled by default
 run mkdir /etc/service/nginx-log-forwarder
 run cp /pd_build/runit/nginx-log-forwarder /etc/service/nginx-log-forwarder/run
+run touch /etc/service/nginx-log-forwarder/down
 
 ## Use SIGQUIT instead of SIGTERM to shutdown nginx
 run mkdir -p /etc/service/nginx/control/
@@ -56,7 +58,9 @@ run mkdir -p /var/run/passenger-instreg
 
 run sed -i 's|invoke-rc.d nginx rotate|sv 1 nginx|' /etc/logrotate.d/nginx
 run sed -i -e '/sv 1 nginx.*/a\' -e '		passenger-config reopen-logs >/dev/null 2>&1' /etc/logrotate.d/nginx
-run rm -f /var/log/nginx/error.log
+run rm -f /var/log/nginx/error.log /var/log/nginx/access.log
+run ln -sf /dev/stdout /var/log/nginx/access.log
+run ln -sf /dev/stderr /var/log/nginx/error.log
 
 ## Precompile Ruby extensions.
 if [[ -e /usr/bin/ruby4.0 ]]; then
