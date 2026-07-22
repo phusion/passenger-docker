@@ -109,7 +109,7 @@ Web server and application server:
    * This is a fast and lightweight tool for simplifying web application integration into Nginx.
    * It adds many production-grade features, such as process monitoring, administration and status inspection.
    * It replaces (G)Unicorn, Thin, Puma, uWSGI.
-   * Node.js users: [watch this 4 minute intro video](http://vimeo.com/phusionnl/review/84945384/73fe7432ee) to learn why it's cool and useful.
+   * Node.js users: [watch this 4 minute intro video](https://youtu.be/vybQ5mEkP7Q) to learn why it's cool and useful.
 
 Auxiliary services and tools:
 
