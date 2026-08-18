@@ -1,4 +1,4 @@
-## 3.2.0 (not yet released)
+## 3.2.0 (release date: 2026-08-18)
  * Upgraded image base to phusion/baseimage:resolute-1.0.7
    * Upgraded to Ubuntu 26.04 LTS (Resolute)
        - note updated compiler chain and all tools; please test your apps thoroughly
@@ -9,6 +9,7 @@
  * Nginx-log-forwarder no longer enabled by default, Nginx now logs straight to STDOUT/STDERR
     - if you wish to restore the previous behaviour of storing nginx logs in the container, please see https://github.com/phusion/passenger-docker#nginx_passenger
     - if you had already put workarounds in your containers for this, you should remove them (ie. reverse the instructions in https://github.com/phusion/passenger-docker/issues/72#issuecomment-493270957)
+ * Upgraded to Phusion Passenger 6.2.0 (was 6.1.8)
 
 ## 3.1.11 (release date: 2026-07-20)
  * Upgraded to Ruby 3.4.10 (from 3.4.9)
