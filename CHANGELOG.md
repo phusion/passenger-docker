@@ -1,3 +1,6 @@
+## 3.2.1 (not released)
+ * Upgraded to Ruby 4.0.7 (from 4.0.7)
+
 ## 3.2.0 (release date: 2026-08-18)
  * Upgraded image base to phusion/baseimage:resolute-1.0.7
    * Upgraded to Ubuntu 26.04 LTS (Resolute)
