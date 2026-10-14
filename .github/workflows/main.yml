@@ -73,11 +73,11 @@ jobs:
          - ruby34 # EOL: 2028-03-31
          - ruby33 # EOL: 2027-03-31
          # https://www.ruby-lang.org/en/downloads/branches/
+         - python315 # EOL: 2031-10-31
          - python314 # EOL: 2030-10-31
          - python313 # EOL: 2029-10-07
          - python312 # EOL: 2028-10-02
          - python311 # EOL: 2027-10-24
-         - python310 # EOL: 2026-10-04
          # https://devguide.python.org/versions/
         arch:
           - name: amd64

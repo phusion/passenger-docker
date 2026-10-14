@@ -98,7 +98,7 @@ Language support:
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
    * 4.0.7 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
- * Python 3.14, or any version provided by the Deadsnakes PPA (currently 3.10, 3.11, 3.12, 3.13; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+ * Python 3.14, or any version provided by the Deadsnakes PPA (currently 3.11, 3.12, 3.13, 3.15; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 24 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
  * A build system, git, and development headers for many popular libraries, so that the most popular Ruby, Python and Node.js native extensions can be compiled without problems.
 
@@ -136,11 +136,11 @@ Passenger-docker consists of several images, each one tailor made for a specific
 
 Python images
 
- * `phusion/passenger-python310` - Python 3.10
  * `phusion/passenger-python311` - Python 3.11
  * `phusion/passenger-python312` - Python 3.12
  * `phusion/passenger-python313` - Python 3.13
  * `phusion/passenger-python314` - Python 3.14
+ * `phusion/passenger-python315` - Python 3.15
 
 **Node.js and Meteor images**
 
@@ -182,11 +182,11 @@ FROM phusion/passenger-full:<VERSION>
 #FROM phusion/passenger-ruby33:<VERSION>
 #FROM phusion/passenger-ruby34:<VERSION>
 #FROM phusion/passenger-ruby40:<VERSION>
-#FROM phusion/passenger-python310:<VERSION>
 #FROM phusion/passenger-python311:<VERSION>
 #FROM phusion/passenger-python312:<VERSION>
 #FROM phusion/passenger-python313:<VERSION>
 #FROM phusion/passenger-python314:<VERSION>
+#FROM phusion/passenger-python315:<VERSION>
 #FROM phusion/passenger-jruby94:<VERSION>
 #FROM phusion/passenger-jruby100:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
@@ -849,11 +849,11 @@ Build one of the images:
     make build_ruby33
     make build_ruby34
     make build_ruby40
-    make build_python310
     make build_python311
     make build_python312
     make build_python313
     make build_python314
+    make build_python315
     make build_jruby94
     make build_jruby100
     make build_nodejs
