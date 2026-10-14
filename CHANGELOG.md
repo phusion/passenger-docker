@@ -1,6 +1,8 @@
 ## 3.2.1 (not released)
  * Upgraded to Ruby 4.0.7 (from 4.0.6)
  * Upgraded to Ruby 3.4.11 (from 3.4.10)
+ * Removed Python 3.10 image (EOL: 2026-10)
+ * Added Python 3.15 image
 
 ## 3.2.0 (release date: 2026-08-18)
  * Upgraded image base to phusion/baseimage:resolute-1.0.7
