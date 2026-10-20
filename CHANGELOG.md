@@ -1,3 +1,5 @@
+## 3.2.2 (not yet released)
+
 ## 3.2.1 (release date: 2026-10-19)
  * Upgraded to Ruby 4.0.7 (from 4.0.6)
  * Upgraded to Ruby 3.4.11 (from 3.4.10)
