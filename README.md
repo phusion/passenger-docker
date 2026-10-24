@@ -94,9 +94,9 @@ Basics (learn more at [baseimage-docker](http://phusion.github.io/baseimage-dock
 
 Language support:
 
- * Ruby 3.3.13, 3.4.12, 4.0.8 and JRuby 10.0.2.0 and 9.4.14.0.
+ * Ruby 3.3.13, 3.4.12, 4.0.9 and JRuby 10.0.2.0 and 9.4.14.0.
    * RVM is used to manage Ruby versions. [Why RVM?](#why_rvm)
-   * 4.0.8 is configured as the default.
+   * 4.0.9 is configured as the default.
    * JRuby uses OpenJDK 17 (9.4) or 21 (10.0).
  * Python 3.14, or any version provided by the Deadsnakes PPA (currently 3.11, 3.12, 3.13, 3.15; see https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
  * Node.js 24 by default, or any version provided by Nodesource (currently 20, 22, 24; see https://github.com/nodesource/distributions).
@@ -459,8 +459,8 @@ The default Ruby (what the `/usr/bin/ruby` command executes) is the latest Ruby 
 RUN bash -lc 'rvm --default use ruby-3.3.13'
 # Ruby 3.4.12
 RUN bash -lc 'rvm --default use ruby-3.4.12'
-# Ruby 4.0.8
-RUN bash -lc 'rvm --default use ruby-4.0.8'
+# Ruby 4.0.9
+RUN bash -lc 'rvm --default use ruby-4.0.9'
 # JRuby 9.4.9.0
 RUN bash -lc 'rvm --default use jruby-9.4.9.0'
 # JRuby 10.0.0.0
@@ -483,9 +483,9 @@ $ rvm-exec 3.4.12 ruby -v
 Using /usr/local/rvm/gems/ruby-3.4.12
 ruby 3.4.12 (2026-10-23 revision 366f5fdc00) +PRISM [x86_64-linux]
 
-$ rvm-exec 4.0.8 ruby -v
-Using /usr/local/rvm/gems/ruby-4.0.8
-ruby 4.0.8 (2026-10-22 revision 60c3d71bfb) +PRISM [x86_64-linux]
+$ rvm-exec 4.0.9 ruby -v
+Using /usr/local/rvm/gems/ruby-4.0.9
+ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [x86_64-linux]
 ```
 
 More examples, but with Bundler instead:
