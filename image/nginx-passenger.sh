@@ -25,7 +25,7 @@ if [[ ! -e /usr/bin/ruby ]]; then
 	fi
 
 	# Make passenger_system_ruby work.
-	run create_rvm_wrapper_script $(sed -e 's/-//' -e 's/\.[0-9]$//' <<< $RVM_ID) "$RVM_ID" ruby
+	run create_rvm_wrapper_script $(sed -e 's/-//' -e 's/\.[0-9]*$//' <<< $RVM_ID) "$RVM_ID" ruby
 	run /pd_build/ruby_support/finalize.sh
 fi
 
