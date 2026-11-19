@@ -1,4 +1,8 @@
 ## 3.2.4 (not yet released)
+ * Upgraded to Ruby 4.0.10 (from 4.0.9)
+ * Upgraded to Ruby 3.4.13 (from 3.4.12)
+ * Upgraded to Ruby 3.3.14 (from 3.3.13)
+ * These Ruby releases fix several vulnerabilities in Regexp and String case conversion, including "Ruby2Shell" (GHSA-34m4-m9fh-gqp5). See https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/
 
 ## 3.2.3 (release date: 2026-11-09)
  * Upgraded to Phusion Passenger 6.2.2 (was 6.2.1)
